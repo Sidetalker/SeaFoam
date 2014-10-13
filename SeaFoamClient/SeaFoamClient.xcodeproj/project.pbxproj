@@ -15,6 +15,8 @@
 		5114FAF419EC03B800003E4A /* SeaFoamClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FAF319EC03B800003E4A /* SeaFoamClientTests.swift */; };
 		5114FAFF19EC046900003E4A /* libPods-SeaFoamClient-CocoaAsyncSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5114FAFD19EC046900003E4A /* libPods-SeaFoamClient-CocoaAsyncSocket.a */; };
 		5114FB0019EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5114FAFE19EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a */; };
+		5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0219EC051500003E4A /* CocoaLumberjack.swift */; };
+		5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0419EC053600003E4A /* SeaSocket.swift */; };
 		6BC9C92FAEA515C7228EA566 /* libPods-SeaFoamClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07ACE05A069E8F117A043425 /* libPods-SeaFoamClient.a */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		5114FAFD19EC046900003E4A /* libPods-SeaFoamClient-CocoaAsyncSocket.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SeaFoamClient-CocoaAsyncSocket.a"; path = "Pods/build/Debug-iphoneos/libPods-SeaFoamClient-CocoaAsyncSocket.a"; sourceTree = "<group>"; };
 		5114FAFE19EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SeaFoamClient-CocoaLumberjack.a"; path = "Pods/build/Debug-iphoneos/libPods-SeaFoamClient-CocoaLumberjack.a"; sourceTree = "<group>"; };
 		5114FB0119EC049100003E4A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		5114FB0219EC051500003E4A /* CocoaLumberjack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CocoaLumberjack.swift; sourceTree = "<group>"; };
+		5114FB0419EC053600003E4A /* SeaSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeaSocket.swift; sourceTree = "<group>"; };
 		75A5C19CAE9502B94A94F31F /* Pods-SeaFoamClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaFoamClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SeaFoamClient/Pods-SeaFoamClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +99,7 @@
 				5114FADF19EC03B800003E4A /* ViewController.swift */,
 				5114FAE119EC03B800003E4A /* Main.storyboard */,
 				5114FAE419EC03B800003E4A /* Images.xcassets */,
+				5114FB0419EC053600003E4A /* SeaSocket.swift */,
 				5114FAE619EC03B800003E4A /* LaunchScreen.xib */,
 				5114FADB19EC03B800003E4A /* Supporting Files */,
 			);
@@ -104,6 +109,7 @@
 		5114FADB19EC03B800003E4A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5114FB0219EC051500003E4A /* CocoaLumberjack.swift */,
 				5114FB0119EC049100003E4A /* BridgingHeader.h */,
 				5114FADC19EC03B800003E4A /* Info.plist */,
 			);
@@ -281,7 +287,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */,
 				5114FAE019EC03B800003E4A /* ViewController.swift in Sources */,
+				5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */,
 				5114FADE19EC03B800003E4A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
