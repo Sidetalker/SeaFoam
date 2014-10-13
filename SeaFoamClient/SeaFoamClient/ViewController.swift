@@ -8,18 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, GCDAsyncSocketDelegate {
+    var socket: GCDAsyncSocket?
+    var myFoam: SeaSocket?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        DDLog.addLogger(DDTTYLogger.sharedInstance())
+        DDLog.logLevel = LogLevel.All
+        DDLog.logInfo("Logger Initialized")
+        
+        myFoam = SeaSocket(host: "localhost", port: 5000)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
 

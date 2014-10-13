@@ -26,6 +26,7 @@ while 1:
     # Make sure the data was received properly
 	if data: 
     	# Echo it back to the client
+		print 'Oooo I got: ' + data
 		client.send(data) 
 
     # Close the current connection

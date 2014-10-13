@@ -1,31 +1,18 @@
-//  Created by Ullrich Schäfer on 16/08/14.
-
-
-// Bitmasks are a bit tricky in swift
-// See http://natecook.com/blog/2014/07/swift-options-bitmask-generator/
-
-//enum LogFlag: Int32 {
-//    case Error   = 0b1
-//    case Warn    = 0b10
-//    case Info    = 0b100
-//    case Debug   = 0b1000
-//    case Verbose = 0b10000
-//}
-
-struct LogFlag : RawOptionSetType {
+struct LogFlag : RawOptionSetType, BooleanType {
     private var value: Int32 = 0
     init(_ value: Int32) { self.value = value }
     var boolValue: Bool { return self.value != 0 }
     func toRaw() -> Int32 { return self.value }
+    static var allZeros: LogFlag { return self(0) }
     static func fromRaw(raw: Int32) -> LogFlag? { return self(raw) }
     static func fromMask(raw: Int32) -> LogFlag { return self(raw) }
     static func convertFromNilLiteral() -> LogFlag { return self(0) }
     
-    static var Error:   LogFlag { return self(1 << 0) }
-    static var Warn:    LogFlag { return self(1 << 1) }
-    static var Info:    LogFlag { return self(1 << 2) }
-    static var Debug:   LogFlag { return self(1 << 3) }
-    static var Verbose: LogFlag { return self(1 << 4) }
+    static var Error:   LogFlag { return LogFlag(1 << 0) }
+    static var Warn:    LogFlag { return LogFlag(1 << 1) }
+    static var Info:    LogFlag { return LogFlag(1 << 2) }
+    static var Debug:   LogFlag { return LogFlag(1 << 3) }
+    static var Verbose: LogFlag { return LogFlag(1 << 4) }
 }
 func == (lhs: LogFlag, rhs: LogFlag) -> Bool { return lhs.value == rhs.value }
 
@@ -41,11 +28,12 @@ func == (lhs: LogFlag, rhs: LogFlag) -> Bool { return lhs.value == rhs.value }
 //    case All     = 0bFFFFFFFF // 1111....11111 (LOG_LEVEL_VERBOSE plus any other flags)
 //}
 
-struct LogLevel : RawOptionSetType {
+struct LogLevel : RawOptionSetType, BooleanType {
     private var value: Int32 = 0
     init(_ value: Int32) { self.value = value }
     var boolValue: Bool { return self.value != 0 }
     func toRaw() -> Int32 { return self.value }
+    static var allZeros: LogLevel { return self(0) }
     static func fromRaw(raw: Int32) -> LogLevel? { return self(raw) }
     static func fromMask(raw: Int32) -> LogLevel { return self(raw) }
     static func convertFromNilLiteral() -> LogLevel { return self(0) }
@@ -71,7 +59,7 @@ var __logAsync: Bool?
 extension DDLog {
     class var logLevel: LogLevel {
         get {
-            return __logLevel ?? LogLevel.Error
+        return __logLevel ?? LogLevel.Error
         }
         set(logLevel) {
             __logLevel = logLevel
@@ -80,7 +68,7 @@ extension DDLog {
     
     class var logAsync: Bool {
         get {
-            return (self.logLevel != LogLevel.Error) && (__logAsync ?? true)
+        return (self.logLevel != LogLevel.Error) && (__logAsync ?? true)
         }
         set(logAsync) {
             __logAsync = logAsync

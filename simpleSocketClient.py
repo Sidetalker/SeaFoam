@@ -2,7 +2,7 @@ import socket
 
 # Client configuration
 host = 'localhost' 
-port = 5000
+port = 88
 size = 4096
 
 # Create the socket
