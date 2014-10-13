@@ -2,7 +2,7 @@ import socket
 
 # Client configuration
 host = 'localhost' 
-port = 50000 
+port = 5000
 size = 4096
 
 # Create the socket
@@ -13,6 +13,7 @@ s.connect((host,port))
 
 # Send some text data
 s.send('Hello, world')
+s.send(' - This should be appended to the stream')
 
 # Wait for a response and store it (size = buffer) 
 data = s.recv(size) 

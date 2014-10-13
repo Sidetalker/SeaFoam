@@ -1,0 +1,9 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target "SeaFoamClient" do
+
+platform :ios, '8.0'
+
+pod 'CocoaAsyncSocket'
+
+end

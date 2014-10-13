@@ -1,10 +1,11 @@
-import socket 
+import socket
 
 # Server configuration
 host = 'localhost' 
-port = 50000 
+port = 5000
 backlog = 5 
 size = 4096 
+client = None
 
 # Create the socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
@@ -17,15 +18,15 @@ s.listen(backlog)
 while 1: 
 	# Accept an incoming connection, store the
 	# socket object (client) and the conn address
-    client, address = s.accept() 
+	client, address = s.accept() 
     
     # Receive the data (size = buffer)
-    data = client.recv(size) 
+	data = client.recv(size) 
 
     # Make sure the data was received properly
-    if data: 
+	if data: 
     	# Echo it back to the client
-        client.send(data) 
+		client.send(data) 
 
     # Close the current connection
-    client.close()
+	client.close()
