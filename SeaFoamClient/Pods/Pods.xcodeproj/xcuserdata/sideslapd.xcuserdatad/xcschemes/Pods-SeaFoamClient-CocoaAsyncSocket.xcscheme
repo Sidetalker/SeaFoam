@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FA21F32B8B8A08AC64819094"
+               BlueprintIdentifier = "0A18BC3A89D440AB1F2F27BF"
                BuildableName = "libPods-SeaFoamClient-CocoaAsyncSocket.a"
                BlueprintName = "Pods-SeaFoamClient-CocoaAsyncSocket"
                ReferencedContainer = "container:Pods.xcodeproj">

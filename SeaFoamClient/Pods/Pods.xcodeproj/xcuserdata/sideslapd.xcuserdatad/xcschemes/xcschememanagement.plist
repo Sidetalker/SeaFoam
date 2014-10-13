@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SeaFoamClient-CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SeaFoamClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>09BAFA2CCA0CE0670F4B17DD</key>
+		<key>0A18BC3A89D440AB1F2F27BF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FA21F32B8B8A08AC64819094</key>
+		<key>45A546CB65BCCED8B22A7832</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>86A1B0F60502B3A919602226</key>
 		<dict>
 			<key>primary</key>
 			<true/>

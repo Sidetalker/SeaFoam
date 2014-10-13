@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8D29BEFE-1F5E-4D2D-810A-66EBA96559B6</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9F99647DBE4211218623E63A60D5192984DE0FB2</key>
+		<string>https://github.com/Sidetalker/SeaFoam.git</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9F99647DBE4211218623E63A60D5192984DE0FB2</key>
+		<string>SeaFoamGit/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Sidetalker/SeaFoam.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9F99647DBE4211218623E63A60D5192984DE0FB2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9F99647DBE4211218623E63A60D5192984DE0FB2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SeaFoamGit</string>
+		</dict>
+	</array>
+</dict>
+</plist>
