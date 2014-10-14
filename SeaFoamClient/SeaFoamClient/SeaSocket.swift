@@ -1,17 +1,22 @@
-//
-//  SeaSocket.swift
-//  SeaFoamClient
-//
-//  Created by Kevin Sullivan on 10/13/14.
-//  Copyright (c) 2014 SideApps. All rights reserved.
-//
-
 import Foundation
 
+protocol SeaSocketDelegate {
+    func connectedToSocket(message: String)
+}
+
 class SeaSocket: GCDAsyncSocketDelegate {
+    // Connection variables
     var socket: GCDAsyncSocket = GCDAsyncSocket()
-    let host: NSString?
-    let port: UInt16?
+    var host: NSString?
+    var port: UInt16?
+    var timeout: NSTimeInterval = 2
+    
+    // Data management variables
+    var curTag = 0
+    var tagDict = [Int : String]()
+    
+    // Delegate
+    let delegate: SeaSocketDelegate?
     
     init(host: NSString, port: UInt16) {
         // Store the initializer values
@@ -21,31 +26,66 @@ class SeaSocket: GCDAsyncSocketDelegate {
         // Initalize our asynchronous socket
         socket = GCDAsyncSocket(delegate: self, delegateQueue: dispatch_get_main_queue())
         DDLog.logInfo("GCDAsyncSocket created with delegate: \(self)")
+    }
+    
+    // Connect to the host
+    func connect() -> NSError? {
+        // If we're already connected return nil
+        if !socket.isDisconnected() {
+            return nil
+        }
         
         var connectionError: NSError?
         
-        // Attempt to connect to the specified host/port
-        if socket.connectToHost(host, onPort: port, error: &connectionError) == false {
+        // If we have an error during connection initialization return that error
+        if socket.connectToHost(host, onPort: port!, error: &connectionError) == false {
             DDLog.logError("Unable to connect to host \(host):\(port) - Error: \(connectionError.debugDescription)")
-            return
+            return connectionError
         }
         
-        // Write something simple to the socket
-        let message = "Hello iOS World!"
-        let messageData = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        socket.writeData(messageData, withTimeout: 2, tag: 0)
+        return nil
+    }
+
+    // Send a message to the server
+    func sendString(message: String, descriptor: String) -> Bool {
+        // If the socket isn't connected we can't do jack
+        if socket.isDisconnected() {
+            return false
+        }
         
-        DDLog.logInfo("Sending data to \(host):\(port)")
+        // Convert the string to NSData
+        let dataMessage = stringToData(message)
+        
+        // Make sure the conversion was successful
+        if dataMessage == nil {
+            return false
+        }
+        
+        // Write the data to our socket connection
+        socket.writeData(dataMessage, withTimeout: timeout, tag: curTag)
+        
+        // Create the tag used to track and store it in the dictionary
+        tagDict[curTag] = descriptor
+        curTag++
+        
+        return true
+    }
+    
+    // MARK: - GCDAsyncSocket Delegates
+    
+    // Converts a string into NSData
+    func stringToData(input: String) -> NSData? {
+        return input.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     }
     
     // Called upon successful socket connection
     func socket(sock: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
-         DDLog.logInfo("Socket is connected to \(socket.connectedHost()):\(socket.connectedPort())")
+        delegate?.connectedToSocket("Socket is connected to \(socket.connectedHost()):\(socket.connectedPort())")
     }
     
     // Called upon a successful write to the socket
     func socket(sock: GCDAsyncSocket!, didWriteDataWithTag tag: Int) {
-        DDLog.logInfo("Successfully wrote data with tag: \(tag)")
+        DDLog.logInfo("Successfully wrote data with descriptor: \(tagDict[tag])")
     }
     
     // Called upon a successful partial write to the socket
@@ -56,6 +96,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
     // Called if our write operation has a timeout
     func socket(sock: GCDAsyncSocket!, shouldTimeoutWriteWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
         DDLog.logInfo("Oh boy, we hit the timeout of \(elapsed) for \(tag) with only \(length) bytes")
+        
+        // Timeout interval - can be higher if we wanna wait for more data or something
         return 0
     }
     
