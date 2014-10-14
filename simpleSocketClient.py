@@ -2,7 +2,7 @@ import socket
 
 # Client configuration
 host = 'localhost' 
-port = 88
+port = 5008
 size = 4096
 
 # Create the socket
@@ -12,8 +12,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host,port)) 
 
 # Send some text data
-s.send('Hello, world')
-s.send(' - This should be appended to the stream')
+s.send('LOGIN - Kevin:test')
 
 # Wait for a response and store it (size = buffer) 
 data = s.recv(size) 
