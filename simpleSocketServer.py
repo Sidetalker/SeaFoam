@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 # Global Server configuration
 host = 'localhost' 
-port = 5013
+port = 5014
 backlog = 5 
 size = 4096 
 clients = []
@@ -48,8 +48,12 @@ def main():
 	    # Receive the data (size = buffer)
 		data = clients[-1].recv(size) 
 
+		print data
+
 	    # Make sure the data was received properly
 		if data: 
+			clientResponse = '' # Initialize a response container
+
 			# If we've found the login tag...
 			if data[0:5] == 'LOGIN':
 				# Extract the username and password
@@ -59,8 +63,7 @@ def main():
 
 				# Query the database for the provide username/password combo
 				dbResponse = queryToList(users.find({ 'username' : username, 'password' : password }))
-				clientResponse = ''
-
+				
 				# We received multiple responses - this should be possible
 				if len(dbResponse) > 1:
 					clientResponse = 'ERROR - We received multiple results for the username ' + username + \
@@ -85,6 +88,10 @@ def main():
 				else:
 					clientResponse = 'ERROR: This statement should be impossible to reach'
 					printInfo(clientResponse)
+			# We didn't recognize this query...
+			else:
+				clientResponse = 'ERROR: Did not recognize tag'
+				printInfo(clientResponse)
 
 	    	# Respond to the client
 			clients[-1].send(clientResponse) 

@@ -28,6 +28,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logInfo("GCDAsyncSocket created with delegate: \(self)")
     }
     
+    // MARK - Utility Functions
+    
     // Connect to the host
     func connect() -> NSError? {
         // If we're already connected return nil
@@ -71,12 +73,14 @@ class SeaSocket: GCDAsyncSocketDelegate {
         return true
     }
     
-    // MARK: - GCDAsyncSocket Delegates
+    // MARK - Helper Functions
     
     // Converts a string into NSData
     func stringToData(input: String) -> NSData? {
         return input.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     }
+    
+    // MARK: - GCDAsyncSocket Delegates
     
     // Called upon successful socket connection
     func socket(sock: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {

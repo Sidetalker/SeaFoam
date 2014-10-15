@@ -6,7 +6,7 @@ import socket
 
 # Client configuration
 host = 'localhost' 
-port = 5013
+port = 5014
 size = 4096
 
 # Send a message and print + return the response

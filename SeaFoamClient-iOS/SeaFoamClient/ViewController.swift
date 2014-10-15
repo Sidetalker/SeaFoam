@@ -20,7 +20,7 @@ class ViewController: UIViewController, SeaSocketDelegate {
         DDLog.logInfo("Logger Initialized")
         
         // This should be defined somewhere locally that can be accessed without a connection
-        myFoam = SeaSocket(host: "localhost", port: 5000)
+        myFoam = SeaSocket(host: "localhost", port: 5014)
         
         // Connect and check for errors
         if let error = myFoam?.connect() {
