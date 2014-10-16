@@ -25,19 +25,18 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
         DDLog.logInfo("Logger Initialized")
         
         // Initialize our connection manager (SeaSocket represent)
-        myFoam = SeaSocket(host: "localhost", port: 5014)
+        myFoam = SeaSocket(host: "localhost", port: 5015)
         
         // Connect and check for errors
         if let error = myFoam?.connect() {
             DDLog.logError("Unable to connect - Error: \(error.localizedDescription)")
         }
         
-        // Send a test message (no delegates set up yet for checking completion)
-        myFoam?.sendString("Hello Worlds!", descriptor: "Simple hello world test message")
+        loginTests()
     }
     
     override func viewDidAppear(animated: Bool) {
-                animateLogo()
+//                animateLogo()
 //        self.imageLogo.image = UIImage(contentsOfFile: "SFLogo.png")
 //        DDLog.logDebug("SDAF")
     }
@@ -57,6 +56,10 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
     
     // MARK: - Tests
     
+    func loginTests() {
+        // Send a test message (no delegates set up yet for checking completion)
+        myFoam?.sendString("LOGIN - Kevin:test", descriptor: "Successful Login")
+    }
     
     
     // MARK: - SeaSocket Delegates

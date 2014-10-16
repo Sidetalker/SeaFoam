@@ -14,6 +14,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
     // Data management variables
     var curTag = 0
     var tagDict = [Int : String]()
+    var dataDict = [Int : NSData]()
     
     // Delegate
     let delegate: SeaSocketDelegate?
@@ -28,7 +29,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logInfo("GCDAsyncSocket created with delegate: \(self)")
     }
     
-    // MARK - Utility Functions
+    // MARK: - Utility Functions
     
     // Connect to the host
     func connect() -> NSError? {
@@ -63,21 +64,33 @@ class SeaSocket: GCDAsyncSocketDelegate {
             return false
         }
         
+        // Create the tag used to track and store it in the dictionary
+        let returnData: NSData! = NSData()
+        
+        tagDict[curTag] = descriptor
+        dataDict[curTag] = returnData
+        
         // Write the data to our socket connection
         socket.writeData(dataMessage, withTimeout: timeout, tag: curTag)
         
-        // Create the tag used to track and store it in the dictionary
-        tagDict[curTag] = descriptor
+        // Set up the following read operation
+        socket.readDataWithTimeout(timeout, tag: curTag)
+        
         curTag++
         
         return true
     }
     
-    // MARK - Helper Functions
+    // MARK: - Helper Functions
     
     // Converts a string into NSData
     func stringToData(input: String) -> NSData? {
         return input.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    }
+    
+    // Converst NSData to a string 
+    func dataToString(input: NSData) -> String? {
+        return NSString(data: input, encoding: NSUTF8StringEncoding)
     }
     
     // MARK: - GCDAsyncSocket Delegates
@@ -94,6 +107,16 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Called upon a successful partial write to the socket
     func socket(sock: GCDAsyncSocket!, didWritePartialDataOfLength partialLength: UInt, tag: Int) {
+        DDLog.logInfo("We wrote \(partialLength) for \(tag)")
+    }
+    
+    // Called upon a successful read from the socket
+    func socket(sock: GCDAsyncSocket!, didReadData data: NSData!, withTag tag: Int) {
+        DDLog.logInfo("We received \(dataToString(data)) with tag \(tag)")
+    }
+    
+    // Called upon a successful partial read to the socket
+    func socket(sock: GCDAsyncSocket!, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
         DDLog.logInfo("We wrote \(partialLength) for \(tag)")
     }
     
