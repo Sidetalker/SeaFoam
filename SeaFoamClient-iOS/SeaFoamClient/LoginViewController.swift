@@ -36,6 +36,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
+        let splashScreen = UIImageView(image: UIImage(contentsOfFile: "SFLogo.png"))
+        splashScreen.contentMode = UIViewContentMode.Center
+        splashScreen.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        
+        self.view.addSubview(splashScreen)
+        
 //                animateLogo()
 //        self.imageLogo.image = UIImage(contentsOfFile: "SFLogo.png")
 //        DDLog.logDebug("SDAF")
@@ -43,6 +49,10 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
     
     func animateLogo() {

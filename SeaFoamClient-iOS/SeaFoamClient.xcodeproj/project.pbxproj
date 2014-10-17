@@ -14,6 +14,8 @@
 		5114FB0019EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5114FAFE19EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a */; };
 		5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0219EC051500003E4A /* CocoaLumberjack.swift */; };
 		5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0419EC053600003E4A /* SeaSocket.swift */; };
+		51A2C00E19F06BA8001AA365 /* SFSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00D19F06BA8001AA365 /* SFSplash.png */; };
+		51A2C01019F070E9001AA365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00F19F070E9001AA365 /* Images.xcassets */; };
 		51DB679D19EEEC370035CDC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5114FAE119EC03B800003E4A /* Main.storyboard */; };
 		51DB679E19EEEC370035CDC4 /* SFLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 518FCEA019EED1DB00AE1CC9 /* SFLogo.png */; };
 		51DB679F19EEEC370035CDC4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5114FAE619EC03B800003E4A /* LaunchScreen.xib */; };
@@ -48,6 +50,8 @@
 		5114FB0219EC051500003E4A /* CocoaLumberjack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CocoaLumberjack.swift; sourceTree = "<group>"; };
 		5114FB0419EC053600003E4A /* SeaSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeaSocket.swift; sourceTree = "<group>"; };
 		518FCEA019EED1DB00AE1CC9 /* SFLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFLogo.png; sourceTree = "<group>"; };
+		51A2C00D19F06BA8001AA365 /* SFSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFSplash.png; sourceTree = "<group>"; };
+		51A2C00F19F070E9001AA365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		75A5C19CAE9502B94A94F31F /* Pods-SeaFoamClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaFoamClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SeaFoamClient/Pods-SeaFoamClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 				518FCEA219EED1E600AE1CC9 /* Images */,
 				5114FB0419EC053600003E4A /* SeaSocket.swift */,
 				5114FAE619EC03B800003E4A /* LaunchScreen.xib */,
+				51A2C00F19F070E9001AA365 /* Images.xcassets */,
 				5114FADB19EC03B800003E4A /* Supporting Files */,
 			);
 			path = SeaFoamClient;
@@ -136,6 +141,7 @@
 		518FCEA219EED1E600AE1CC9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				51A2C00D19F06BA8001AA365 /* SFSplash.png */,
 				518FCEA019EED1DB00AE1CC9 /* SFLogo.png */,
 			);
 			name = Images;
@@ -243,8 +249,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				51DB679D19EEEC370035CDC4 /* Main.storyboard in Resources */,
+				51A2C01019F070E9001AA365 /* Images.xcassets in Resources */,
 				51DB679E19EEEC370035CDC4 /* SFLogo.png in Resources */,
 				51DB679F19EEEC370035CDC4 /* LaunchScreen.xib in Resources */,
+				51A2C00E19F06BA8001AA365 /* SFSplash.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +430,7 @@
 			baseConfigurationReference = 466762A55DE4B2BBDA4F2176 /* Pods-SeaFoamClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SeaFoamClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -438,6 +447,7 @@
 			baseConfigurationReference = 75A5C19CAE9502B94A94F31F /* Pods-SeaFoamClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SeaFoamClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

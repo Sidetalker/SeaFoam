@@ -2,14 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
                 <viewController id="vXZ-lx-hvc" customClass="LoginViewController" customModule="SeaFoamClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
@@ -19,71 +17,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3AV-ep-5F6">
-                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <rect key="frame" x="16" y="456" width="368" height="30"/>
-                                </variation>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CEJ-Ss-H5s">
-                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="494" width="368" height="30"/>
-                                </variation>
-                            </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SFLogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="I0T-dO-wbM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SFSplash.png" translatesAutoresizingMaskIntoConstraints="NO" id="7We-qs-by2">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="I0T-dO-wbM" secondAttribute="centerX" id="1H4-bO-y28"/>
-                            <constraint firstItem="I0T-dO-wbM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-56" id="RM3-5f-5cz"/>
-                            <constraint firstAttribute="centerY" secondItem="I0T-dO-wbM" secondAttribute="centerY" constant="0.5" id="rZG-hF-v9W"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="I0T-dO-wbM" secondAttribute="trailing" constant="-56" id="xY3-ke-Z5U"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7We-qs-by2" secondAttribute="bottom" id="B0A-mi-IrQ"/>
+                            <constraint firstItem="7We-qs-by2" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="YLl-R4-0Ea"/>
+                            <constraint firstItem="7We-qs-by2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="bYf-Ej-UF9"/>
+                            <constraint firstAttribute="centerX" secondItem="7We-qs-by2" secondAttribute="centerX" id="dM3-H6-NTs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7We-qs-by2" secondAttribute="trailing" constant="-16" id="fea-MQ-r50"/>
+                            <constraint firstAttribute="centerY" secondItem="7We-qs-by2" secondAttribute="centerY" id="z8A-TD-oLX"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="3AV-ep-5F6"/>
-                                <exclude reference="CEJ-Ss-H5s"/>
-                                <exclude reference="I0T-dO-wbM"/>
+                                <exclude reference="7We-qs-by2"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="1H4-bO-y28"/>
-                                <exclude reference="RM3-5f-5cz"/>
-                                <exclude reference="rZG-hF-v9W"/>
-                                <exclude reference="xY3-ke-Z5U"/>
+                                <exclude reference="YLl-R4-0Ea"/>
+                                <exclude reference="bYf-Ej-UF9"/>
+                                <exclude reference="dM3-H6-NTs"/>
+                                <exclude reference="fea-MQ-r50"/>
+                                <exclude reference="z8A-TD-oLX"/>
+                                <exclude reference="B0A-mi-IrQ"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="3AV-ep-5F6"/>
-                                <include reference="CEJ-Ss-H5s"/>
-                                <include reference="I0T-dO-wbM"/>
+                                <include reference="7We-qs-by2"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="1H4-bO-y28"/>
-                                <include reference="RM3-5f-5cz"/>
-                                <include reference="rZG-hF-v9W"/>
-                                <include reference="xY3-ke-Z5U"/>
+                                <include reference="YLl-R4-0Ea"/>
+                                <include reference="bYf-Ej-UF9"/>
+                                <include reference="dM3-H6-NTs"/>
+                                <include reference="fea-MQ-r50"/>
+                                <include reference="z8A-TD-oLX"/>
+                                <include reference="B0A-mi-IrQ"/>
                             </mask>
                         </variation>
                     </view>
-                    <connections>
-                        <outlet property="imageLogo" destination="I0T-dO-wbM" id="VUn-rX-xa2"/>
-                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="255" y="373"/>
+            <point key="canvasLocation" x="-87" y="455"/>
         </scene>
     </scenes>
     <resources>
-        <image name="SFLogo.png" width="497" height="297"/>
+        <image name="SFSplash.png" width="1603" height="2845"/>
     </resources>
 </document>
