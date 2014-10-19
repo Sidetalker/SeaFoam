@@ -14,8 +14,10 @@
 		5114FB0019EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5114FAFE19EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a */; };
 		5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0219EC051500003E4A /* CocoaLumberjack.swift */; };
 		5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0419EC053600003E4A /* SeaSocket.swift */; };
-		51A2C00E19F06BA8001AA365 /* SFSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00D19F06BA8001AA365 /* SFSplash.png */; };
+		511E261319F343A200F78034 /* ClearWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261219F343A200F78034 /* ClearWhite.png */; };
+		511E261519F3458000F78034 /* ClearWhitePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261419F3458000F78034 /* ClearWhitePressed.png */; };
 		51A2C01019F070E9001AA365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00F19F070E9001AA365 /* Images.xcassets */; };
+		51CC54D919F305FB004F7593 /* SeaFoamBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 51CC54D819F305FB004F7593 /* SeaFoamBG.png */; };
 		51DB679D19EEEC370035CDC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5114FAE119EC03B800003E4A /* Main.storyboard */; };
 		51DB679E19EEEC370035CDC4 /* SFLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 518FCEA019EED1DB00AE1CC9 /* SFLogo.png */; };
 		51DB679F19EEEC370035CDC4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5114FAE619EC03B800003E4A /* LaunchScreen.xib */; };
@@ -49,9 +51,12 @@
 		5114FB0119EC049100003E4A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		5114FB0219EC051500003E4A /* CocoaLumberjack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CocoaLumberjack.swift; sourceTree = "<group>"; };
 		5114FB0419EC053600003E4A /* SeaSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeaSocket.swift; sourceTree = "<group>"; };
+		511E261219F343A200F78034 /* ClearWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhite.png; sourceTree = "<group>"; };
+		511E261419F3458000F78034 /* ClearWhitePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhitePressed.png; sourceTree = "<group>"; };
 		518FCEA019EED1DB00AE1CC9 /* SFLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFLogo.png; sourceTree = "<group>"; };
-		51A2C00D19F06BA8001AA365 /* SFSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFSplash.png; sourceTree = "<group>"; };
 		51A2C00F19F070E9001AA365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		51CC54D819F305FB004F7593 /* SeaFoamBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaFoamBG.png; sourceTree = "<group>"; };
+		51CC54DA19F309BF004F7593 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		75A5C19CAE9502B94A94F31F /* Pods-SeaFoamClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaFoamClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SeaFoamClient/Pods-SeaFoamClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,7 +146,9 @@
 		518FCEA219EED1E600AE1CC9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				51A2C00D19F06BA8001AA365 /* SFSplash.png */,
+				511E261419F3458000F78034 /* ClearWhitePressed.png */,
+				511E261219F343A200F78034 /* ClearWhite.png */,
+				51CC54D819F305FB004F7593 /* SeaFoamBG.png */,
 				518FCEA019EED1DB00AE1CC9 /* SFLogo.png */,
 			);
 			name = Images;
@@ -150,6 +157,7 @@
 		56CA75D2103006C6F4364583 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51CC54DA19F309BF004F7593 /* CoreImage.framework */,
 				5114FAFD19EC046900003E4A /* libPods-SeaFoamClient-CocoaAsyncSocket.a */,
 				5114FAFE19EC046900003E4A /* libPods-SeaFoamClient-CocoaLumberjack.a */,
 				07ACE05A069E8F117A043425 /* libPods-SeaFoamClient.a */,
@@ -248,11 +256,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511E261519F3458000F78034 /* ClearWhitePressed.png in Resources */,
 				51DB679D19EEEC370035CDC4 /* Main.storyboard in Resources */,
+				511E261319F343A200F78034 /* ClearWhite.png in Resources */,
 				51A2C01019F070E9001AA365 /* Images.xcassets in Resources */,
 				51DB679E19EEEC370035CDC4 /* SFLogo.png in Resources */,
 				51DB679F19EEEC370035CDC4 /* LaunchScreen.xib in Resources */,
-				51A2C00E19F06BA8001AA365 /* SFSplash.png in Resources */,
+				51CC54D919F305FB004F7593 /* SeaFoamBG.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

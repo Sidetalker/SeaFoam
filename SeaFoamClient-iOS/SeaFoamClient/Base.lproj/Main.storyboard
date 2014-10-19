@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -17,30 +18,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SFSplash.png" translatesAutoresizingMaskIntoConstraints="NO" id="7We-qs-by2">
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SeaFoamBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="7We-qs-by2">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7We-qs-by2" secondAttribute="bottom" id="B0A-mi-IrQ"/>
-                            <constraint firstItem="7We-qs-by2" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="YLl-R4-0Ea"/>
-                            <constraint firstItem="7We-qs-by2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="bYf-Ej-UF9"/>
-                            <constraint firstAttribute="centerX" secondItem="7We-qs-by2" secondAttribute="centerX" id="dM3-H6-NTs"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="7We-qs-by2" secondAttribute="trailing" constant="-16" id="fea-MQ-r50"/>
-                            <constraint firstAttribute="centerY" secondItem="7We-qs-by2" secondAttribute="centerY" id="z8A-TD-oLX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7We-qs-by2" secondAttribute="trailing" constant="-16" id="G3C-s7-EP9"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7We-qs-by2" secondAttribute="bottom" id="TFF-va-y0g"/>
+                            <constraint firstItem="7We-qs-by2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="UJH-T4-eYr"/>
+                            <constraint firstItem="7We-qs-by2" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="uvC-HS-wkB"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="7We-qs-by2"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="YLl-R4-0Ea"/>
-                                <exclude reference="bYf-Ej-UF9"/>
-                                <exclude reference="dM3-H6-NTs"/>
-                                <exclude reference="fea-MQ-r50"/>
-                                <exclude reference="z8A-TD-oLX"/>
-                                <exclude reference="B0A-mi-IrQ"/>
+                                <exclude reference="G3C-s7-EP9"/>
+                                <exclude reference="UJH-T4-eYr"/>
+                                <exclude reference="uvC-HS-wkB"/>
+                                <exclude reference="TFF-va-y0g"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -48,15 +45,16 @@
                                 <include reference="7We-qs-by2"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="YLl-R4-0Ea"/>
-                                <include reference="bYf-Ej-UF9"/>
-                                <include reference="dM3-H6-NTs"/>
-                                <include reference="fea-MQ-r50"/>
-                                <include reference="z8A-TD-oLX"/>
-                                <include reference="B0A-mi-IrQ"/>
+                                <include reference="G3C-s7-EP9"/>
+                                <include reference="UJH-T4-eYr"/>
+                                <include reference="uvC-HS-wkB"/>
+                                <include reference="TFF-va-y0g"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="imageBG" destination="7We-qs-by2" id="6Lh-et-uho"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -64,6 +62,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SFSplash.png" width="1603" height="2845"/>
+        <image name="SeaFoamBG.png" width="608" height="1080"/>
     </resources>
 </document>

@@ -10,45 +10,45 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SFLogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="oak-Hg-cKX">
+                <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SeaFoamBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="qCX-jh-dG6">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="oak-Hg-cKX" secondAttribute="centerX" id="9Uy-ea-BLz"/>
-                <constraint firstAttribute="trailing" secondItem="oak-Hg-cKX" secondAttribute="trailing" id="Me8-21-4dD"/>
-                <constraint firstAttribute="centerY" secondItem="oak-Hg-cKX" secondAttribute="centerY" constant="0.5" id="laL-Zx-gVr"/>
-                <constraint firstItem="oak-Hg-cKX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="q9k-wZ-Wwa"/>
+                <constraint firstAttribute="bottom" secondItem="qCX-jh-dG6" secondAttribute="bottom" id="AXv-na-JrC"/>
+                <constraint firstItem="qCX-jh-dG6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-20" id="Sy5-vm-0YX"/>
+                <constraint firstItem="qCX-jh-dG6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bhy-fw-UnD"/>
+                <constraint firstAttribute="trailing" secondItem="qCX-jh-dG6" secondAttribute="trailing" id="vva-1G-6sw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="subviews">
-                    <exclude reference="oak-Hg-cKX"/>
+                    <exclude reference="qCX-jh-dG6"/>
                 </mask>
                 <mask key="constraints">
-                    <exclude reference="9Uy-ea-BLz"/>
-                    <exclude reference="Me8-21-4dD"/>
-                    <exclude reference="laL-Zx-gVr"/>
-                    <exclude reference="q9k-wZ-Wwa"/>
+                    <exclude reference="AXv-na-JrC"/>
+                    <exclude reference="Sy5-vm-0YX"/>
+                    <exclude reference="bhy-fw-UnD"/>
+                    <exclude reference="vva-1G-6sw"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
                 <mask key="subviews">
-                    <include reference="oak-Hg-cKX"/>
+                    <include reference="qCX-jh-dG6"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="9Uy-ea-BLz"/>
-                    <include reference="Me8-21-4dD"/>
-                    <include reference="laL-Zx-gVr"/>
-                    <include reference="q9k-wZ-Wwa"/>
+                    <include reference="AXv-na-JrC"/>
+                    <include reference="Sy5-vm-0YX"/>
+                    <include reference="bhy-fw-UnD"/>
+                    <include reference="vva-1G-6sw"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
     <resources>
-        <image name="SFLogo.png" width="497" height="297"/>
+        <image name="SeaFoamBG.png" width="608" height="1080"/>
     </resources>
 </document>
