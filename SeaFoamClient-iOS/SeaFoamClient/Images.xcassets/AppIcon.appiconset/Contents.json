@@ -3,25 +3,25 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "SFLogo58.png",
+      "filename" : "SFIconNew@58.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "SFLogo80.png",
+      "filename" : "SFIconNew@80.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "SFLogo120.png",
+      "filename" : "SFIconNew@120.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "SFLogo180.png",
+      "filename" : "SFIconNew@180.png",
       "scale" : "3x"
     }
   ],
