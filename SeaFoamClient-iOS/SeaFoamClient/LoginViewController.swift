@@ -124,8 +124,19 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Highlighted)
         loginButton?.alpha = 0.0
         loginButton?.addTarget(self, action: "login", forControlEvents: UIControlEvents.TouchUpInside)
+        loginButton?.addTarget(self, action: "smoothAnim", forControlEvents: UIControlEvents.TouchDown)
+        loginButton?.addTarget(self, action: "smoothAnimUndo", forControlEvents: UIControlEvents.TouchUpOutside)
         
         self.view.addSubview(loginButton!)
+    }
+    
+    // These two functions take care of a tiny graphical inconsistency while fading out the Float On text
+    func smoothAnim() {
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+    }
+    
+    func smoothAnimUndo() {
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
     }
     
     // Add the loading spinner
@@ -179,6 +190,26 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Initiate login
     // TODO: Make sure both fields are filled out, shake those bitches if they aint son
     func login() {
+        // Make sure username and password are filled in
+        var filled = true
+        
+        if usernameField?.text == "" {
+            filled = false
+            jiggle(usernameField!)
+        }
+        
+        if passwordField?.text == "" {
+            filled = false
+            jiggle(passwordField!)
+        }
+        
+        // Undo the smooth animation fix
+        if !filled {
+            loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+            
+            return
+        }
+        
         // Hide the keyboard
         dismissKeyboard()
         
@@ -187,7 +218,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         passwordField?.enabled = false
         
         // Fade out the button and bring in the spinner
-        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.loginButton!.alpha = 0.0
             }, completion: nil)
         

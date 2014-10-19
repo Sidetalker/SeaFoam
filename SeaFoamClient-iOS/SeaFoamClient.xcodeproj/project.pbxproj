@@ -16,6 +16,7 @@
 		5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FB0419EC053600003E4A /* SeaSocket.swift */; };
 		511E261319F343A200F78034 /* ClearWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261219F343A200F78034 /* ClearWhite.png */; };
 		511E261519F3458000F78034 /* ClearWhitePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261419F3458000F78034 /* ClearWhitePressed.png */; };
+		511E261919F4304800F78034 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511E261819F4304800F78034 /* Helpers.swift */; };
 		51A2C01019F070E9001AA365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00F19F070E9001AA365 /* Images.xcassets */; };
 		51CC54D919F305FB004F7593 /* SeaFoamBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 51CC54D819F305FB004F7593 /* SeaFoamBG.png */; };
 		51DB679D19EEEC370035CDC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5114FAE119EC03B800003E4A /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		5114FB0419EC053600003E4A /* SeaSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeaSocket.swift; sourceTree = "<group>"; };
 		511E261219F343A200F78034 /* ClearWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhite.png; sourceTree = "<group>"; };
 		511E261419F3458000F78034 /* ClearWhitePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhitePressed.png; sourceTree = "<group>"; };
+		511E261819F4304800F78034 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		518FCEA019EED1DB00AE1CC9 /* SFLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFLogo.png; sourceTree = "<group>"; };
 		51A2C00F19F070E9001AA365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		51CC54D819F305FB004F7593 /* SeaFoamBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaFoamBG.png; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				5114FB0219EC051500003E4A /* CocoaLumberjack.swift */,
 				5114FB0119EC049100003E4A /* BridgingHeader.h */,
 				5114FADC19EC03B800003E4A /* Info.plist */,
+				511E261819F4304800F78034 /* Helpers.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */,
 				5114FAE019EC03B800003E4A /* LoginViewController.swift in Sources */,
 				5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */,
+				511E261919F4304800F78034 /* Helpers.swift in Sources */,
 				5114FADE19EC03B800003E4A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
