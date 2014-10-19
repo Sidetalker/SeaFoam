@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, SeaSocketDelegate {
+class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDelegate {
     // TCP connection variables
     var socket: GCDAsyncSocket?
     var myFoam: SeaSocket?
@@ -22,6 +22,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
     var usernameField: UITextField?
     var passwordField: UITextField?
     var loginButton: UIButton?
+    var loginSpinner: UIActivityIndicatorView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
         addTitle()
         addFields()
         addButton()
+        addSpinner()
         
         // Smoothly animate our UI elements
         UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
@@ -62,6 +64,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
             self.titleLabel!.alpha = 0.8
             self.passwordField!.alpha = 0.8
             self.usernameField!.alpha = 0.8
+            self.loginButton!.alpha = 0.8
             }, completion: nil)
     }
 
@@ -69,7 +72,6 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
         super.didReceiveMemoryWarning()
     }
 
-    // NOTE: This currently makes a discrepancy between the launch image and home screen image
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
@@ -104,6 +106,9 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
     func addFields() {
         usernameField = getField(CGRect(x: 50, y: 140, width: self.view.frame.width - 100, height: 30), placeholder: "Username")
         passwordField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Password")
+        
+        usernameField?.returnKeyType = UIReturnKeyType.Next
+        passwordField?.returnKeyType = UIReturnKeyType.Done
         usernameField?.alpha = 0.0
         passwordField?.alpha = 0.0
         passwordField?.secureTextEntry = true
@@ -114,7 +119,21 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
     
     // Create the login button
     func addButton() {
+        loginButton = UIButton(frame: CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 50))
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Highlighted)
+        loginButton?.alpha = 0.0
+        loginButton?.addTarget(self, action: "login", forControlEvents: UIControlEvents.TouchUpInside)
         
+        self.view.addSubview(loginButton!)
+    }
+    
+    // Add the loading spinner
+    func addSpinner() {
+        loginSpinner = UIActivityIndicatorView(frame: CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 50))
+        loginSpinner?.alpha = 0.0
+        
+        self.view.addSubview(loginSpinner!)
     }
     
     // Get username and password fields provided frame
@@ -132,6 +151,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
         textField.layer.cornerRadius = 7
         textField.clipsToBounds = true
         textField.alpha = 0.8
+        textField.delegate = self
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 9, height: 0))
         textField.leftView = paddingView
@@ -149,11 +169,46 @@ class LoginViewController: UIViewController, SeaSocketDelegate {
         passwordField?.resignFirstResponder()
     }
     
-    // MARK: - Tests
+    // MARK: - Login functions
     
     func loginTests() {
         // Send a test message (no delegates set up yet for checking completion)
         myFoam?.sendString("LOGIN - Kevin:test", descriptor: "Successful Login")
+    }
+    
+    // Initiate login
+    // TODO: Make sure both fields are filled out, shake those bitches if they aint son
+    func login() {
+        // Hide the keyboard
+        dismissKeyboard()
+        
+        // Lock the textfields
+        usernameField?.enabled = false
+        passwordField?.enabled = false
+        
+        // Fade out the button and bring in the spinner
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.loginButton!.alpha = 0.0
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.7, delay: 0.4, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.loginSpinner?.startAnimating()
+            self.loginSpinner!.alpha = 0.8
+            }, completion: nil)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == usernameField {
+            passwordField?.becomeFirstResponder()
+            return false
+        }
+        else if textField == passwordField {
+            passwordField?.resignFirstResponder()
+            login()
+            return false
+        }
+        
+        return true
     }
     
     // MARK: - SeaSocket Delegates
