@@ -1,6 +1,7 @@
 import socket 
 
 # MAIN TODO: Connections should be retained rather than connect/close every message... 
+# TESTING SYNC.BAT ABCDEFU
 
 # Client configuration
 host = '50.63.60.10' 
