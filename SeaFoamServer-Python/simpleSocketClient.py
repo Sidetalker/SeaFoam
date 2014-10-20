@@ -1,8 +1,6 @@
 import socket 
 
-# MAIN TODO THINKER: I'm pretty sure (but not 100%) that connections should
-# be retained rather than connect/close every message... It could work
-# this way but all of the calls will be synchronous (unless we use clever threading)
+# MAIN TODO: Connections should be retained rather than connect/close every message... 
 
 # Client configuration
 host = 'localhost' 

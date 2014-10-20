@@ -2,6 +2,9 @@ import Foundation
 
 protocol SeaSocketDelegate {
     func connectedToSocket(message: String)
+    func loginSent()
+    func loginResponse(message: String)
+    func disconnectError(message: String)
 }
 
 class SeaSocket: GCDAsyncSocketDelegate {
@@ -17,7 +20,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
     var dataDict = [Int : NSData]()
     
     // Delegate
-    let delegate: SeaSocketDelegate?
+    var delegate: SeaSocketDelegate?
     
     init(host: NSString, port: UInt16) {
         // Store the initializer values
@@ -81,6 +84,12 @@ class SeaSocket: GCDAsyncSocketDelegate {
         return true
     }
     
+    func sendLogin(username: String, password: String) {
+        let request = "LOGIN - \(username):\(password)"
+        
+        sendString(request, descriptor: "Login Request")
+    }
+    
     // MARK: - Helper Functions
     
     // Converts a string into NSData
@@ -103,6 +112,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
     // Called upon a successful write to the socket
     func socket(sock: GCDAsyncSocket!, didWriteDataWithTag tag: Int) {
         DDLog.logInfo("Successfully wrote data with descriptor: \(tagDict[tag])")
+        
+        if tagDict[tag] == "Login Request" {
+            delegate?.loginSent()
+        }
     }
     
     // Called upon a successful partial write to the socket
@@ -113,6 +126,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
     // Called upon a successful read from the socket
     func socket(sock: GCDAsyncSocket!, didReadData data: NSData!, withTag tag: Int) {
         DDLog.logInfo("We received \(dataToString(data)) with tag \(tag)")
+        
+        if tagDict[tag] == "Login Request" {
+            delegate?.loginResponse("\(dataToString(data)!)")
+        }
     }
     
     // Called upon a successful partial read to the socket
@@ -130,6 +147,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Called upon a disconnect
     func socketDidDisconnect(sock: GCDAsyncSocket!, withError err: NSError!) {
-        DDLog.logError("Disconnected from \(host):\(port) with Error: \(err.localizedDescription)")
+        DDLog.logError("Disconnected from \(host!):\(port!) with Error: \(err.localizedDescription)")
+        
+        delegate?.disconnectError("\(err.localizedDescription)")
     }
 }

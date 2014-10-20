@@ -10,7 +10,6 @@ import UIKit
 
 class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDelegate {
     // TCP connection variables
-    var socket: GCDAsyncSocket?
     var myFoam: SeaSocket?
     
     // View outlets
@@ -23,6 +22,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     var passwordField: UITextField?
     var loginButton: UIButton?
     var loginSpinner: UIActivityIndicatorView?
+    
+    // MARK: - UIViewController overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +38,13 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         self.view.addGestureRecognizer(tap)
         
         // Initialize our connection manager (SeaSocket represent)
-        myFoam = SeaSocket(host: "localhost", port: 5015)
+        myFoam = SeaSocket(host: "50.63.60.10", port: 5015)
+        myFoam!.delegate = self
         
         // Connect and check for errors
         if let error = myFoam?.connect() {
             DDLog.logError("Unable to connect - Error: \(error.localizedDescription)")
         }
-        
-        loginTests()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -147,7 +147,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         self.view.addSubview(loginSpinner!)
     }
     
-    // Get username and password fields provided frame
+    // Get pretty transparent text fields provided frame and placeholder
     func getField(frame: CGRect, placeholder: String) -> UITextField {
         let textField = UITextField(frame: frame)
         let placeholderString = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.7), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 14)])
@@ -182,13 +182,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // MARK: - Login functions
     
-    func loginTests() {
-        // Send a test message (no delegates set up yet for checking completion)
-        myFoam?.sendString("LOGIN - Kevin:test", descriptor: "Successful Login")
-    }
-    
     // Initiate login
-    // TODO: Make sure both fields are filled out, shake those bitches if they aint son
     func login() {
         // Make sure username and password are filled in
         var filled = true
@@ -226,6 +220,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginSpinner?.startAnimating()
             self.loginSpinner!.alpha = 0.8
             }, completion: nil)
+        
+        myFoam?.sendLogin(usernameField!.text, password: passwordField!.text)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -246,6 +242,36 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     func connectedToSocket(message: String) {
         DDLog.logInfo(message)
+    }
+    
+    func loginSent() {
+        DDLog.logInfo("Successfully sent login request")
+    }
+    
+    func loginResponse(message: String) {
+        DDLog.logInfo("Received login response: \(message)")
+        
+        // Bring the button back!
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginSpinner?.stopAnimating()
+            self.loginSpinner!.alpha = 0.0
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.7, delay: 0.4, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.loginButton!.alpha = 0.8
+            }, completion: nil)
+        
+        let messageDisplay = UIAlertController(title: "Login Response", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        messageDisplay.addAction(UIAlertAction(title: "Can I get a fuck yeah?", style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(messageDisplay, animated: true, completion: nil)
+    }
+    
+    func disconnectError(message: String) {
+        let messageDisplay = UIAlertController(title: "Disconnect Error", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        messageDisplay.addAction(UIAlertAction(title: "Ok :(", style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(messageDisplay, animated: true, completion: nil)
     }
 }
 
