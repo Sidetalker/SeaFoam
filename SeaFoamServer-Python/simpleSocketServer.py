@@ -2,7 +2,7 @@ import socket
 from pymongo import MongoClient
 
 # Global Server configuration
-host = 'localhost' 
+host = '50.63.60.10' 
 port = 505
 backlog = 5 
 size = 4096 
