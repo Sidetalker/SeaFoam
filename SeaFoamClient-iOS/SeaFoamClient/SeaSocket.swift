@@ -12,7 +12,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
     var socket: GCDAsyncSocket = GCDAsyncSocket()
     var host: NSString?
     var port: UInt16?
-    var timeout: NSTimeInterval = 2
+    var timeout: NSTimeInterval = 5
     
     // Data management variables
     var curTag = 0
