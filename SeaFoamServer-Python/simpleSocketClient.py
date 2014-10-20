@@ -3,8 +3,8 @@ import socket
 # MAIN TODO: Connections should be retained rather than connect/close every message... 
 
 # Client configuration
-host = 'localhost' 
-port = 5015
+host = '50.63.60.10' 
+port = 505
 size = 4096
 
 # Send a message and print + return the response

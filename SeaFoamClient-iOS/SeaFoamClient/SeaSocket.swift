@@ -36,6 +36,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Connect to the host
     func connect() -> NSError? {
+        DDLog.logInfo("Connection Initiated")
+        
         // If we're already connected return nil
         if !socket.isDisconnected() {
             return nil
