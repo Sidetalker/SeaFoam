@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 # Global Server configuration
 host = 'localhost' 
-port = 5015
+port = 505
 backlog = 5 
 size = 4096 
 clients = []
@@ -30,12 +30,16 @@ def main():
 	db = dbClient.seafoam
 	users = db.users
 
+	print 'Connected to MongoDB successfully'
+
 	# Create the socket
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 
 	# Bind the socket and begin listening
 	s.bind((host,port)) 
 	s.listen(backlog) 
+
+	print 'Server is listening on port ' + str(port)
 
 	# Listen indefinitely
 	while 1: 
