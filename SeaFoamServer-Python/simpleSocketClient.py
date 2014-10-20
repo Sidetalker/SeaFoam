@@ -4,7 +4,7 @@ import socket
 
 # Client configuration
 host = '50.63.60.10' 
-port = 505
+port = 534
 size = 4096
 
 # Send a message and print + return the response

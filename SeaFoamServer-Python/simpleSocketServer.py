@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 # Global Server configuration
 host = '50.63.60.10' 
-port = 505
+port = 534
 backlog = 5 
 size = 4096 
 clients = []
