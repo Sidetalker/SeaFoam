@@ -1,0 +1,20 @@
+PODS:
+  - CocoaAsyncSocket (7.3.5)
+  - CocoaLumberjack (2.0.0-beta3):
+    - CocoaLumberjack/Default
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (2.0.0-beta3)
+  - CocoaLumberjack/Default (2.0.0-beta3):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0-beta3):
+    - CocoaLumberjack/Default
+
+DEPENDENCIES:
+  - CocoaAsyncSocket
+  - CocoaLumberjack
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaLumberjack: 55c22a2b8bde7a29c568ab4015b5874216524d70
+
+COCOAPODS: 0.34.4

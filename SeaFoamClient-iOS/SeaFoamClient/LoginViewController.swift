@@ -25,6 +25,9 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     var loginButton: UIButton?
     var loginSpinner: UIActivityIndicatorView?
     
+    // State flag (0: Login, 1: Register)
+    var state = 0
+    
     // MARK: - UIViewController overrides
     
     override func viewDidLoad() {
@@ -236,9 +239,21 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             return false
         }
         else if textField == passwordField {
-            passwordField?.resignFirstResponder()
-            login()
+            if state == 0 {
+                passwordField?.resignFirstResponder()
+                login()
+            }
+            else if state == 1 {
+                passwordConfirmField?.becomeFirstResponder()
+            }
             return false
+        }
+        else if textField == passwordConfirmField {
+            passwordConfirmField?.becomeFirstResponder()
+        }
+        else if textField == emailField {
+            emailField?.resignFirstResponder()
+            login()
         }
         
         return true
@@ -246,10 +261,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Transition to the register state
     func transitionToRegister() {
+        // Change state
+        state = 1
+        
         // Add the two extra fields
         passwordConfirmField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Confirm Password")
         emailField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Email")
-        //42 between
         
         passwordField?.returnKeyType = UIReturnKeyType.Next
         passwordConfirmField?.returnKeyType = UIReturnKeyType.Next
@@ -268,7 +285,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginButton!.frame = CGRect(x: 50, y: 308, width: self.view.frame.width - 100, height: 30)
             }, completion: nil)
         
-        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             self.loginButton!.alpha = 0.0
             }, completion: nil)
         
