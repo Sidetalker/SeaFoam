@@ -249,7 +249,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             return false
         }
         else if textField == passwordConfirmField {
-            passwordConfirmField?.becomeFirstResponder()
+            emailField?.becomeFirstResponder()
         }
         else if textField == emailField {
             emailField?.resignFirstResponder()
