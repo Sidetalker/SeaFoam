@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0600"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "86A1B0F60502B3A919602226"
+               BlueprintIdentifier = "DCAE37E8FD16C45029AEE5D1"
                BuildableName = "libPods-SeaFoamClient-CocoaLumberjack.a"
                BlueprintName = "Pods-SeaFoamClient-CocoaLumberjack"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,15 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "86A1B0F60502B3A919602226"
-            BuildableName = "libPods-SeaFoamClient-CocoaLumberjack.a"
-            BlueprintName = "Pods-SeaFoamClient-CocoaLumberjack"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

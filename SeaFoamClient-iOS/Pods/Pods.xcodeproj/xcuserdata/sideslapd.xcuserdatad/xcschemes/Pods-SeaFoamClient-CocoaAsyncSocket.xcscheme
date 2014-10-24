@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0600"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A18BC3A89D440AB1F2F27BF"
+               BlueprintIdentifier = "0926380AD1F947C15EE31793"
                BuildableName = "libPods-SeaFoamClient-CocoaAsyncSocket.a"
                BlueprintName = "Pods-SeaFoamClient-CocoaAsyncSocket"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,15 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A18BC3A89D440AB1F2F27BF"
-            BuildableName = "libPods-SeaFoamClient-CocoaAsyncSocket.a"
-            BlueprintName = "Pods-SeaFoamClient-CocoaAsyncSocket"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

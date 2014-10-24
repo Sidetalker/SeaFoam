@@ -20,6 +20,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     var titleLabel: UILabel?
     var usernameField: UITextField?
     var passwordField: UITextField?
+    var passwordConfirmField: UITextField?
+    var emailField: UITextField?
     var loginButton: UIButton?
     var loginSpinner: UIActivityIndicatorView?
     
@@ -120,8 +122,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Create the login button
     func addButton() {
         loginButton = UIButton(frame: CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 50))
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Highlighted)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Highlighted)
         loginButton?.alpha = 0.0
         loginButton?.addTarget(self, action: "login", forControlEvents: UIControlEvents.TouchUpInside)
         loginButton?.addTarget(self, action: "smoothAnim", forControlEvents: UIControlEvents.TouchDown)
@@ -132,11 +134,11 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // These two functions take care of a tiny graphical inconsistency while fading out the Float On text
     func smoothAnim() {
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
     }
     
     func smoothAnimUndo() {
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
     }
     
     // Add the loading spinner
@@ -150,7 +152,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Get pretty transparent text fields provided frame and placeholder
     func getField(frame: CGRect, placeholder: String) -> UITextField {
         let textField = UITextField(frame: frame)
-        let placeholderString = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.7), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 14)])
+        let placeholderString = NSAttributedString(string: placeholder, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!)))
         
         textField.attributedPlaceholder = placeholderString
         textField.font = UIFont(name: "HelveticaNeue", size: 14)
@@ -184,6 +186,10 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Initiate login
     func login() {
+        // Testing register transition
+        transitionToRegister()
+        return
+        
         // Make sure username and password are filled in
         var filled = true
         
@@ -199,7 +205,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         
         // Undo the smooth animation fix
         if !filled {
-            loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+            loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
             
             return
         }
@@ -238,6 +244,46 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         return true
     }
     
+    // Transition to the register state
+    func transitionToRegister() {
+        // Add the two extra fields
+        passwordConfirmField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Confirm Password")
+        emailField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Email")
+        //42 between
+        
+        passwordField?.returnKeyType = UIReturnKeyType.Next
+        passwordConfirmField?.returnKeyType = UIReturnKeyType.Next
+        emailField?.returnKeyType = UIReturnKeyType.Done
+        passwordConfirmField?.alpha = 0.0
+        emailField?.alpha = 0.0
+        passwordConfirmField?.secureTextEntry = true
+        
+        self.view.addSubview(passwordConfirmField!)
+        self.view.addSubview(emailField!)
+        
+        // Animate the new elements
+        UIView.animateWithDuration(0.8, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.passwordConfirmField!.frame = CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 30)
+            self.emailField!.frame = CGRect(x: 50, y: 266, width: self.view.frame.width - 100, height: 30)
+            self.loginButton!.frame = CGRect(x: 50, y: 308, width: self.view.frame.width - 100, height: 30)
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginButton!.alpha = 0.0
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.4, delay: 0.4, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginButton!.setAttributedTitle(NSAttributedString(string: "Ride the Waves", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+            self.loginButton!.setAttributedTitle(NSAttributedString(string: "Ride the Waves", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Highlighted)
+            self.loginButton!.alpha = 0.8
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.7, delay: 0.1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.passwordConfirmField!.alpha = 0.8
+            self.emailField!.alpha = 0.8
+            }, completion: nil)
+    }
+    
     // MARK: - SeaSocket Delegates
     
     func connectedToSocket(message: String) {
@@ -252,7 +298,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         DDLog.logInfo("Received login response: \(message)")
         
         // Bring the button back!
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: [NSForegroundColorAttributeName : UIColor.whiteColor().colorWithAlphaComponent(0.8), NSFontAttributeName : UIFont(name: "HelveticaNeue-UltraLight", size: 23)]), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
         
         UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.loginSpinner?.stopAnimating()
