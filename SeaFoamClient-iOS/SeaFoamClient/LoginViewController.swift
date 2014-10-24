@@ -26,7 +26,10 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     var loginSpinner: UIActivityIndicatorView?
     
     // State flag (0: Login, 1: Register)
-    var state = 0
+    var state = -1
+    
+    // Custom transition manager
+    let transitionManager = TransitionManager()
     
     // MARK: - UIViewController overrides
     
@@ -53,6 +56,14 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     }
     
     override func viewDidAppear(animated: Bool) {
+        // Don't reanimate everything if this isn't our first time here
+        if state == -1 {
+            state = 0
+        }
+        else {
+            return
+        }
+        
         // Add all of the custom UI elements
         addBlur()
         addTitle()
@@ -189,6 +200,10 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Initiate login
     func login() {
+        // Testing segue transition
+        performSegueWithIdentifier("chatSegue", sender: self)
+        return
+        
         // Testing register transition
         transitionToRegister()
         return
@@ -299,6 +314,13 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.passwordConfirmField!.alpha = 0.8
             self.emailField!.alpha = 0.8
             }, completion: nil)
+    }
+    
+    // Use our custom transition manager
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let chatVC = segue.destinationViewController as ChatViewController
+        
+        chatVC.transitioningDelegate = self.transitionManager
     }
     
     // MARK: - SeaSocket Delegates

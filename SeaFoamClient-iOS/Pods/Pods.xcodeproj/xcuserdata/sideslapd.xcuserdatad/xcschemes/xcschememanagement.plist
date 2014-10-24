@@ -14,6 +14,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SeaFoamClient-JSQMessagesViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SeaFoamClient-JSQSystemSoundPlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SeaFoamClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0926380AD1F947C15EE31793</key>
+		<key>0ADF0C744F6C5D94E36B92FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AB5DFF959D84FF0FDDB96448</key>
+		<key>2498979B44A1C36D94078FA7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCAE37E8FD16C45029AEE5D1</key>
+		<key>2CD8AE12395FDC6724F0F090</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>58979433B6C264541C31C1FA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>67DF329241D2C3E7EA2F4BB8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -12,5 +12,6 @@
 #import "CocoaAsyncSocket/GCDAsyncSocket.h"
 #import "CocoaLumberjack/DDLog.h"
 #import "CocoaLumberjack/DDTTYLogger.h"
+#import "JSQMessagesViewController/JSQMessages.h"
 
 #endif

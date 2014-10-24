@@ -6,5 +6,7 @@ platform :ios, '8.0'
 
 pod 'CocoaAsyncSocket'
 pod 'CocoaLumberjack'
+pod 'JSQSystemSoundPlayer'
+pod 'JSQMessagesViewController'
 
 end
