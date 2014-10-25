@@ -4,6 +4,7 @@ import socket
 
 # Client configuration
 host = '50.63.60.10' 
+#host = '127.0.0.1'
 port = 534
 size = 4096
 
@@ -32,11 +33,11 @@ def verboseSend(message):
 
 # Test all login possibilities
 def testLogin():
-	if verboseSend('LOGIN - Kevin:test') == None:
+	if verboseSend('{action:LOGIN, args:Kevin|test, sessionId:}') == None:
 		return False
-	if verboseSend('LOGIN - Kevin:stupid') == None:
+	if verboseSend('{action:LOGIN, args:Kevin|stupid, sessionId:}') == None:
 		return False
-	if verboseSend('LOGIN - Riley:super') == None:
+	if verboseSend('{action:LOGIN, args:Riley|super, sessionId:}') == None:
 		return False
 
 	return True
@@ -48,4 +49,4 @@ def main():
 
 # Main function separate so this can run as a module
 if __name__ == "__main__":
-    main()
+	main()
