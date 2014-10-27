@@ -105,7 +105,7 @@ class Server:
 					self.printInfo(clientResponse)
 				return clientResponse
 			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", "", "")
-		except e:
+		except Exception as e:
 			return self.makeResponse("CRASH", "FAILURE", str(e), "")
 		
 	
@@ -124,6 +124,8 @@ class Server:
 			accepted = s.accept()
 			self.clients.append(accepted[0])		
 			self.addresses.append((str(accepted[1][0]), str(accepted[1][1])))
+			
+			print "New Connection by " + str(accepted[1][0]) + " on port " + str(accepted[1][1])
 			
 			self.activeConnections.append(ConnectionController(self.clients[-1]))
 			
