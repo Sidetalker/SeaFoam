@@ -23,10 +23,7 @@ def verboseSend(message):
 	# Receive the response
 	data = s.recv(size)
 	print 'Received: ' + data
-	print
-
-	# Close the socket
-	s.close()
+	print 
 
 	# Return the response
 	return data

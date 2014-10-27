@@ -78,11 +78,12 @@ extension DDLog {
     
     private class func log(flag: LogFlag, message: String, function: String = __FUNCTION__, file: String = __FILE__,
         line: Int32 = __LINE__) {
-            let level = DDLogLevel(rawValue: self.logLevel.rawValue)
+//            let level = DDLogLevel(rawValue: self.logLevel.rawValue)
+            let level = DDLogLevel.All
             let async: Bool = DDLog.logAsync
             
-            if flag.rawValue != 0 && level != nil {
-                DDLog.log(async, message: DDLogMessage(logMsg: message, level: level!, flag: DDLogFlag(flag.rawValue),
+            if flag.rawValue != 0 {
+                DDLog.log(async, message: DDLogMessage(logMsg: message, level: level, flag: DDLogFlag(flag.rawValue),
                     context: 0, file: file, function: function, line: line, tag: nil, options: 0))
             }
     }

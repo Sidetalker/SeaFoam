@@ -1,9 +1,16 @@
 import Foundation
 
+struct portResponse {
+    var action: String
+    var result: String
+    var description: String
+    var sessionID: String
+}
+
 protocol SeaSocketDelegate {
     func connectedToSocket(message: String)
     func loginSent()
-    func loginResponse(message: String)
+    func loginResponse(message: portResponse)
     func disconnectError(message: String)
 }
 
@@ -87,21 +94,66 @@ class SeaSocket: GCDAsyncSocketDelegate {
     }
     
     func sendLogin(username: String, password: String) {
-        let request = "LOGIN - \(username):\(password)"
+        let request = buildRequest("LOGIN", args: "\(username)|\(password)", sessionID: "")
+        DDLog.logInfo("Logging in with: \(request)")
         
-        sendString(request, descriptor: "Login Request")
+        sendString("\(request)", descriptor: "Login Request")
     }
     
     // MARK: - Helper Functions
     
-    // Converts a string into NSData
+    // Builds a request
+    func buildRequest(action: String, args: String, sessionID: String) -> String {
+        return "{action:\(action), args:\(args), sessionID:\(sessionID)}"
+    }
+    
+    // Converts a String into NSData
     func stringToData(input: String) -> NSData? {
         return input.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     }
     
-    // Converst NSData to a string 
+    // Convert NSData to a String
     func dataToString(input: NSData) -> String? {
         return NSString(data: input, encoding: NSUTF8StringEncoding)
+    }
+    
+    // Convert NSData into a portResponse
+    func dataToPortResponse(input: NSData) -> portResponse {
+        return stringtoPortResponse(dataToString(input)!)
+    }
+    
+    // Convert String into a portResponse
+    func stringtoPortResponse(input: String) -> portResponse {
+        // Prepare the portResponse variables
+        var action = ""
+        var result = ""
+        var description = ""
+        var sessionID = ""
+        
+        // Remove the encapsulators
+        let trimmed = input.stringByReplacingOccurrencesOfString("[{}]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
+        
+        // Iterate through the split up string
+        let trimmedSplit = split(trimmed) {$0 == ","}
+        
+        for item in trimmedSplit {
+            let curItem = item.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let itemPair = split(curItem) {$0 == ":"}
+            
+            switch itemPair[0] {
+                case "action":
+                    action = itemPair[1]
+                case "result":
+                    result = itemPair[1]
+                case "desc":
+                    description = itemPair[1]
+                case "sessionID":
+                    sessionID = itemPair[1]
+                default: ()
+            }
+        }
+        
+        return portResponse(action: action, result: result, description: description, sessionID: sessionID)
     }
     
     // MARK: - GCDAsyncSocket Delegates
@@ -130,7 +182,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logInfo("We received \(dataToString(data)) with tag \(tag)")
         
         if tagDict[tag] == "Login Request" {
-            delegate?.loginResponse("\(dataToString(data)!)")
+            delegate?.loginResponse(dataToPortResponse(data))
         }
     }
     

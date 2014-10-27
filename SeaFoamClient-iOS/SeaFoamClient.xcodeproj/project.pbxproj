@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51070C1719FA56BC0032EB38 /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51070C1619FA56BC0032EB38 /* TransitionManager.swift */; };
+		51086DAD19FEB45F00C4F00E /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51086DAC19FEB45F00C4F00E /* MainChatViewController.swift */; };
 		5114FADE19EC03B800003E4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FADD19EC03B800003E4A /* AppDelegate.swift */; };
 		5114FAE019EC03B800003E4A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FADF19EC03B800003E4A /* LoginViewController.swift */; };
 		5114FAF419EC03B800003E4A /* SeaFoamClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114FAF319EC03B800003E4A /* SeaFoamClientTests.swift */; };
@@ -41,6 +42,7 @@
 		07ACE05A069E8F117A043425 /* libPods-SeaFoamClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaFoamClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		466762A55DE4B2BBDA4F2176 /* Pods-SeaFoamClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaFoamClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SeaFoamClient/Pods-SeaFoamClient.debug.xcconfig"; sourceTree = "<group>"; };
 		51070C1619FA56BC0032EB38 /* TransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionManager.swift; sourceTree = "<group>"; };
+		51086DAC19FEB45F00C4F00E /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
 		5114FAD819EC03B800003E4A /* SeaFoamClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeaFoamClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5114FADC19EC03B800003E4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5114FADD19EC03B800003E4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		5114FADA19EC03B800003E4A /* SeaFoamClient */ = {
 			isa = PBXGroup;
 			children = (
+				51086DAC19FEB45F00C4F00E /* MainChatViewController.swift */,
 				51945D0119FA59E50044452D /* ChatViewController.swift */,
 				5114FADD19EC03B800003E4A /* AppDelegate.swift */,
 				5114FADF19EC03B800003E4A /* LoginViewController.swift */,
@@ -325,6 +328,7 @@
 				51070C1719FA56BC0032EB38 /* TransitionManager.swift in Sources */,
 				5114FB0519EC053600003E4A /* SeaSocket.swift in Sources */,
 				5114FAE019EC03B800003E4A /* LoginViewController.swift in Sources */,
+				51086DAD19FEB45F00C4F00E /* MainChatViewController.swift in Sources */,
 				51945D0219FA59E50044452D /* ChatViewController.swift in Sources */,
 				5114FB0319EC051500003E4A /* CocoaLumberjack.swift in Sources */,
 				511E261919F4304800F78034 /* Helpers.swift in Sources */,

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2CD8AE12395FDC6724F0F090"
+               BlueprintIdentifier = "149B59086FC8388D17A9168A"
                BuildableName = "libPods-SeaFoamClient-JSQMessagesViewController.a"
                BlueprintName = "Pods-SeaFoamClient-JSQMessagesViewController"
                ReferencedContainer = "container:Pods.xcodeproj">

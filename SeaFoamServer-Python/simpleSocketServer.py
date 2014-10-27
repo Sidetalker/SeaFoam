@@ -78,9 +78,9 @@ class Server:
 						self.printInfo(clientResponse)
 					elif len(dbResponse) == 0:                                    # We didn't receive any responses...
 						if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
-							clientResponse = self.makeResponse(request['action'], "FAILURE", "No user found for username (create option?) " + username, "")
+							clientResponse = self.makeResponse(request['action'], "FAILURE-UN", "No user found for username (create option?) " + username, "")
 						else:
-							clientResponse = self.makeResponse(request['action'], "FAILURE", "Incorrect password for username " + username, "")
+							clientResponse = self.makeResponse(request['action'], "FAILURE-PW", "Incorrect password for username " + username, "")
 						self.printInfo(clientResponse)
 					elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
 						clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", str(self.sessionIdController.generateAndActivateSessionId()))

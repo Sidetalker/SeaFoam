@@ -200,13 +200,13 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Initiate login
     func login() {
-        // Testing segue transition
-        performSegueWithIdentifier("chatSegue", sender: self)
-        return
-        
-        // Testing register transition
-        transitionToRegister()
-        return
+//        // Testing segue transition
+//        performSegueWithIdentifier("chatSegue", sender: self)
+//        return
+//
+//        // Testing register transition
+//        transitionToRegister()
+//        return
         
         // Make sure username and password are filled in
         var filled = true
@@ -318,9 +318,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Use our custom transition manager
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let chatVC = segue.destinationViewController as ChatViewController
-        
-        chatVC.transitioningDelegate = self.transitionManager
+        if segue.identifier == "chatSegue" {
+            let chatVC = segue.destinationViewController as UIViewController
+            
+            // Set up custom segue animations
+            chatVC.transitioningDelegate = self.transitionManager
+        }
     }
     
     // MARK: - SeaSocket Delegates
@@ -333,11 +336,17 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         DDLog.logInfo("Successfully sent login request")
     }
     
-    func loginResponse(message: String) {
+    func loginResponse(message: portResponse) {
         DDLog.logInfo("Received login response: \(message)")
         
         // Bring the button back!
         loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+        
+        // Enable the text fields
+        usernameField?.enabled = true
+        passwordField?.enabled = true
+        passwordConfirmField?.enabled = true
+        emailField?.enabled = true
         
         UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.loginSpinner?.stopAnimating()
@@ -348,9 +357,15 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginButton!.alpha = 0.8
             }, completion: nil)
         
-        let messageDisplay = UIAlertController(title: "Login Response", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        messageDisplay.addAction(UIAlertAction(title: "Can I get a fuck yeah?", style: UIAlertActionStyle.Cancel, handler: nil))
-        presentViewController(messageDisplay, animated: true, completion: nil)
+        // Determine the message based on the response
+        if message.result == "SUCCESS" {
+            performSegueWithIdentifier("chatSegue", sender: self)
+        }
+        else {
+            let messageDisplay = UIAlertController(title: "Login Response", message: message.description, preferredStyle: UIAlertControllerStyle.Alert)
+            messageDisplay.addAction(UIAlertAction(title: "Can I get a fuck yeah?", style: UIAlertActionStyle.Cancel, handler: nil))
+            presentViewController(messageDisplay, animated: true, completion: nil)
+        }
     }
     
     func disconnectError(message: String) {
