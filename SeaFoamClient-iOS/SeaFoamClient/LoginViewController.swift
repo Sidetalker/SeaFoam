@@ -148,11 +148,11 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // These two functions take care of a tiny graphical inconsistency while fading out the Float On text
     func smoothAnim() {
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: loginButton!.titleLabel!.text!, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
     }
     
     func smoothAnimUndo() {
-        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+        loginButton?.setAttributedTitle(NSAttributedString(string: loginButton!.titleLabel!.text!, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
     }
     
     // Add the loading spinner
@@ -200,14 +200,6 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     
     // Initiate login
     func login() {
-//        // Testing segue transition
-//        performSegueWithIdentifier("chatSegue", sender: self)
-//        return
-//
-//        // Testing register transition
-//        transitionToRegister()
-//        return
-        
         // Make sure username and password are filled in
         var filled = true
         
@@ -221,11 +213,40 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             jiggle(passwordField!)
         }
         
+        // Check additional conditions for registration
+        if state == 1 {
+            if passwordConfirmField?.text == "" {
+                filled = false
+                jiggle(passwordConfirmField!)
+            }
+            
+            if emailField?.text == "" {
+                filled = false
+                jiggle(emailField!)
+            }
+        }
+        
         // Undo the smooth animation fix
         if !filled {
-            loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+            loginButton?.setAttributedTitle(NSAttributedString(string: loginButton!.titleLabel!.text!, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
             
             return
+        }
+        
+        if state == 1 {
+            if passwordConfirmField?.text != passwordField?.text {
+                let messageDisplay = UIAlertController(title: "Registration Failed", message: "Passwords did not match", preferredStyle: UIAlertControllerStyle.Alert)
+                messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
+                    (alert: UIAlertAction!) in
+                    jiggle(self.passwordField!)
+                    jiggle(self.passwordConfirmField!)
+                    self.passwordConfirmField?.text = ""
+                    self.passwordField?.text = ""
+                }))
+                presentViewController(messageDisplay, animated: true, completion: nil)
+                
+                return
+            }
         }
         
         // Hide the keyboard
@@ -234,6 +255,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         // Lock the textfields
         usernameField?.enabled = false
         passwordField?.enabled = false
+        
+        // Check additional conditions for registration
+        if state == 1 {
+            passwordConfirmField?.enabled = false
+            emailField?.enabled = false
+        }
         
         // Fade out the button and bring in the spinner
         UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
@@ -245,7 +272,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginSpinner!.alpha = 0.8
             }, completion: nil)
         
-        myFoam?.sendLogin(usernameField!.text, password: passwordField!.text)
+        if state == 0 {
+            myFoam?.sendLogin(usernameField!.text, password: passwordField!.text)
+        }
+        else if state == 1 {
+            myFoam?.sendRegister(usernameField!.text, password: passwordField!.text, email: emailField!.text)
+        }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -274,6 +306,35 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         return true
     }
     
+    // Transition to the login state
+    func transitionToLogin() {
+        // Change state
+        state = 0
+        
+        // Animate the elements back to their proper location
+        UIView.animateWithDuration(0.8, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.passwordConfirmField!.frame = CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30)
+            self.emailField!.frame = CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30)
+            self.loginButton!.frame = CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 30)
+            self.loginSpinner!.frame = CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 30)
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.loginButton!.alpha = 0.0
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.4, delay: 0.4, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginButton!.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+            self.loginButton!.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.lightGrayColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Highlighted)
+            self.loginButton!.alpha = 0.8
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.7, delay: 0.1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.passwordConfirmField!.alpha = 0.0
+            self.emailField!.alpha = 0.0
+            }, completion: nil)
+    }
+    
     // Transition to the register state
     func transitionToRegister() {
         // Change state
@@ -298,6 +359,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.passwordConfirmField!.frame = CGRect(x: 50, y: 224, width: self.view.frame.width - 100, height: 30)
             self.emailField!.frame = CGRect(x: 50, y: 266, width: self.view.frame.width - 100, height: 30)
             self.loginButton!.frame = CGRect(x: 50, y: 308, width: self.view.frame.width - 100, height: 30)
+            self.loginSpinner!.frame = CGRect(x: 50, y: 308, width: self.view.frame.width - 100, height: 30)
             }, completion: nil)
         
         UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
@@ -336,6 +398,21 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         DDLog.logInfo("Successfully sent login request")
     }
     
+    func registerSent() {
+        DDLog.logInfo("Successfully sent register request")
+    }
+    
+    func registerResponse(message: portResponse) {
+        DDLog.logInfo("Received register response: \(message)")
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginSpinner?.stopAnimating()
+            self.loginSpinner!.alpha = 0.0
+            }, completion: nil)
+        
+        transitionToLogin()
+    }
+    
     func loginResponse(message: portResponse) {
         DDLog.logInfo("Received login response: \(message)")
         
@@ -357,13 +434,28 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginButton!.alpha = 0.8
             }, completion: nil)
         
-        // Determine the message based on the response
         if message.result == "SUCCESS" {
             performSegueWithIdentifier("chatSegue", sender: self)
+            
+            return
+        }
+        else if message.result == "FAILURE-PW" {
+            let messageDisplay = UIAlertController(title: "Login Failed", message: "Incorrect Password", preferredStyle: UIAlertControllerStyle.Alert)
+            messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
+            presentViewController(messageDisplay, animated: true, completion: nil)
+        }
+        else if message.result == "FAILURE-UN" {
+            let messageDisplay = UIAlertController(title: "Login Failed", message: "Incorrect Username", preferredStyle: UIAlertControllerStyle.Alert)
+            messageDisplay.addAction(UIAlertAction(title: "Create User", style: UIAlertActionStyle.Default, handler: {
+                (alert: UIAlertAction!) in
+                self.transitionToRegister()
+            }))
+            messageDisplay.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+            presentViewController(messageDisplay, animated: true, completion: nil)
         }
         else {
             let messageDisplay = UIAlertController(title: "Login Response", message: message.description, preferredStyle: UIAlertControllerStyle.Alert)
-            messageDisplay.addAction(UIAlertAction(title: "Can I get a fuck yeah?", style: UIAlertActionStyle.Cancel, handler: nil))
+            messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
             presentViewController(messageDisplay, animated: true, completion: nil)
         }
     }

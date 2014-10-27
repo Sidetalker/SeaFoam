@@ -128,13 +128,14 @@
                         <viewControllerLayoutGuide type="bottom" id="ISh-X5-6zQ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="DpM-kY-Er4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vBc-kc-s7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1444.5" y="455"/>
+            <point key="canvasLocation" x="1452" y="449"/>
         </scene>
     </scenes>
     <resources>

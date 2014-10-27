@@ -10,7 +10,9 @@ struct portResponse {
 protocol SeaSocketDelegate {
     func connectedToSocket(message: String)
     func loginSent()
+    func registerSent()
     func loginResponse(message: portResponse)
+    func registerResponse(message: portResponse)
     func disconnectError(message: String)
 }
 
@@ -100,6 +102,14 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Login Request")
     }
     
+    // TODO ADD EMAIL
+    func sendRegister(username: String, password: String, email: String) {
+        let request = buildRequest("CREATE_ACCOUNT", args: "\(username)|\(password)", sessionID: "")
+        DDLog.logInfo("Registering with: \(request)")
+        
+        sendString("\(request)", descriptor: "Register Request")
+    }
+    
     // MARK: - Helper Functions
     
     // Builds a request
@@ -170,6 +180,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         if tagDict[tag] == "Login Request" {
             delegate?.loginSent()
         }
+        else if tagDict[tag] == "Register Request" {
+            delegate?.registerSent()
+        }
     }
     
     // Called upon a successful partial write to the socket
@@ -183,6 +196,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         
         if tagDict[tag] == "Login Request" {
             delegate?.loginResponse(dataToPortResponse(data))
+        }
+        else if tagDict[tag] == "Register Request" {
+            delegate?.registerResponse(dataToPortResponse(data))
         }
     }
     
