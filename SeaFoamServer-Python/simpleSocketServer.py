@@ -31,9 +31,9 @@ class Server:
 		self.activeThreads = []
 		
 		# Get a handle on our MongoDB database
-		dbClient = MongoClient('mongodb://seafoam:seafoam@ds041140.mongolab.com:41140/seafoam')
-		db = dbClient.seafoam
-		self.users = db.users
+		self.dbClient = MongoClient('mongodb://seafoam:seafoam@ds041140.mongolab.com:41140/seafoam')
+		self.db = self.dbClient.seafoam
+		self.users = self.db.users
 		print('Connected to MongoDB successfully')
 		
 		self.sessionIdController = SessionIdController()
@@ -61,38 +61,52 @@ class Server:
 		
 	# Prints a simple string along with address data
 	def printInfo(self, message):
-		print('Address: ' + self.addresses[-1][0] + ':' + self.addresses[-1][1])
 		print(message + '\n')
 		
 	def processData(self, data):
-		if data:                                                              # Make sure the data was received properly
-			request = self.readData(data)
-			clientResponse = ''                                               # Initialize a response container
-			if request['action'] == 'LOGIN':                                  # If we've found the login tag...
-				username, password = request["args"].split('|')               # Extract the username and password
-				print('Username: ' + username)
-				print('Password: ' + password)
-				dbResponse = self.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
-				if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
-					clientResponse = self.makeResponse("LOGIN", "FAILURE", "We received multiple results for the username" + username, "")
-					self.printInfo(clientResponse)
-				elif len(dbResponse) == 0:                                    # We didn't receive any responses...
-					if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
-						clientResponse = self.makeResponse("LOGIN", "FAILURE", "No user found for username (create option?) " + username, "")
+		try:
+			if data:                                                              # Make sure the data was received properly
+				request = self.readData(data)
+				clientResponse = ''                                               # Initialize a response container
+				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
+					username, password = request["args"].split('|')               # Extract the username and password
+					print('Username: ' + username)
+					print('Password: ' + password)
+					dbResponse = self.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
+					if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
+						clientResponse = self.makeResponse(request['action'], "FAILURE", "We received multiple results for the username" + username, "")
+						self.printInfo(clientResponse)
+					elif len(dbResponse) == 0:                                    # We didn't receive any responses...
+						if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
+							clientResponse = self.makeResponse(request['action'], "FAILURE", "No user found for username (create option?) " + username, "")
+						else:
+							clientResponse = self.makeResponse(request['action'], "FAILURE", "Incorrect password for username " + username, "")
+						self.printInfo(clientResponse)
+					elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
+						clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", str(self.sessionIdController.generateAndActivateSessionId()))
+						self.printInfo(clientResponse)
+					else:                                                         # This happens if the cursor object has negative documents - probably impossible
+						clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
+						self.printInfo(clientResponse)
+				elif request['action'] == 'CREATE_ACCOUNT':
+					username, password = request["args"].split('|') 
+					print "Creating new Account"
+					print "Validating new username"
+					dbResponse = self.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
+					if len(dbResponse) >= 1:                                       # We received multiple responses - this should be possible
+						clientResponse = self.makeResponse(request['action'], "FAILURE", "We received one or more results for the username" + username + ", username is already taken", "")
+						self.printInfo(clientResponse)
 					else:
-						clientResponse = self.makeResponse("LOGIN", "FAILURE", "Incorrect password for username " + username, "")
+						self.users.insert({ 'username' : username, 'password' : password })
+						clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
+						self.printInfo(clientResponse)
+				else:                                                             # We didn't recognize this query...
+					clientResponse = self.makeResponse(request['action'], "FAILURE", "ACTION UNDEFINED", "")
 					self.printInfo(clientResponse)
-				elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
-					clientResponse = self.makeResponse("LOGIN", "SUCCESS", "You just logged THE FUCK ON", str(self.sessionIdController.generateAndActivateSessionId()))
-					self.printInfo(clientResponse)
-				else:                                                         # This happens if the cursor object has negative documents - probably impossible
-					clientResponse = self.makeResponse("LOGIN", "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
-					self.printInfo(clientResponse)
-			else:                                                             # We didn't recognize this query...
-				clientResponse = self.makeResponse("UNKNOWN", "UNKNOWN", "UNKNOWN", "")
-				self.printInfo(clientResponse)
-			return clientResponse
-		return ''
+				return clientResponse
+			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", "", "")
+		except e:
+			return self.makeResponse("CRASH", "FAILURE", str(e), "")
 		
 	
 	def run(self):

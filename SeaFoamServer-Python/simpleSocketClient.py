@@ -39,7 +39,10 @@ def testLogin():
 		return False
 	if verboseSend('{action:LOGIN, args:Riley|super, sessionId:}') == None:
 		return False
-
+	if verboseSend('{action:CREATE_ACCOUNT, args:Riley|super, sessionId:}') == None:
+		return False
+	if verboseSend('{action:LOGIN, args:Riley|super, sessionId:}') == None:
+		return False
 	return True
 
 # Main function separate so this can be modulized	
