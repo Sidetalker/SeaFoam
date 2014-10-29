@@ -224,17 +224,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                 filled = false
                 jiggle(emailField!)
             }
-        }
-        
-        // Undo the smooth animation fix
-        if !filled {
-            loginButton?.setAttributedTitle(NSAttributedString(string: loginButton!.titleLabel!.text!, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
             
-            return
-        }
-        
-        if state == 1 {
-            if passwordConfirmField?.text != passwordField?.text {
+            if passwordConfirmField?.text != passwordField?.text && filled {
                 let messageDisplay = UIAlertController(title: "Registration Failed", message: "Passwords did not match", preferredStyle: UIAlertControllerStyle.Alert)
                 messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
                     (alert: UIAlertAction!) in
@@ -245,8 +236,15 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                 }))
                 presentViewController(messageDisplay, animated: true, completion: nil)
                 
-                return
+                filled = false
             }
+        }
+        
+        // Undo the smooth animation fix
+        if !filled {
+            loginButton?.setAttributedTitle(NSAttributedString(string: loginButton!.titleLabel!.text!, attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+            
+            return
         }
         
         // Hide the keyboard
@@ -410,7 +408,12 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             self.loginSpinner!.alpha = 0.0
             }, completion: nil)
         
-        transitionToLogin()
+        let messageDisplay = UIAlertController(title: "Registration Successful", message: "Created new user: \(self.usernameField!.text)", preferredStyle: UIAlertControllerStyle.Alert)
+        messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
+            (alert: UIAlertAction!) in
+            self.transitionToLogin()
+        }))
+        presentViewController(messageDisplay, animated: true, completion: nil)
     }
     
     func loginResponse(message: portResponse) {

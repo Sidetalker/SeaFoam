@@ -89,7 +89,7 @@ class Server:
 						clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
 						self.printInfo(clientResponse)
 				elif request['action'] == 'CREATE_ACCOUNT':
-					username, password = request["args"].split('|') 
+					username, password, email = request["args"].split('|') 
 					print "Creating new Account"
 					print "Validating new username"
 					dbResponse = self.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
@@ -97,7 +97,7 @@ class Server:
 						clientResponse = self.makeResponse(request['action'], "FAILURE", "We received one or more results for the username" + username + ", username is already taken", "")
 						self.printInfo(clientResponse)
 					else:
-						self.users.insert({ 'username' : username, 'password' : password })
+						self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
 						clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
 						self.printInfo(clientResponse)
 				else:                                                             # We didn't recognize this query...
