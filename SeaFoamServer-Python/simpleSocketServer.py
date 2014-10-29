@@ -58,8 +58,8 @@ class Server:
 		for document in cursorObject:
 			print d
 			myList.append(document)
+		print 'end Query'
 		return myList
-		
 		
 	# Prints a simple string along with address data
 	def printInfo(self, message):
