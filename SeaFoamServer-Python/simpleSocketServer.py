@@ -56,8 +56,8 @@ class Server:
 		myList = []
 		print 'begin Query'
 		for document in cursorObject:
-			myList.append(document)
 			print d
+			myList.append(document)
 		return myList
 		
 		
