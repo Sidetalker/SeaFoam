@@ -7,13 +7,13 @@ from ConnectionController import *
 
 '''
 The response framwork is below, this is the format for the responses that the server will be sending
-{action:LOGIN, result:SUCCESS, desc:, sessionId:1234}
-{action:LOGIN, result:FAILURE, desc:We couldnt do it, sessionId:}
-{action:MSG,   result:sender|content, sessionId:1234}
+{action:LOGIN, result:SUCCESS, desc:, userID:1234}
+{action:LOGIN, result:FAILURE, desc:We couldnt do it, userID:}
+{action:MSG,   result:sender|content, userID:1234}
 
 This is the message framework, this is the format the server will now be recieving messages in
-{action:LOGIN, args:username|password, sessionId:}
-{action:MSG, args:dest|content, sessionId:1234}
+{action:LOGIN, args:username|password}
+{action:MSG, args:dest|content, userID:1234}
 '''
 
 class Server:
@@ -38,8 +38,8 @@ class Server:
 		
 		self.sessionIdController = SessionIdController()
 		
-	def makeResponse(self, action, result, desc, sessionId):
-		return '{action:' + action + ', result:' + result + ', desc:' + desc + ', sessionId:' + sessionId + '}'
+	def makeResponse(self, action, result, desc, userId):
+		return '{action:' + action + ', result:' + result + ', desc:' + desc + ', userID:' + userID + '}'
 	
 	def readData(self, data):
 		request = {}
@@ -56,6 +56,7 @@ class Server:
 		myList = []
 		for document in cursorObject:
 			myList.append(document)
+			print d
 		return myList
 		
 		
