@@ -85,7 +85,7 @@ class Server:
 							clientResponse = self.makeResponse(request['action'], "FAILURE-PW", "Incorrect password for username " + username, "")
 						self.printInfo(clientResponse)
 					elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
-						clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", str(self.sessionIdController.generateAndActivateSessionId()))
+						clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", dbResponse[0]['id']))
 						self.printInfo(clientResponse)
 					else:                                                         # This happens if the cursor object has negative documents - probably impossible
 						clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
