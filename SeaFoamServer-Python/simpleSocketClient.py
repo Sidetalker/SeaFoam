@@ -3,8 +3,8 @@ import socket
 # MAIN TODO: Connections should be retained rather than connect/close every message... 
 
 # Client configuration
-host = '50.63.60.10' 
-#host = '127.0.0.1'
+# host = '50.63.60.10' 
+host = '127.0.0.1'
 port = 534
 size = 4096
 
@@ -30,15 +30,15 @@ def verboseSend(message):
 
 # Test all login possibilities
 def testLogin():
-	if verboseSend('{action:LOGIN, args:Kevin|test, sessionId:}') == None:
+	if verboseSend('{action:LOGIN, args:Kevin|test}') == None:
 		return False
-	if verboseSend('{action:LOGIN, args:Kevin|stupid, sessionId:}') == None:
+	if verboseSend('{action:LOGIN, args:Kevin|stupid}') == None:
 		return False
-	if verboseSend('{action:LOGIN, args:Riley|super, sessionId:}') == None:
+	if verboseSend('{action:LOGIN, args:Riley|super}') == None:
 		return False
-	if verboseSend('{action:CREATE_ACCOUNT, args:Riley|super, sessionId:}') == None:
+	if verboseSend('{action:CREATE_ACCOUNT, args:Riley|super|email@email.com}') == None:
 		return False
-	if verboseSend('{action:LOGIN, args:Riley|super, sessionId:}') == None:
+	if verboseSend('{action:LOGIN, args:Riley|super}') == None:
 		return False
 	return True
 

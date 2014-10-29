@@ -1,6 +1,7 @@
 import socket  
 import threading
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 from SessionIdController import *
 from ConnectionController import *
 
@@ -13,14 +14,16 @@ The response framwork is below, this is the format for the responses that the se
 
 This is the message framework, this is the format the server will now be recieving messages in
 {action:LOGIN, args:username|password}
+{action:CREATE_ACCOUNT, args:username|password}
 {action:MSG, args:dest|content, userID:1234}
+{action:UPDATE_CHAT, args:chatID|text, userID:1234}
 '''
 
 class Server:
 	def __init__(self):
 		# Global Server configuration
 		self.host = '50.63.60.10' 
-		#self.host = '127.0.0.1'
+		# self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 4096 
@@ -68,40 +71,15 @@ class Server:
 	def processData(self, data):
 		try:
 			if data:                                                              # Make sure the data was received properly
-				request = self.readData(data)
-				clientResponse = ''                                               # Initialize a response container
+				request = self.readData(data)                                             # Initialize a response container
 				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
-					username, password = request["args"].split('|')               # Extract the username and password
-					print('Username: ' + username)
-					print('Password: ' + password)
-					dbResponse = self.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
-					if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
-						clientResponse = self.makeResponse(request['action'], "FAILURE", "We received multiple results for the username" + username, "")
-						self.printInfo(clientResponse)
-					elif len(dbResponse) == 0:                                    # We didn't receive any responses...
-						if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
-							clientResponse = self.makeResponse(request['action'], "FAILURE-UN", "No user found for username (create option?) " + username, "")
-						else:
-							clientResponse = self.makeResponse(request['action'], "FAILURE-PW", "Incorrect password for username " + username, "")
-						self.printInfo(clientResponse)
-					elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
-						clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", dbResponse[0]['id'])
-						self.printInfo(clientResponse)
-					else:                                                         # This happens if the cursor object has negative documents - probably impossible
-						clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
-						self.printInfo(clientResponse)
+					return self.login(request)
 				elif request['action'] == 'CREATE_ACCOUNT':
-					username, password, email = request["args"].split('|') 
-					print "Creating new Account"
-					print "Validating new username"
-					dbResponse = self.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
-					if len(dbResponse) >= 1:                                       # We received multiple responses - this should be possible
-						clientResponse = self.makeResponse(request['action'], "FAILURE", "We received one or more results for the username" + username + ", username is already taken", "")
-						self.printInfo(clientResponse)
-					else:
-						self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
-						clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
-						self.printInfo(clientResponse)
+					return self.createAccount(request)
+				elif request['action'] == "UPDATE_CHAT":
+					chatID, text = request['args'].split('|')
+					userID = request['userID']
+					return self.updateChat(chatID, userID, text)
 				else:                                                             # We didn't recognize this query...
 					clientResponse = self.makeResponse(request['action'], "FAILURE", "ACTION UNDEFINED", "")
 					self.printInfo(clientResponse)
@@ -109,6 +87,50 @@ class Server:
 			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", "", "")
 		except Exception as e:
 			return self.makeResponse("CRASH", "FAILURE", str(e), "")
+
+	# This should be used internally to update the
+	def updateChat(self, chatID, userID, text):
+		chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
+
+	# Attempts to create an account for the user
+	def createAccount(self, request):
+		username, password, email = request["args"].split('|') 
+		print "Creating new Account"
+		print "Validating new username"
+		dbResponse = self.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
+		if len(dbResponse) >= 1:                                       # We received multiple responses - this should be possible
+			clientResponse = self.makeResponse(request['action'], "FAILURE", "We received one or more results for the username" + username + ", username is already taken", "")
+			self.printInfo(clientResponse)
+		else:
+			self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
+			self.printInfo(clientResponse)
+
+		return clientResponse
+
+	# Attempts to log a user in
+	def login(self, request):
+		username, password = request["args"].split('|')               # Extract the username and password
+		print('Username: ' + username)
+		print('Password: ' + password)
+		dbResponse = self.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
+		if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
+			clientResponse = self.makeResponse(request['action'], "FAILURE", "We received multiple results for the username" + username, "")
+			self.printInfo(clientResponse)
+		elif len(dbResponse) == 0:                                    # We didn't receive any responses...
+			if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
+				clientResponse = self.makeResponse(request['action'], "FAILURE-UN", "No user found for username (create option?) " + username, "")
+			else:
+				clientResponse = self.makeResponse(request['action'], "FAILURE-PW", "Incorrect password for username " + username, "")
+			self.printInfo(clientResponse)
+		elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", str(dbResponse[0]['_id']))
+			self.printInfo(clientResponse)
+		else:                                                         # This happens if the cursor object has negative documents - probably impossible
+			clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
+			self.printInfo(clientResponse)
+
+		return clientResponse
 		
 	
 	def run(self):
