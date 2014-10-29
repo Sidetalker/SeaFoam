@@ -54,6 +54,7 @@ class Server:
 	# into a list by iterating over it (not super efficient)
 	def queryToList(self, cursorObject):
 		myList = []
+		print 'begin Query'
 		for document in cursorObject:
 			myList.append(document)
 			print d
