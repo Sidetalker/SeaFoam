@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="App1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="111*"/>
+            <RowDefinition Height="112*"/>
+            <RowDefinition Height="33*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="usernameDisplayBox" HorizontalAlignment="Left" Margin="121,57,0,0" TextWrapping="Wrap" Text="username" VerticalAlignment="Top" Height="40" Width="109" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
+        <TextBlock HorizontalAlignment="Left" Margin="121,102,0,0" TextWrapping="Wrap" Text="password" VerticalAlignment="Top" Height="40" Width="109" FontSize="22" RenderTransformOrigin="0.638,0.565" Grid.Row="1" RequestedTheme="Dark"/>
+        <TextBox x:Name="usernameInput" HorizontalAlignment="Left" Height="40" Margin="235,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
+        <Button x:Name="login" Content="log in" HorizontalAlignment="Left" Height="91" Margin="677,54,0,0" VerticalAlignment="Top" Width="576" FontSize="22" Grid.Row="1" RequestedTheme="Dark" Click="login_Click"/>
+        <PasswordBox x:Name="passwordInput" HorizontalAlignment="Left" Height="40" Margin="235,102,0,0" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
+        <HyperlinkButton x:Name="NewUserButton" Content="Register New User" HorizontalAlignment="Left" Height="42" Margin="284,234,0,0" Grid.Row="1" VerticalAlignment="Top" Width="751" Click="NewUserButton_Click" Foreground="#FF9C72FF"/>
+        <TextBlock x:Name="tempBox" HorizontalAlignment="Left" Margin="301,214,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="812"/>
+
+
+
+    </Grid>
+</Page>

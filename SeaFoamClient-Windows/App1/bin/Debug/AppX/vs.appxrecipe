@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>WINDOZE</Machine>
+    <WindowsUser>Cameron</WindowsUser>
+    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>62f5afc9-5189-4364-a4d9-593cc7d92f76</PackageIdentityName>
+    <IntermediateOutputPath>C:\Users\Cameron\Documents\temp\App1\App1\obj\Debug\</IntermediateOutputPath>
+    <RegisteredManifestChecksum>CDE8F22F7D339BFDDE3ADD6DBF8B94A51876A00A1B8202CD1F0A4E7042D6A0FC</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>62f5afc9-5189-4364-a4d9-593cc7d92f76_1.0.0.0_neutral__twdrxseeygaem</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>62f5afc9-5189-4364-a4d9-593cc7d92f76_twdrxseeygaem!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>62f5afc9-5189-4364-a4d9-593cc7d92f76</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=Cameron</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-27T07:16:14.917</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App1.exe">
+      <PackagePath>App1.exe</PackagePath>
+      <Modified>2014-10-29T21:33:48.247</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-100.png">
+      <PackagePath>Assets\Logo.scale-100.png</PackagePath>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-140.png">
+      <PackagePath>Assets\Logo.scale-140.png</PackagePath>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-180.png">
+      <PackagePath>Assets\Logo.scale-180.png</PackagePath>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-80.png">
+      <PackagePath>Assets\Logo.scale-80.png</PackagePath>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SmallLogo.scale-100.png">
+      <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-100.png">
+      <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:19:01.713</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-140.png">
+      <PackagePath>Assets\SplashScreen.scale-140.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:19:53.290</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-180.png">
+      <PackagePath>Assets\SplashScreen.scale-180.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:20:39.450</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-100.png">
+      <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:16:31.062</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-140.png">
+      <PackagePath>Assets\Square150x150Logo.scale-140.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:17:46.527</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-180.png">
+      <PackagePath>Assets\Square150x150Logo.scale-180.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:18:14.301</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-80.png">
+      <PackagePath>Assets\Square150x150Logo.scale-80.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-10-22T21:17:19.619</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\StoreLogo.scale-100.png">
+      <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-07-31T12:01:26.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+      <Modified>2014-10-27T07:16:14.222</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\BlankPage1.xbf">
+      <PackagePath>BlankPage1.xbf</PackagePath>
+      <Modified>2014-10-29T21:33:48.035</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+      <Modified>2014-10-29T20:57:19.864</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\PopUpUserControl.xbf">
+      <PackagePath>PopUpUserControl.xbf</PackagePath>
+      <Modified>2014-10-29T20:57:19.866</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App1.xr.xml">
+      <PackagePath>App1.xr.xml</PackagePath>
+      <Modified>2014-10-29T21:32:42.905</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2014-10-27T07:16:14.638</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
