@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 from SessionIdController import *
 from ConnectionController import *
 
-
 '''
 The response framwork is below, this is the format for the responses that the server will be sending
 {action:LOGIN, result:SUCCESS, desc:, userID:1234}
@@ -28,8 +27,8 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		# self.host = '50.63.60.10' 
-		self.host = '127.0.0.1'
+		self.host = '50.63.60.10' 
+		# self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 4096 
