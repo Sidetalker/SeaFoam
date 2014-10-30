@@ -40,6 +40,9 @@ def testLogin():
 		return False
 	if verboseSend('{action:LOGIN, args:Riley|super}') == None:
 		return False
+	if verboseSend('{action:LIST_CHATS, args:, userID:544e69af7918981944231604}') == None:
+		return False
+	raw_input()
 	return True
 
 # Main function separate so this can be modulized	

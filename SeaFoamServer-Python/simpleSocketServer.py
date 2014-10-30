@@ -22,8 +22,8 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
-		# self.host = '127.0.0.1'
+		#self.host = '50.63.60.10' 
+		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 4096 
@@ -37,6 +37,7 @@ class Server:
 		self.dbClient = MongoClient('mongodb://seafoam:seafoam@ds041140.mongolab.com:41140/seafoam')
 		self.db = self.dbClient.seafoam
 		self.users = self.db.users
+		self.chats = self.db.chats
 		print('Connected to MongoDB successfully')
 		
 		self.sessionIdController = SessionIdController()
@@ -57,11 +58,8 @@ class Server:
 	# into a list by iterating over it (not super efficient)
 	def queryToList(self, cursorObject):
 		myList = []
-		print 'begin Query'
 		for document in cursorObject:
-			print document
 			myList.append(document)
-		print 'end Query'
 		return myList
 		
 	# Prints a simple string along with address data
@@ -69,29 +67,72 @@ class Server:
 		print(message + '\n')
 		
 	def processData(self, data):
+		print "Processing " + data
 		try:
 			if data:                                                              # Make sure the data was received properly
-				request = self.readData(data)                                             # Initialize a response container
+				request = self.readData(data)                                     # Initialize a response container
 				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
 					return self.login(request)
 				elif request['action'] == 'CREATE_ACCOUNT':
 					return self.createAccount(request)
 				elif request['action'] == "UPDATE_CHAT":
-					chatID, text = request['args'].split('|')
-					userID = request['userID']
-					return self.updateChat(chatID, userID, text)
+					return self.updateChat(request)
+				elif request['action'] == "ADD_CHAT":
+					return self.addUserToChat(request)
+				elif request['action'] == "REMOVE_CHAT":
+					return self.addUserToChat(request)
+				elif request['action'] == "LIST_CHATS":
+					return self.listChats(request)
+				elif request['action'] == "MAKE_CHAT":
+					return self.makeChat(request)
 				else:                                                             # We didn't recognize this query...
 					clientResponse = self.makeResponse(request['action'], "FAILURE", "ACTION UNDEFINED", "")
 					self.printInfo(clientResponse)
-				return clientResponse
+					return clientResponse
 			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", "", "")
 		except Exception as e:
 			return self.makeResponse("CRASH", "FAILURE", str(e), "")
-
+	
 	# This should be used internally to update the
-	def updateChat(self, chatID, userID, text):
-		chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
-
+	def updateChat(self, request):
+		chatID, text = request['args'].split('|')
+		userID = request['userID']
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", "Chat " + chatID + " has been updated", "")
+		self.printInfo(clientResponse)
+		return clientResponse
+		
+	def addUserToChat(self, request):
+		chatID = request['args']
+		userID = request['userID']
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : {'userID' : userID}}})
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been added to chat " + chatID, "")
+		self.printInfo(clientResponse)
+		return clientResponse
+		
+	def removeUserFromChat(self, request):
+		chatID = request['args']
+		userID = request['userID']
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : {'userID' : userID}}})
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been returned from chat " + chatID, "")
+		self.printInfo(clientResponse)
+		return clientResponse
+		
+	def listChats(self, request):
+		userID = request['userID']
+		chatsList = self.queryToList(self.chats.find({'members': {'$in' : [{'userID': userID}]}}))
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatsList), "")
+		self.printInfo(clientResponse)
+		return clientResponse
+		
+	def makeChat(self, request):
+		userID = request['userID']
+		print "TODO"
+		#chatsList = self.queryToList(self.chats.find({'members': {'$in' : [{'userID': userID}]}}))
+		#clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatsList), "")
+		#self.printInfo(clientResponse)
+		#return clientResponse
+		
 	# Attempts to create an account for the user
 	def createAccount(self, request):
 		username, password, email = request["args"].split('|') 
@@ -105,7 +146,6 @@ class Server:
 			self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
 			clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
 			self.printInfo(clientResponse)
-
 		return clientResponse
 
 	# Attempts to log a user in
