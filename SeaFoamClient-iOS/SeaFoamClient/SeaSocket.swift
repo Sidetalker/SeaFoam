@@ -55,11 +55,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
         var connectionError: NSError?
         
         // If we have an error during connection initialization return that error
-        if socket.connectToHost(host, onPort: port!, error: &connectionError) == false {
+        if socket.connectToHost(host, onPort: port!, withTimeout: timeout, error: &connectionError) == false {
             DDLog.logError("Unable to connect to host \(host):\(port) - Error: \(connectionError.debugDescription)")
             return connectionError
         }
-        
         return nil
     }
 

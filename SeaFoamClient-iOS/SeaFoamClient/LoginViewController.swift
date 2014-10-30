@@ -179,6 +179,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         textField.clipsToBounds = true
         textField.alpha = 0.8
         textField.delegate = self
+        textField.autocapitalizationType = UITextAutocapitalizationType.None
+        textField.autocorrectionType = UITextAutocorrectionType.No
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 9, height: 0))
         textField.leftView = paddingView
@@ -233,6 +235,22 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                     jiggle(self.passwordConfirmField!)
                     self.passwordConfirmField?.text = ""
                     self.passwordField?.text = ""
+                }))
+                presentViewController(messageDisplay, animated: true, completion: nil)
+                
+                filled = false
+            }
+            
+            // Check for valid email
+            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+            let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+            
+            if emailTest!.evaluateWithObject(emailField!.text) == false {
+                let messageDisplay = UIAlertController(title: "Registration Failed", message: "Invalid Email", preferredStyle: UIAlertControllerStyle.Alert)
+                messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
+                    (alert: UIAlertAction!) in
+                    jiggle(self.emailField!)
+                    self.emailField?.text = ""
                 }))
                 presentViewController(messageDisplay, animated: true, completion: nil)
                 
@@ -309,6 +327,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         // Change state
         state = 0
         
+        passwordField?.returnKeyType = UIReturnKeyType.Done
+        
         // Animate the elements back to their proper location
         UIView.animateWithDuration(0.8, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.passwordConfirmField!.frame = CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30)
@@ -339,15 +359,20 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         state = 1
         
         // Add the two extra fields
-        passwordConfirmField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Confirm Password")
-        emailField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Email")
+        if passwordConfirmField == nil {
+            passwordConfirmField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Confirm Password")
+            passwordField?.returnKeyType = UIReturnKeyType.Next
+            passwordConfirmField?.returnKeyType = UIReturnKeyType.Next
+            passwordConfirmField?.secureTextEntry = true
+        }
+        if emailField == nil {
+            emailField = getField(CGRect(x: 50, y: 182, width: self.view.frame.width - 100, height: 30), placeholder: "Email")
+            emailField?.returnKeyType = UIReturnKeyType.Done
+            emailField?.keyboardType = UIKeyboardType.EmailAddress
+        }
         
-        passwordField?.returnKeyType = UIReturnKeyType.Next
-        passwordConfirmField?.returnKeyType = UIReturnKeyType.Next
-        emailField?.returnKeyType = UIReturnKeyType.Done
         passwordConfirmField?.alpha = 0.0
         emailField?.alpha = 0.0
-        passwordConfirmField?.secureTextEntry = true
         
         self.view.addSubview(passwordConfirmField!)
         self.view.addSubview(emailField!)
@@ -379,7 +404,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Use our custom transition manager
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "chatSegue" {
-            let chatVC = segue.destinationViewController as MainTableViewController
+            let chatVC = segue.destinationViewController as UINavigationController
             
             // Set up custom segue animations
             chatVC.transitioningDelegate = self.transitionManager
@@ -464,6 +489,24 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     }
     
     func disconnectError(message: String) {
+        // Bring the button back!
+        loginButton?.setAttributedTitle(NSAttributedString(string: "Float On", attributes: Dictionary(dictionaryLiteral: (NSForegroundColorAttributeName, UIColor.whiteColor().colorWithAlphaComponent(0.8)), (NSFontAttributeName, UIFont(name: "HelveticaNeue-UltraLight", size: 23)!))), forState: UIControlState.Normal)
+        
+        // Enable the text fields
+        usernameField?.enabled = true
+        passwordField?.enabled = true
+        passwordConfirmField?.enabled = true
+        emailField?.enabled = true
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.loginSpinner?.stopAnimating()
+            self.loginSpinner!.alpha = 0.0
+            }, completion: nil)
+        
+        UIView.animateWithDuration(0.7, delay: 0.4, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.loginButton!.alpha = 0.8
+            }, completion: nil)
+        
         let messageDisplay = UIAlertController(title: "Disconnect Error", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         messageDisplay.addAction(UIAlertAction(title: "Ok :(", style: UIAlertActionStyle.Cancel, handler: nil))
         presentViewController(messageDisplay, animated: true, completion: nil)

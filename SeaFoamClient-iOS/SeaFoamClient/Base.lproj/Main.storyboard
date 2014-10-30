@@ -20,6 +20,9 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SeaFoamBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="7We-qs-by2">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <variation key="widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+                                </variation>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -52,18 +55,20 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="Qxx-rX-Cmd"/>
                     <connections>
                         <outlet property="imageBG" destination="7We-qs-by2" id="6Lh-et-uho"/>
+                        <segue destination="UKy-aF-0zI" kind="custom" identifier="chatSegue" id="3h9-gN-Ppm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-87" y="455"/>
+            <point key="canvasLocation" x="831" y="455"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Chats-->
         <scene sceneID="SEM-C6-erV">
             <objects>
-                <tableViewController id="ud4-gw-xx0" sceneMemberID="viewController">
+                <tableViewController id="ud4-gw-xx0" customClass="MainTableViewController" customModule="SeaFoamClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="58Y-p7-Pm4">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,10 +85,17 @@
                             <outlet property="delegate" destination="ud4-gw-xx0" id="Ury-I6-9ex"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Chats" id="PMa-ZB-nwv">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="Fiv-Y6-LOk">
+                            <connections>
+                                <action selector="logoutTap:" destination="ud4-gw-xx0" id="ARn-WL-KMj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gOZ-Xv-sZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="612" y="455"/>
+            <point key="canvasLocation" x="1687.5" y="455"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="P0g-xm-33r">
@@ -101,7 +113,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vBc-kc-s7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1770" y="653"/>
+            <point key="canvasLocation" x="3606" y="653"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wvP-CA-BVb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UKy-aF-0zI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sZH-Ba-dTv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ud4-gw-xx0" kind="relationship" relationship="rootViewController" id="0AI-DH-6eO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TuW-nZ-MnI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1687.5" y="-347"/>
         </scene>
     </scenes>
     <resources>

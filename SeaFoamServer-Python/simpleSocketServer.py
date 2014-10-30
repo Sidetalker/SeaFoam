@@ -10,13 +10,18 @@ from ConnectionController import *
 The response framwork is below, this is the format for the responses that the server will be sending
 {action:LOGIN, result:SUCCESS, desc:, userID:1234}
 {action:LOGIN, result:FAILURE, desc:We couldnt do it, userID:}
-{action:MSG,   result:sender|content, userID:1234}
+{action:MSG,   result:sender|content|chatID, userID:1234}
 
 This is the message framework, this is the format the server will now be recieving messages in
 {action:LOGIN, args:username|password}
 {action:CREATE_ACCOUNT, args:username|password}
 {action:MSG, args:dest|content, userID:1234}
 {action:UPDATE_CHAT, args:chatID|text, userID:1234}
+{action:ADD_CHAT_USER, args:chatID, userID:1234}
+{action:REMOVE_CHAT_USER, args:chatID, userID:1234}
+{action:ADD_CHAT, args:name, userID:1234}
+{action:REMOVE_CHAT, args:chatID, userID:1234}
+{action:LIST_CHATS, args:, userID:1234}
 '''
 
 class Server:
@@ -77,14 +82,16 @@ class Server:
 					return self.createAccount(request)
 				elif request['action'] == "UPDATE_CHAT":
 					return self.updateChat(request)
-				elif request['action'] == "ADD_CHAT":
+				elif request['action'] == "ADD_CHAT_USER":
 					return self.addUserToChat(request)
-				elif request['action'] == "REMOVE_CHAT":
-					return self.addUserToChat(request)
+				elif request['action'] == "REMOVE_CHAT_USER":
+					return self.removeUserFromChat(request)
 				elif request['action'] == "LIST_CHATS":
 					return self.listChats(request)
-				elif request['action'] == "MAKE_CHAT":
+				elif request['action'] == "ADD_CHAT":
 					return self.makeChat(request)
+				elif request['action'] == "REMOVE_CHAT":
+					return self.removeChat(request)
 				else:                                                             # We didn't recognize this query...
 					clientResponse = self.makeResponse(request['action'], "FAILURE", "ACTION UNDEFINED", "")
 					self.printInfo(clientResponse)
@@ -93,7 +100,6 @@ class Server:
 		except Exception as e:
 			return self.makeResponse("CRASH", "FAILURE", str(e), "")
 	
-	# This should be used internally to update the
 	def updateChat(self, request):
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
@@ -114,7 +120,7 @@ class Server:
 		chatID = request['args']
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : {'userID' : userID}}})
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been returned from chat " + chatID, "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been removed from chat " + chatID, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
@@ -127,11 +133,15 @@ class Server:
 		
 	def makeChat(self, request):
 		userID = request['userID']
+		name = request['args']
 		print "TODO"
 		#chatsList = self.queryToList(self.chats.find({'members': {'$in' : [{'userID': userID}]}}))
 		#clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatsList), "")
 		#self.printInfo(clientResponse)
 		#return clientResponse
+
+	def removeChat(self, request):
+		pass
 		
 	# Attempts to create an account for the user
 	def createAccount(self, request):

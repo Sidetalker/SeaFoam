@@ -28,7 +28,13 @@ class MainTableViewController: UITableViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-
+    
+    // MARK: - Buttons
+    
+    @IBAction func logoutTap(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
