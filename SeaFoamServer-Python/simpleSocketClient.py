@@ -26,21 +26,6 @@ def verboseSend(message):
 	# Return the response
 	return data
 
-# Test all login possibilities
-def testLogin():
-	if verboseSend('{action:LOGIN, args:Kevin|test}') == None:
-		return False
-	if verboseSend('{action:LOGIN, args:Kevin|stupid}') == None:
-		return False
-	if verboseSend('{action:LOGIN, args:Riley|super}') == None:
-		return False
-	if verboseSend('{action:CREATE_ACCOUNT, args:Riley|super|email@email.com}') == None:
-		return False
-	if verboseSend('{action:LIST_CHATS, args:, userID:544e69af7918981944231604}') == None:
-		return False
-
-	return True
-
 # Main function separate so this can be modulized	
 def main():
 	while True:

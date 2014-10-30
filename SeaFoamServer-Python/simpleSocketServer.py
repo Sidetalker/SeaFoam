@@ -1,5 +1,6 @@
 import socket  
 import threading
+import json
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from SessionIdController import *
@@ -27,8 +28,8 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
-		# self.host = '127.0.0.1'
+		# self.host = '50.63.60.10' 
+		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 4096 
@@ -48,7 +49,8 @@ class Server:
 		self.sessionIdController = SessionIdController()
 		
 	def makeResponse(self, action, result, desc, userID):
-		return 'action:' + action + ', result:' + result + ', desc:' + desc + ', userID:' + userID + ''
+		responseDict = { 'action' : action, 'result' : result, 'desc' : desc, 'userID' : userID }
+		return json.dumps(responseDict)
 	
 	def readData(self, data):
 		request = {}
@@ -95,18 +97,18 @@ class Server:
 				elif request['action'] == "REMOVE_CHAT":
 					return self.removeChat(request)
 				else:                                                             # We didn't recognize this query...
-					clientResponse = self.makeResponse(request['action'], "FAILURE", "ACTION UNDEFINED", "")
+					clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "ACTION UNDEFINED" }, "")
 					self.printInfo(clientResponse)
 					return clientResponse
-			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", "", "")
+			return self.makeResponse("NO_DATA_RECIEVED", "FAILURE", { "info" : "No data received" }, "")
 		except Exception as e:
-			return self.makeResponse("CRASH", "FAILURE", str(e), "")
+			return self.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
 	
 	def updateChat(self, request):
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", "Chat " + chatID + " has been updated", "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
@@ -114,7 +116,7 @@ class Server:
 		chatID = request['args']
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been added to chat " + chatID, "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
@@ -122,7 +124,7 @@ class Server:
 		chatID = request['args']
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : userID}})
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been removed from chat " + chatID, "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been removed from chat " + chatID }, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
@@ -135,21 +137,25 @@ class Server:
 
 		for chat in chatsList:
 			curChatInfo = {}
-			curChatInfo['_id'] = chat['_id']
+			curChatInfo['_id'] = str(chat['_id'])
 			curChatInfo['members'] = chat['members']
-			curChatInfo['latestMessage'] = chat['messages'][-1]
+
+			if len(chat['messages']) != 0:
+				curChatInfo['latestMessage'] = chat['messages'][-1]
+			else:
+				curChatInfo['latestMessage'] = ""
 			curChatInfo['name'] = chat['name']
 			curChatInfo['creator'] = chat['creator']
 			chatInfo.append(curChatInfo)
 
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatInfo), "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : chatInfo }, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 
 	def listChatContents(self, request):
 		chatID = request['args']
 		chatContents = self.queryToList(self.chats.find({'_id': ObjectId(chatID)}))
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatContents[0]['messages']), "")
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : chatContents[0]['messages'] }, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
@@ -160,11 +166,11 @@ class Server:
 		dbResponse = self.queryToList(self.chats.find({ 'name' : name }))
 
 		if len(dbResponse) >= 1:
-			clientResponse = self.makeResponse(request['action'], "FAILURE", "A chatroom with the name " + name + " already exists", "")
+			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists" }, "")
 			self.printInfo(clientResponse)
 		else:
 			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})
-			clientResponse = self.makeResponse(request['action'], "SUCCESS", "Created a chatroom named " + name, "")
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "Created a chatroom named " + name }, "")
 		return clientResponse
 
 	def removeChat(self, request):
@@ -177,11 +183,11 @@ class Server:
 		print "Validating new username"
 		dbResponse = self.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
 		if len(dbResponse) >= 1:                                       # We received multiple responses - this should be possible
-			clientResponse = self.makeResponse(request['action'], "FAILURE", "We received one or more results for the username" + username + ", username is already taken", "")
+			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "We received one or more results for the username" + username + ", username is already taken" }, "")
 			self.printInfo(clientResponse)
 		else:
 			self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
-			clientResponse = self.makeResponse(request['action'], "SUCCESS", "The username " + username + " has been registered with the entered passowrd", "")
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "The username " + username + " has been registered with the entered password" }, "")
 			self.printInfo(clientResponse)
 		return clientResponse
 
@@ -192,19 +198,19 @@ class Server:
 		print('Password: ' + password)
 		dbResponse = self.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
 		if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
-			clientResponse = self.makeResponse(request['action'], "FAILURE", "We received multiple results for the username" + username, "")
+			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "We received multiple results for the username" + username }, "")
 			self.printInfo(clientResponse)
 		elif len(dbResponse) == 0:                                    # We didn't receive any responses...
 			if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
-				clientResponse = self.makeResponse(request['action'], "FAILURE-UN", "No user found for username (create option?) " + username, "")
+				clientResponse = self.makeResponse(request['action'], "FAILURE-UN", { "info" : "No user found for username " + username }, "")
 			else:
-				clientResponse = self.makeResponse(request['action'], "FAILURE-PW", "Incorrect password for username " + username, "")
+				clientResponse = self.makeResponse(request['action'], "FAILURE-PW", { "info" : "Incorrect password for username " + username }, "")
 			self.printInfo(clientResponse)
 		elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
-			clientResponse = self.makeResponse(request['action'], "SUCCESS", "You just logged THE FUCK ON", str(dbResponse[0]['_id']))
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", { "info" : "You just logged THE FUCK ON" }, str(dbResponse[0]['_id']))
 			self.printInfo(clientResponse)
 		else:                                                         # This happens if the cursor object has negative documents - probably impossible
-			clientResponse = self.makeResponse(request['action'], "FAILURE", "UNKNOWN ERROR - STATEMENT UNREACHABLE", "")
+			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "UNKNOWN ERROR - STATEMENT UNREACHABLE" }, "")
 			self.printInfo(clientResponse)
 
 		return clientResponse

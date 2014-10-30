@@ -3,7 +3,7 @@ import Foundation
 struct portResponse {
     var action: String
     var result: String
-    var description: String
+    var description: NSDictionary
     var userID: String
 }
 
@@ -14,7 +14,7 @@ protocol SeaSocketDelegate {
     func chatSent()
     func loginResponse(message: portResponse)
     func registerResponse(message: portResponse)
-    func chatResponse(message: portResponse)
+    func chatResponse(chats: Array<String>)
     func disconnectError(message: String)
 }
 
@@ -130,49 +130,31 @@ class SeaSocket: GCDAsyncSocketDelegate {
     }
     
     // Convert NSData to a String
-    func dataToString(input: NSData) -> String? {
-        return NSString(data: input, encoding: NSUTF8StringEncoding)
+    func dataToString(input: NSData) -> String {
+        return NSString(data: input, encoding: NSUTF8StringEncoding)!
     }
     
     // Convert NSData into a portResponse
     func dataToPortResponse(input: NSData) -> portResponse {
-        return stringtoPortResponse(dataToString(input)!)
-    }
-    
-    // Convert String into a portResponse
-    func stringtoPortResponse(input: String) -> portResponse {
         // Prepare the portResponse variables
         var action = ""
         var result = ""
-        var description = ""
+        var description = [:]
         var userID = ""
         
-        // Remove the encapsulators
-        let trimmed = input.stringByReplacingOccurrencesOfString("[{}]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
-
-        // Iterate through the split up string
-        let trimmedSplit = split(trimmed) {$0 == ","}
+        var conversionError: NSError?
+        let jsonData: NSDictionary = NSJSONSerialization.JSONObjectWithData(input, options: NSJSONReadingOptions.MutableContainers, error: &conversionError) as NSDictionary
         
-        for item in trimmedSplit {
-            let curItem = item.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            let itemPair = split(curItem) {$0 == ":"}
-            
-            if itemPair.count <= 1 {
-                continue
-            }
-            
-            switch itemPair[0] {
-                case "action":
-                    action = itemPair[1]
-                case "result":
-                    result = itemPair[1]
-                case "desc":
-                    description = itemPair[1]
-                case "userID":
-                    userID = itemPair[1]
-                default: ()
-            }
+        if conversionError != nil {
+            DDLog.logInfo("Error parsing JSON: \(conversionError?.localizedDescription)")
         }
+        
+        DDLog.logInfo("Our JSON response is:\n\(jsonData)")
+        
+        action = jsonData.objectForKey("action") as String
+        result = jsonData.objectForKey("result") as String
+        description = jsonData.objectForKey("desc") as NSDictionary
+        userID = jsonData.objectForKey("userID") as String
         
         return portResponse(action: action, result: result, description: description, userID: userID)
     }
@@ -216,14 +198,13 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Chat List Request" {
             let response = dataToPortResponse(data)
-            DDLog.logInfo("Chat List Response Description: \(response.description)")
+            var chatInfo = Array<String>()
             
-            var conversionError: NSError?
-            let results: AnyObject = NSJSONSerialization.JSONObjectWithData(response.description.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, options: NSJSONReadingOptions.MutableContainers, error: &conversionError)!
+            for chat in response.description["info"] as Array<NSDictionary> {
+                chatInfo.append(chat.objectForKey("name") as String)
+            }
             
-            DDLog.logInfo("Chat Request Dictionary: \(results)")
-            
-            delegate?.chatResponse(dataToPortResponse(data))
+            delegate?.chatResponse(chatInfo)
         }
     }
     

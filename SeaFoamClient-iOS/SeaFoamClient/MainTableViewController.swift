@@ -18,14 +18,17 @@ struct chatInfo {
 
 class MainTableViewController: UITableViewController, SeaSocketDelegate {
     // TCP Connection variables (inherited from LoginViewController)
+    var loginParent: LoginViewController?
     var myFoam: SeaSocket?
     var userID: String?
     
     var chats: [chatInfo]?
+    var chatsTest: Array<String>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        myFoam?.delegate = self
         myFoam?.getChats(userID!)
     }
 
@@ -41,29 +44,32 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     // MARK: - Buttons
     
     @IBAction func logoutTap(sender: AnyObject) {
+        self.loginParent?.myFoam?.delegate = loginParent
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if chats != nil {
-            return chats!.count
+        if chatsTest != nil {
+            return 1
         }
         
         return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if chats != nil {
-            return chats!.count
+        if chatsTest != nil {
+            return chatsTest!.count
         }
         
         return 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("chatCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("chatCell") as UITableViewCell
+        
+        cell.textLabel.text = chatsTest![indexPath.row]
 
         return cell
     }
@@ -127,8 +133,10 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
         DDLog.logInfo("Initiatied chat list request")
     }
     
-    func chatResponse(message: portResponse) {
-        DDLog.logInfo("Received chat list response: \nAction: \(message.action)\nResult: \(message.result)")
+    func chatResponse(chats: Array<String>) {
+        DDLog.logInfo("Received chat list response: \(chats)")
+        chatsTest = chats
+        self.tableView.reloadData()
     }
     
     // MARK: - Unused SeaSocket Delegates
