@@ -27,6 +27,8 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.toolbarHidden = false;
 
         myFoam?.delegate = self
         myFoam?.getChats(userID!)
@@ -48,14 +50,30 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBAction func newChatTap(sender: AnyObject) {
+        let messageDisplay = UIAlertController(title: "Create Chatroom", message: "Enter the name of your new chatroom", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        messageDisplay.addTextFieldWithConfigurationHandler { textField in }
+        let messageTextField = messageDisplay.textFields![0] as UITextField
+        messageTextField.placeholder = "Chatroom Name"
+        
+        messageDisplay.addAction(UIAlertAction(title: "Create", style: UIAlertActionStyle.Default, handler: {
+            (alert: UIAlertAction!) in
+            if messageTextField.text != "" {
+                self.myFoam?.createChat(messageTextField.text, userID: self.userID!)
+            }
+            else {
+                jiggle(messageTextField)
+                self.presentViewController(messageDisplay, animated: true, completion: nil)
+            }
+        }))
+        self.presentViewController(messageDisplay, animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if chatsTest != nil {
-            return 1
-        }
-        
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,14 +147,49 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
         DDLog.logInfo(message)
     }
     
-    func chatSent() {
-        DDLog.logInfo("Initiatied chat list request")
+    func chatSent(type: String) {
+        DDLog.logInfo("Initiatied chat request of type: \(type)")
     }
     
-    func chatResponse(chats: Array<String>) {
+    func listChatResponse(chats: Array<String>) {
         DDLog.logInfo("Received chat list response: \(chats)")
+        
+        var initialChatCount = 0
+        
+        if self.chatsTest != nil {
+            initialChatCount = self.chatsTest!.count
+        }
+        
+        self.tableView.beginUpdates()
         chatsTest = chats
-        self.tableView.reloadData()
+        
+        if chatsTest?.count == 0 {
+            self.tableView.endUpdates()
+            return
+        }
+        
+        for index in initialChatCount...chatsTest!.count - 1 {
+            let curIndex = NSIndexPath(forRow: initialChatCount, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([curIndex], withRowAnimation: UITableViewRowAnimation.Fade)
+            initialChatCount++
+        }
+        
+        self.tableView.endUpdates()
+    }
+    
+    func addChatResponse(message: portResponse) {
+        DDLog.logInfo("Received add chat response: \(message)")
+        
+        if message.result == "FAILURE" {
+            let messageDisplay = UIAlertController(title: "Failure", message: "Unable to create chatroom", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
+                (alert: UIAlertAction!) in
+            }))
+            self.presentViewController(messageDisplay, animated: true, completion: nil)
+        }
+        
+        myFoam?.getChats(userID!)
     }
     
     // MARK: - Unused SeaSocket Delegates

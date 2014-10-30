@@ -11,10 +11,11 @@ protocol SeaSocketDelegate {
     func connectedToSocket(message: String)
     func loginSent()
     func registerSent()
-    func chatSent()
+    func chatSent(type: String)
     func loginResponse(message: portResponse)
     func registerResponse(message: portResponse)
-    func chatResponse(chats: Array<String>)
+    func listChatResponse(chats: Array<String>)
+    func addChatResponse(message: portResponse)
     func disconnectError(message: String)
 }
 
@@ -110,6 +111,13 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Register Request")
     }
     
+    func createChat(chatName: String, userID: String) {
+        let request = buildRequest("ADD_CHAT", args: "\(chatName)", userID: "\(userID)")
+        DDLog.logInfo("Creating chatroom \(chatName) for userID \(userID)")
+        
+        sendString("\(request)", descriptor: "Add Chat Request")
+    }
+    
     func getChats(userID: String) {
         let request = buildRequest("LIST_CHATS", args: "", userID: userID)
         DDLog.logInfo("Requestion chats for userID \(userID)")
@@ -177,7 +185,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
             delegate?.registerSent()
         }
         else if tagDict[tag] == "Chat List Request" {
-            delegate?.chatSent()
+            delegate?.chatSent("Chat List Request")
+        }
+        else if tagDict[tag] == "Add Chat Request" {
+            delegate?.chatSent("Add Chat Request")
         }
     }
     
@@ -204,7 +215,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
                 chatInfo.append(chat.objectForKey("name") as String)
             }
             
-            delegate?.chatResponse(chatInfo)
+            delegate?.listChatResponse(chatInfo)
+        }
+        else if tagDict[tag] == "Add Chat Request" {
+            delegate?.addChatResponse(dataToPortResponse(data))
         }
     }
     
