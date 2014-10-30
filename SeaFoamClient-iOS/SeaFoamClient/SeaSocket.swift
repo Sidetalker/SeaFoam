@@ -4,7 +4,7 @@ struct portResponse {
     var action: String
     var result: String
     var description: String
-    var sessionID: String
+    var userID: String
 }
 
 protocol SeaSocketDelegate {
@@ -102,9 +102,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Login Request")
     }
     
-    // TODO ADD EMAIL
     func sendRegister(username: String, password: String, email: String) {
-        let request = buildRequest("CREATE_ACCOUNT", args: "\(username)|\(password)", sessionID: "")
+        let request = buildRequest("CREATE_ACCOUNT", args: "\(username)|\(password)|\(email)", sessionID: "")
         DDLog.logInfo("Registering with: \(request)")
         
         sendString("\(request)", descriptor: "Register Request")
@@ -138,7 +137,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
         var action = ""
         var result = ""
         var description = ""
-        var sessionID = ""
+        var userID = ""
         
         // Remove the encapsulators
         let trimmed = input.stringByReplacingOccurrencesOfString("[{}]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
@@ -158,12 +157,12 @@ class SeaSocket: GCDAsyncSocketDelegate {
                 case "desc":
                     description = itemPair[1]
                 case "sessionID":
-                    sessionID = itemPair[1]
+                    userID = itemPair[1]
                 default: ()
             }
         }
         
-        return portResponse(action: action, result: result, description: description, sessionID: sessionID)
+        return portResponse(action: action, result: result, description: description, userID: userID)
     }
     
     // MARK: - GCDAsyncSocket Delegates

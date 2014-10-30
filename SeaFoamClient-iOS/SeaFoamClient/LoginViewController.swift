@@ -379,7 +379,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Use our custom transition manager
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "chatSegue" {
-            let chatVC = segue.destinationViewController as UIViewController
+            let chatVC = segue.destinationViewController as MainTableViewController
             
             // Set up custom segue animations
             chatVC.transitioningDelegate = self.transitionManager

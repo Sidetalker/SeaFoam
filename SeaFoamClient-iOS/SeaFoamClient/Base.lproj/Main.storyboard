@@ -54,70 +54,36 @@
                     </view>
                     <connections>
                         <outlet property="imageBG" destination="7We-qs-by2" id="6Lh-et-uho"/>
-                        <segue destination="94p-ms-Nq0" kind="custom" identifier="chatSegue" id="ZcH-33-o4e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-87" y="455"/>
         </scene>
-        <!--Main Chat View Controller-->
-        <scene sceneID="rXm-n4-fYW">
+        <!--Table View Controller-->
+        <scene sceneID="SEM-C6-erV">
             <objects>
-                <viewController id="94p-ms-Nq0" customClass="MainChatViewController" customModule="SeaFoamClient" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="a9b-XK-rwr"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hd4-Bc-sxL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hBM-1E-e5G">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <tableViewController id="ud4-gw-xx0" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="58Y-p7-Pm4">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OtB-qY-8hL">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <items>
-                                    <navigationItem title="Main Chat View" id="pbu-b5-WiF">
-                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="6nW-UW-Pdi">
-                                            <connections>
-                                                <action selector="logout:" destination="94p-ms-Nq0" id="zS4-KG-qeV"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="OtB-qY-8hL" firstAttribute="leading" secondItem="hBM-1E-e5G" secondAttribute="leadingMargin" constant="-16" id="4rB-lv-mdb"/>
-                            <constraint firstItem="OtB-qY-8hL" firstAttribute="top" secondItem="a9b-XK-rwr" secondAttribute="bottom" id="Vxb-Se-q9M"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="OtB-qY-8hL" secondAttribute="trailing" constant="-16" id="v1w-jp-1ih"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="OtB-qY-8hL"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="4rB-lv-mdb"/>
-                                <exclude reference="Vxb-Se-q9M"/>
-                                <exclude reference="v1w-jp-1ih"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="OtB-qY-8hL"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="4rB-lv-mdb"/>
-                                <include reference="Vxb-Se-q9M"/>
-                                <include reference="v1w-jp-1ih"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <nil key="simulatedTopBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qgf-re-nTa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="tsk-JG-fmq">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tsk-JG-fmq" id="ybk-1j-08C">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ud4-gw-xx0" id="47k-AY-06u"/>
+                            <outlet property="delegate" destination="ud4-gw-xx0" id="Ury-I6-9ex"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gOZ-Xv-sZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="691.5" y="455"/>
+            <point key="canvasLocation" x="612" y="455"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="P0g-xm-33r">
@@ -135,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vBc-kc-s7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1452" y="449"/>
+            <point key="canvasLocation" x="1770" y="653"/>
         </scene>
     </scenes>
     <resources>
