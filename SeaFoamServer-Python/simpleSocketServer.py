@@ -22,13 +22,14 @@ This is the message framework, this is the format the server will now be recievi
 {action:ADD_CHAT, args:name, userID:1234}
 {action:REMOVE_CHAT, args:chatID, userID:1234}
 {action:LIST_CHATS, args:, userID:1234}
+{action:LIST_CHAT_CONTENTS, args:chatID, userID:1234}
 '''
 
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
-		# self.host = '127.0.0.1'
+		# self.host = '50.63.60.10' 
+		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 4096 
@@ -88,6 +89,8 @@ class Server:
 					return self.removeUserFromChat(request)
 				elif request['action'] == "LIST_CHATS":
 					return self.listChats(request)
+				elif request['action'] == "LIST_CHAT_CONTENTS":
+					return self.listChatContents(request)
 				elif request['action'] == "ADD_CHAT":
 					return self.makeChat(request)
 				elif request['action'] == "REMOVE_CHAT":
@@ -111,7 +114,7 @@ class Server:
 	def addUserToChat(self, request):
 		chatID = request['args']
 		userID = request['userID']
-		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : {'userID' : userID}}})
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
 		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been added to chat " + chatID, "")
 		self.printInfo(clientResponse)
 		return clientResponse
@@ -119,26 +122,51 @@ class Server:
 	def removeUserFromChat(self, request):
 		chatID = request['args']
 		userID = request['userID']
-		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : {'userID' : userID}}})
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : userID}})
 		clientResponse = self.makeResponse(request['action'], "SUCCESS", "The user " + userID + " has been removed from chat " + chatID, "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
 	def listChats(self, request):
 		userID = request['userID']
-		chatsList = self.queryToList(self.chats.find({'members': {'$in' : [{'userID': userID}]}}))
-		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatsList), "")
+		chatsList = self.queryToList(self.chats.find({'members': {'$in' : {'userID': userID}}}))
+
+		# We want chatID, name, creator, members and the latest message
+		chatInfo = []
+
+		for chat in chatsList:
+			curChatInfo = {}
+			curChatInfo['_id'] = chat['_id']
+			curChatInfo['members'] = chat['members']
+			curChatInfo['latestMessage'] = chat['messages'][-1]
+			curChatInfo['name'] = chat['name']
+			curChatInfo['creator'] = chat['creator']
+			chatInfo.append(curChatInfo)
+
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatInfo), "")
+		self.printInfo(clientResponse)
+		return clientResponse
+
+	def listChatContents(self, request):
+		chatID = request['args']
+		chatContents = self.queryToList(self.chats.find({'_id': ObjectId(chatID)}))
+		clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatContents[0]['messages']), "")
 		self.printInfo(clientResponse)
 		return clientResponse
 		
 	def makeChat(self, request):
-		userID = request['userID']
 		name = request['args']
-		print "TODO"
-		#chatsList = self.queryToList(self.chats.find({'members': {'$in' : [{'userID': userID}]}}))
-		#clientResponse = self.makeResponse(request['action'], "SUCCESS", str(chatsList), "")
-		#self.printInfo(clientResponse)
-		#return clientResponse
+		userID = request['userID']
+
+		dbResponse = self.queryToList(self.chats.find({ 'name' : name }))
+
+		if len(dbResponse) >= 1:
+			clientResponse = self.makeResponse(request['action'], "FAILURE", "A chatroom with the name " + name + " already exists", "")
+			self.printInfo(clientResponse)
+		else:
+			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})
+			clientResponse = self.makeResponse(request['action'], "SUCCESS", "Created a chatroom named " + name, "")
+		return clientResponse
 
 	def removeChat(self, request):
 		pass

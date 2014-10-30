@@ -3,8 +3,8 @@ import socket
 # MAIN TODO: Connections should be retained rather than connect/close every message... 
 
 # Client configuration
-host = '50.63.60.10' 
-# host = '127.0.0.1'
+# host = '50.63.60.10' 
+host = '127.0.0.1'
 port = 534
 size = 4096
 
@@ -40,7 +40,7 @@ def testLogin():
 		return False
 	if verboseSend('{action:LIST_CHATS, args:, userID:544e69af7918981944231604}') == None:
 		return False
-		
+
 	return True
 
 # Main function separate so this can be modulized	
@@ -50,11 +50,12 @@ def main():
 		print '(1) Login'
 		print '(2) Create Account'
 		print '(3) List chats'
-		print '(4) Add new chat'
-		print '(5) Remove chat'
-		print '(6) Add user to chat'
-		print '(7) Remove user from chat'
-		print '(8) Add message to chat'
+		print '(4) List chat contents'
+		print '(5) Add new chat'
+		print '(6) Remove chat'
+		print '(7) Add user to chat'
+		print '(8) Remove user from chat'
+		print '(9) Add message to chat'
 
 		selection = int(raw_input('Make a selection: '))
 
@@ -76,28 +77,33 @@ def main():
 			if verboseSend('{action:LIST_CHATS, args:, userID:' + userID + '}') == None:
 				print 'Failed'
 		elif selection == 4:
+			chatID = raw_input('List chats contents for chatID: ')
+			if verboseSend('{action:LIST_CHAT_CONTENTS, args:' + chatID + ', userID:}') == None:
+				print 'Failed'
+		elif selection == 5:
 			name = raw_input('Chat name: ')
 			userID = raw_input('Chat creator userID: ')
 			if verboseSend('{action:ADD_CHAT, args:' + name + ', userID:' + userID + '}') == None:
 				print 'Failed'
-		elif selection == 5:
-			chatID = raw_input('ChatID: ')
-			if verboseSend('{action:REMOVE_CHAT, args:' + chatID + ', userID:}') == None:
-				print 'Failed'
 		elif selection == 6:
 			chatID = raw_input('ChatID: ')
-			userID = raw_input('userID: ')
-			if verboseSend('{action:ADD_CHAT_USER, args:' + chatID + ', userID: ' + userID + '}') == None:
+			if verboseSend('{action:REMOVE_CHAT, args:' + chatID + ', userID:}') == None:
 				print 'Failed'
 		elif selection == 7:
 			chatID = raw_input('ChatID: ')
 			userID = raw_input('userID: ')
-			if verboseSend('{action:REMOVE_CHAT_USER, args:' + chatID + ', userID: ' + userID + '}') == None:
+			if verboseSend('{action:ADD_CHAT_USER, args:' + chatID + ', userID: ' + userID + '}') == None:
 				print 'Failed'
 		elif selection == 8:
 			chatID = raw_input('ChatID: ')
+			userID = raw_input('userID: ')
+			if verboseSend('{action:REMOVE_CHAT_USER, args:' + chatID + ', userID: ' + userID + '}') == None:
+				print 'Failed'
+		elif selection == 9:
+			userID = raw_input('UserID: ')
+			chatID = raw_input('ChatID: ')
 			message = raw_input('Message: ')
-			if verboseSend('{action:UPDATE_CHAT, args:' + chatID + '|' + message + ', userID:}') == None:
+			if verboseSend('{action:UPDATE_CHAT, args:' + chatID + '|' + message + ', userID:' + userID + '}') == None:
 				print 'Failed'
 
 # Main function separate so this can run as a module
