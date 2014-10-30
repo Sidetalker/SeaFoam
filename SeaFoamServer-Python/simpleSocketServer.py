@@ -28,11 +28,11 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		# self.host = '50.63.60.10' 
-		self.host = '127.0.0.1'
+		self.host = '50.63.60.10' 
+		# self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
-		self.size = 4096 
+		self.size = 8000 
 		
 		self.clients = []
 		self.addresses = []
@@ -166,7 +166,7 @@ class Server:
 		dbResponse = self.queryToList(self.chats.find({ 'name' : name }))
 
 		if len(dbResponse) >= 1:
-			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists" }, "")
+			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists", "name" : name }, "")
 			self.printInfo(clientResponse)
 		else:
 			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})

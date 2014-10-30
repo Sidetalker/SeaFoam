@@ -83,6 +83,13 @@
                             <outlet property="delegate" destination="ud4-gw-xx0" id="Ury-I6-9ex"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="New Chat" id="c5A-Xf-LPg">
+                            <connections>
+                                <action selector="newChatTap:" destination="ud4-gw-xx0" id="Lwm-oU-f09"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Chats" id="PMa-ZB-nwv">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="Fiv-Y6-LOk">
                             <connections>
@@ -90,6 +97,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gOZ-Xv-sZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
