@@ -11,8 +11,10 @@ protocol SeaSocketDelegate {
     func connectedToSocket(message: String)
     func loginSent()
     func registerSent()
+    func chatSent()
     func loginResponse(message: portResponse)
     func registerResponse(message: portResponse)
+    func chatResponse(message: portResponse)
     func disconnectError(message: String)
 }
 
@@ -95,24 +97,31 @@ class SeaSocket: GCDAsyncSocketDelegate {
     }
     
     func sendLogin(username: String, password: String) {
-        let request = buildRequest("LOGIN", args: "\(username)|\(password)", sessionID: "")
+        let request = buildRequest("LOGIN", args: "\(username)|\(password)", userID: "")
         DDLog.logInfo("Logging in with: \(request)")
         
         sendString("\(request)", descriptor: "Login Request")
     }
     
     func sendRegister(username: String, password: String, email: String) {
-        let request = buildRequest("CREATE_ACCOUNT", args: "\(username)|\(password)|\(email)", sessionID: "")
+        let request = buildRequest("CREATE_ACCOUNT", args: "\(username)|\(password)|\(email)", userID: "")
         DDLog.logInfo("Registering with: \(request)")
         
         sendString("\(request)", descriptor: "Register Request")
     }
     
+    func getChats(userID: String) {
+        let request = buildRequest("LIST_CHATS", args: "", userID: userID)
+        DDLog.logInfo("Requestion chats for userID \(userID)")
+        
+        sendString("\(request)", descriptor: "Chat List Request")
+    }
+    
     // MARK: - Helper Functions
     
     // Builds a request
-    func buildRequest(action: String, args: String, sessionID: String) -> String {
-        return "{action:\(action), args:\(args), sessionID:\(sessionID)}"
+    func buildRequest(action: String, args: String, userID: String) -> String {
+        return "{action:\(action), args:\(args), userID:\(userID)}"
     }
     
     // Converts a String into NSData
@@ -140,13 +149,17 @@ class SeaSocket: GCDAsyncSocketDelegate {
         
         // Remove the encapsulators
         let trimmed = input.stringByReplacingOccurrencesOfString("[{}]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
-        
+
         // Iterate through the split up string
         let trimmedSplit = split(trimmed) {$0 == ","}
         
         for item in trimmedSplit {
             let curItem = item.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             let itemPair = split(curItem) {$0 == ":"}
+            
+            if itemPair.count <= 1 {
+                continue
+            }
             
             switch itemPair[0] {
                 case "action":
@@ -155,7 +168,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
                     result = itemPair[1]
                 case "desc":
                     description = itemPair[1]
-                case "sessionID":
+                case "userID":
                     userID = itemPair[1]
                 default: ()
             }
@@ -181,6 +194,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         else if tagDict[tag] == "Register Request" {
             delegate?.registerSent()
         }
+        else if tagDict[tag] == "Chat List Request" {
+            delegate?.chatSent()
+        }
     }
     
     // Called upon a successful partial write to the socket
@@ -197,6 +213,17 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Register Request" {
             delegate?.registerResponse(dataToPortResponse(data))
+        }
+        else if tagDict[tag] == "Chat List Request" {
+            let response = dataToPortResponse(data)
+            DDLog.logInfo("Chat List Response Description: \(response.description)")
+            
+            var conversionError: NSError?
+            let results: AnyObject = NSJSONSerialization.JSONObjectWithData(response.description.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, options: NSJSONReadingOptions.MutableContainers, error: &conversionError)!
+            
+            DDLog.logInfo("Chat Request Dictionary: \(results)")
+            
+            delegate?.chatResponse(dataToPortResponse(data))
         }
     }
     

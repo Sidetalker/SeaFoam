@@ -48,7 +48,7 @@ class Server:
 		self.sessionIdController = SessionIdController()
 		
 	def makeResponse(self, action, result, desc, userID):
-		return '{action:' + action + ', result:' + result + ', desc:' + desc + ', userID:' + userID + '}'
+		return 'action:' + action + ', result:' + result + ', desc:' + desc + ', userID:' + userID + ''
 	
 	def readData(self, data):
 		request = {}

@@ -11,6 +11,7 @@ import UIKit
 class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDelegate {
     // TCP connection variables
     var myFoam: SeaSocket?
+    var userID: String?
     
     // View outlets
     @IBOutlet var imageBG: UIImageView!
@@ -235,6 +236,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                     jiggle(self.passwordConfirmField!)
                     self.passwordConfirmField?.text = ""
                     self.passwordField?.text = ""
+                    self.passwordField?.becomeFirstResponder()
                 }))
                 presentViewController(messageDisplay, animated: true, completion: nil)
                 
@@ -251,6 +253,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                     (alert: UIAlertAction!) in
                     jiggle(self.emailField!)
                     self.emailField?.text = ""
+                    self.emailField?.becomeFirstResponder()
                 }))
                 presentViewController(messageDisplay, animated: true, completion: nil)
                 
@@ -404,10 +407,16 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     // Use our custom transition manager
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "chatSegue" {
-            let chatVC = segue.destinationViewController as UINavigationController
+            // Get handles on the navigation controller and embedded chat list controller
+            let navVC = segue.destinationViewController as UINavigationController
+            let chatVC = navVC.viewControllers[0] as MainTableViewController
+            
+            // Pass the userID and the SeaSocket object down to the chat list controller
+            chatVC.userID = userID
+            chatVC.myFoam = myFoam
             
             // Set up custom segue animations
-            chatVC.transitioningDelegate = self.transitionManager
+            navVC.transitioningDelegate = transitionManager
         }
     }
     
@@ -463,13 +472,19 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             }, completion: nil)
         
         if message.result == "SUCCESS" {
+            self.userID = message.userID
             performSegueWithIdentifier("chatSegue", sender: self)
             
             return
         }
         else if message.result == "FAILURE-PW" {
             let messageDisplay = UIAlertController(title: "Login Failed", message: "Incorrect Password", preferredStyle: UIAlertControllerStyle.Alert)
-            messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
+            messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
+                (alert: UIAlertAction!) in
+                self.passwordField?.text = ""
+                self.passwordField?.becomeFirstResponder()
+                jiggle(self.passwordField!)
+            }))
             presentViewController(messageDisplay, animated: true, completion: nil)
         }
         else if message.result == "FAILURE-UN" {
@@ -510,6 +525,17 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         let messageDisplay = UIAlertController(title: "Disconnect Error", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         messageDisplay.addAction(UIAlertAction(title: "Ok :(", style: UIAlertActionStyle.Cancel, handler: nil))
         presentViewController(messageDisplay, animated: true, completion: nil)
+    }
+    
+    // MARK: - Unused SeaSocket Delegates
+    // These will be removed if Swift implements option protocol functions natively
+    
+    func chatSent() {
+        return
+    }
+    
+    func chatResponse(message: portResponse) {
+        return
     }
 }
 

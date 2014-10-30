@@ -8,16 +8,25 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController {
+struct chatInfo {
+    var id: String
+    var name: String
+    var creator: String
+    var members: [String]
+    var messages: [[String : String]]
+}
+
+class MainTableViewController: UITableViewController, SeaSocketDelegate {
+    // TCP Connection variables (inherited from LoginViewController)
+    var myFoam: SeaSocket?
+    var userID: String?
+    
+    var chats: [chatInfo]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        myFoam?.getChats(userID!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,26 +47,26 @@ class MainTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
+        if chats != nil {
+            return chats!.count
+        }
+        
         return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
+        if chats != nil {
+            return chats!.count
+        }
+        
         return 0
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCellWithIdentifier("chatCell", forIndexPath: indexPath) as UITableViewCell
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -103,5 +112,41 @@ class MainTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    // MARK: - SeaSocket Delegates
+    
+    func connectedToSocket(message: String) {
+        DDLog.logInfo(message)
+    }
+    
+    func disconnectError(message: String) {
+        DDLog.logInfo(message)
+    }
+    
+    func chatSent() {
+        DDLog.logInfo("Initiatied chat list request")
+    }
+    
+    func chatResponse(message: portResponse) {
+        DDLog.logInfo("Received chat list response: \nAction: \(message.action)\nResult: \(message.result)")
+    }
+    
+    // MARK: - Unused SeaSocket Delegates
+    // These will be removed if Swift implements option protocol functions natively
+    
+    func loginSent() {
+        return
+    }
+    
+    func registerSent() {
+        return
+    }
+    
+    func registerResponse(message: portResponse) {
+        return
+    }
+    
+    func loginResponse(message: portResponse) {
+        return
+    }
 }
