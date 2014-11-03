@@ -6,39 +6,43 @@ host = '127.0.0.1'
 port = 534
 size = 4096
 
-# Send a message and print + return the response
-def verboseSend(message):
-	# Create the socket
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+# Create the socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 
-	# Connect to the new socket
-	s.connect((host,port)) 
+# Connect to the new socket
+s.connect((host,port)) 
 
-	# Send the message
-	print 'Sending: ' + message
-	s.send(message)
-
+def verboseRecieve():
 	# Receive the response
 	data = s.recv(size)
 	print 'Received: ' + data
 	print 
-
+	
 	# Return the response
 	return data
+
+# Send a message and print + return the response
+def verboseSend(message):
+	# Send the message
+	print 'Sending: ' + message
+	s.send(message)
+	return verboseRecieve()
+	
 
 # Main function separate so this can be modulized	
 def main():
 	while True:
 		print 'Select the test action:'
-		print '(1) Login'
-		print '(2) Create Account'
-		print '(3) List chats'
-		print '(4) List chat contents'
-		print '(5) Add new chat'
-		print '(6) Remove chat'
-		print '(7) Add user to chat'
-		print '(8) Remove user from chat'
-		print '(9) Add message to chat'
+		print '(1)  Login'
+		print '(2)  Create Account'
+		print '(3)  List chats'
+		print '(4)  List chat contents'
+		print '(5)  Add new chat'
+		print '(6)  Remove chat'
+		print '(7)  Add user to chat'
+		print '(8)  Remove user from chat'
+		print '(9)  Add message to chat'
+		print '(10) Recieve message'
 
 		selection = int(raw_input('Make a selection: '))
 
@@ -88,6 +92,8 @@ def main():
 			message = raw_input('Message: ')
 			if verboseSend('{action:UPDATE_CHAT, args:' + chatID + '|' + message + ', userID:' + userID + '}') == None:
 				print 'Failed'
+		elif selection == 10:
+			verboseRecieve()
 
 # Main function separate so this can run as a module
 if __name__ == "__main__":
