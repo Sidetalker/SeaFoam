@@ -18,6 +18,8 @@
 		511E261319F343A200F78034 /* ClearWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261219F343A200F78034 /* ClearWhite.png */; };
 		511E261519F3458000F78034 /* ClearWhitePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 511E261419F3458000F78034 /* ClearWhitePressed.png */; };
 		511E261919F4304800F78034 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511E261819F4304800F78034 /* Helpers.swift */; };
+		5164A1B61A02DE3B003BAB76 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5164A1B51A02DE3B003BAB76 /* star.png */; };
+		5164A1BB1A02E5E8003BAB76 /* ChatInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5164A1BA1A02E5E8003BAB76 /* ChatInfoCell.xib */; };
 		51945D0219FA59E50044452D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51945D0119FA59E50044452D /* ChatViewController.swift */; };
 		51A2C01019F070E9001AA365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51A2C00F19F070E9001AA365 /* Images.xcassets */; };
 		51B8C39D1A01C025007777ED /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B8C39C1A01C025007777ED /* MainTableViewController.swift */; };
@@ -59,6 +61,8 @@
 		511E261219F343A200F78034 /* ClearWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhite.png; sourceTree = "<group>"; };
 		511E261419F3458000F78034 /* ClearWhitePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearWhitePressed.png; sourceTree = "<group>"; };
 		511E261819F4304800F78034 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		5164A1B51A02DE3B003BAB76 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		5164A1BA1A02E5E8003BAB76 /* ChatInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInfoCell.xib; sourceTree = "<group>"; };
 		518FCEA019EED1DB00AE1CC9 /* SFLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SFLogo.png; sourceTree = "<group>"; };
 		51945D0119FA59E50044452D /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		51A2C00F19F070E9001AA365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -115,10 +119,9 @@
 				51945D0119FA59E50044452D /* ChatViewController.swift */,
 				5114FADD19EC03B800003E4A /* AppDelegate.swift */,
 				5114FADF19EC03B800003E4A /* LoginViewController.swift */,
-				5114FAE119EC03B800003E4A /* Main.storyboard */,
+				5164A1B71A02E56A003BAB76 /* UI Elements */,
 				518FCEA219EED1E600AE1CC9 /* Images */,
 				5114FB0419EC053600003E4A /* SeaSocket.swift */,
-				5114FAE619EC03B800003E4A /* LaunchScreen.xib */,
 				51A2C00F19F070E9001AA365 /* Images.xcassets */,
 				5114FADB19EC03B800003E4A /* Supporting Files */,
 				51B8C39C1A01C025007777ED /* MainTableViewController.swift */,
@@ -155,9 +158,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5164A1B71A02E56A003BAB76 /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				5114FAE119EC03B800003E4A /* Main.storyboard */,
+				5114FAE619EC03B800003E4A /* LaunchScreen.xib */,
+				5164A1BA1A02E5E8003BAB76 /* ChatInfoCell.xib */,
+			);
+			name = "UI Elements";
+			sourceTree = "<group>";
+		};
 		518FCEA219EED1E600AE1CC9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5164A1B51A02DE3B003BAB76 /* star.png */,
 				511E261419F3458000F78034 /* ClearWhitePressed.png */,
 				511E261219F343A200F78034 /* ClearWhite.png */,
 				51CC54D819F305FB004F7593 /* SeaFoamBG.png */,
@@ -273,8 +287,10 @@
 				511E261319F343A200F78034 /* ClearWhite.png in Resources */,
 				51A2C01019F070E9001AA365 /* Images.xcassets in Resources */,
 				51DB679E19EEEC370035CDC4 /* SFLogo.png in Resources */,
+				5164A1B61A02DE3B003BAB76 /* star.png in Resources */,
 				51DB679F19EEEC370035CDC4 /* LaunchScreen.xib in Resources */,
 				51CC54D919F305FB004F7593 /* SeaFoamBG.png in Resources */,
+				5164A1BB1A02E5E8003BAB76 /* ChatInfoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
