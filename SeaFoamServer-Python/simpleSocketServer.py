@@ -1,8 +1,10 @@
 import socket  
 import threading
+import util
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from ConnectionController import *
+from NetworkConnection import *
+from User import *
 
 '''
 The response framwork is below, this is the format for the responses that the server will be sending
@@ -26,7 +28,11 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
+<<<<<<< HEAD
 		# self.host = '50.63.60.10' 
+=======
+		#self.host = '50.63.60.10' 
+>>>>>>> FETCH_HEAD
 		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
@@ -36,6 +42,7 @@ class Server:
 		self.addresses = []
 		self.activeConnections = []
 		self.activeThreads = []
+		self.activeUsers = {}
 		
 		# Get a handle on our MongoDB database
 		self.dbClient = MongoClient('mongodb://seafoam:seafoam@ds041140.mongolab.com:41140/seafoam')
@@ -44,13 +51,13 @@ class Server:
 		self.chats = self.db.chats
 		print('Connected to MongoDB successfully')
 		
-	def processData(self, data):
+	def processData(self, data, connection):
 		print "Processing " + data
 		try:
 			if data:                                                              # Make sure the data was received properly
 				request = util.readData(data)                                     # Initialize a response container
 				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
-					return self.login(request)
+					return self.login(request, connection)
 				elif request['action'] == 'CREATE_ACCOUNT':
 					return self.createAccount(request)
 				elif request['action'] == "UPDATE_CHAT":
@@ -79,6 +86,17 @@ class Server:
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
+		
+		chatMembers = util.queryToList(self.chats.find({'_id' : ObjectId(chatID)}, {"members": 1}))#, {'members' : 1}
+		message = util.makeResponse(request['action'], "SUCCESS", { "sender" : str(userID), "content" : text, "chatID": str(chatID) }, "")
+		for memberID in chatMembers[0]["members"]:
+			print str(memberID)
+			try:
+				self.activeUsers[str(memberID)].send(message)
+				print "Sending message to " + str(memberID)
+			except:
+				pass
+		
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
 		util.printInfo(clientResponse)
 		return clientResponse
@@ -118,7 +136,7 @@ class Server:
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : chatInfo }, "")
 		util.printInfo(clientResponse)
 		return clientResponse
-
+		
 	def listChatContents(self, request):
 		chatID = request['args']
 		chatContents = util.queryToList(self.chats.find({'_id': ObjectId(chatID)}))
@@ -135,7 +153,7 @@ class Server:
 			self.printInfo(clientResponse)
 		else:
 			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})
-			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Created a chatroom named " + name }, "")
+			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Created a chatroom named " + name}, "")
 		return clientResponse
 		
 	def removeChat(self, request):
@@ -157,7 +175,7 @@ class Server:
 		return clientResponse
 
 	# Attempts to log a user in
-	def login(self, request):
+	def login(self, request, connection):
 		username, password = request["args"].split('|')               # Extract the username and password
 		print('Username: ' + username)
 		print('Password: ' + password)
@@ -174,10 +192,10 @@ class Server:
 		elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "You just logged THE FUCK ON" }, str(dbResponse[0]['_id']))
 			util.printInfo(clientResponse)
+			self.activeUsers[str(dbResponse[0]['_id'])] = connection
 		else:                                                         # This happens if the cursor object has negative documents - probably impossible
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "UNKNOWN ERROR - STATEMENT UNREACHABLE" }, "")
 			util.printInfo(clientResponse)
-
 		return clientResponse
 		
 	
@@ -197,9 +215,9 @@ class Server:
 			self.clients.append(accepted[0])		
 			self.addresses.append((str(accepted[1][0]), str(accepted[1][1])))
 			
-			print "New Connection by " + str(accepted[1][0]) + " on port " + str(accepted[1][1])
+			print "New Connection by " + str(accepted[1][0]) + " on port " + str(accepted[1][1]) + " has been accepted"
 			
-			self.activeConnections.append(ConnectionController(self.clients[-1]))
+			self.activeConnections.append(NetworkConnection(self.clients[-1]))
 			
 			#Spawn the threads, the threads exit when the connection is closed.
 			self.activeThreads.append(threading.Thread(target=self.activeConnections[-1].maintain, args=(self.processData,)))
