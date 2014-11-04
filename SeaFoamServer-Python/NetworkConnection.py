@@ -1,10 +1,10 @@
 from User import *
-
+import json
 
 class NetworkConnection:
 	def __init__(self, connection):
 		self.connection = connection
-		self.alive     = True
+		self.alive      = True
 		self.messageQueue = []
 		
 	def breakConnection(self):
@@ -12,7 +12,7 @@ class NetworkConnection:
 		self.connection.close()
 		
 	def send(self, message):
-		self.messageQueue.append(message)
+		self.messageQueue.append(json.dumps(message))
 		
 	def maintain(self, dataHandleCallback):
 		try:

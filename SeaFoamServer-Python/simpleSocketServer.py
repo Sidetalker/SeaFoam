@@ -1,6 +1,7 @@
 import socket  
 import threading
 import util
+import datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from NetworkConnection import *
@@ -85,17 +86,21 @@ class Server:
 	def updateChat(self, request):
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
-		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text}}})
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text, 'timestamp': str(datetime.datetime.now())}}})
+		
+		message = util.makeResponse(request['action'], "SUCCESS", { "sender" : str(userID), "content" : text, "chatID": str(chatID) }, "")
 		
 		chatMembers = util.queryToList(self.chats.find({'_id' : ObjectId(chatID)}, {"members": 1}))#, {'members' : 1}
-		message = util.makeResponse(request['action'], "SUCCESS", { "sender" : str(userID), "content" : text, "chatID": str(chatID) }, "")
 		for memberID in chatMembers[0]["members"]:
 			print str(memberID)
-			try:
-				self.activeUsers[str(memberID)].send(message)
-				print "Sending message to " + str(memberID)
-			except:
-				pass
+			if(memberID != userID):
+				try:
+					self.activeUsers[str(memberID)].send(message)
+					print "Sending message to " + str(memberID)
+				except:
+					pass
+			else:
+				print "Ignoring sender"
 		
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
 		util.printInfo(clientResponse)

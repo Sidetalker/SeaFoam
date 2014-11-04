@@ -1,8 +1,7 @@
-import json
 
 def makeResponse(action, result, desc, userID):
 	responseDict = { 'action' : action, 'result' : result, 'desc' : desc, 'userID' : userID }
-	return json.dumps(responseDict)
+	return responseDict
 
 def readData(data):
 	#return json.loads(data)
