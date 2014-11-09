@@ -150,7 +150,7 @@ class Server:
 		userID = request['userID']
 		dbResponse = util.queryToList(self.chats.find({ 'name' : name }))
 		if len(dbResponse) >= 1:
-			clientResponse = self.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists", "name" : name }, "")
+			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists", "name" : name }, "")
 			self.printInfo(clientResponse)
 		else:
 			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})
