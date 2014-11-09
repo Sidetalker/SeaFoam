@@ -209,32 +209,32 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         
         if usernameField?.text == "" {
             filled = false
-            jiggle(usernameField!)
+            jiggle(usernameField!, 5, 10)
         }
         
         if passwordField?.text == "" {
             filled = false
-            jiggle(passwordField!)
+            jiggle(passwordField!, 5, 10)
         }
         
         // Check additional conditions for registration
         if state == 1 {
             if passwordConfirmField?.text == "" {
                 filled = false
-                jiggle(passwordConfirmField!)
+                jiggle(passwordConfirmField!, 5, 10)
             }
             
             if emailField?.text == "" {
                 filled = false
-                jiggle(emailField!)
+                jiggle(emailField!, 5, 10)
             }
             
             if passwordConfirmField?.text != passwordField?.text && filled {
                 let messageDisplay = UIAlertController(title: "Registration Failed", message: "Passwords did not match", preferredStyle: UIAlertControllerStyle.Alert)
                 messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
                     (alert: UIAlertAction!) in
-                    jiggle(self.passwordField!)
-                    jiggle(self.passwordConfirmField!)
+                    jiggle(self.passwordField!, 5, 10)
+                    jiggle(self.passwordConfirmField!, 5, 10)
                     self.passwordConfirmField?.text = ""
                     self.passwordField?.text = ""
                     self.passwordField?.becomeFirstResponder()
@@ -252,7 +252,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                 let messageDisplay = UIAlertController(title: "Registration Failed", message: "Invalid Email", preferredStyle: UIAlertControllerStyle.Alert)
                 messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
                     (alert: UIAlertAction!) in
-                    jiggle(self.emailField!)
+                    jiggle(self.emailField!, 5, 10)
                     self.emailField?.text = ""
                     self.emailField?.becomeFirstResponder()
                 }))
@@ -485,7 +485,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
                 (alert: UIAlertAction!) in
                 self.passwordField?.text = ""
                 self.passwordField?.becomeFirstResponder()
-                jiggle(self.passwordField!)
+                jiggle(self.passwordField!, 5, 10)
             }))
             presentViewController(messageDisplay, animated: true, completion: nil)
         }
