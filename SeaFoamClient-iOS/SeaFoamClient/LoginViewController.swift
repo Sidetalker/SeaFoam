@@ -414,6 +414,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             
             // Pass the userID and the SeaSocket object down to the chat list controller
             chatVC.userID = userID
+            chatVC.userName = usernameField?.text
             chatVC.myFoam = myFoam
             chatVC.loginParent = self
             
@@ -536,7 +537,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         return
     }
     
-    func listChatResponse(chats: Array<String>) {
+    func listChatResponse(chats: [ChatInfo]) {
         return
     }
     

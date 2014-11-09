@@ -14,7 +14,7 @@ protocol SeaSocketDelegate {
     func chatSent(type: String)
     func loginResponse(message: portResponse)
     func registerResponse(message: portResponse)
-    func listChatResponse(chats: Array<String>)
+    func listChatResponse(chats: [ChatInfo])
     func addChatResponse(message: portResponse)
     func disconnectError(message: String)
 }
@@ -118,6 +118,13 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Add Chat Request")
     }
     
+    func removeChat(chatID: String, userID: String) {
+        let request = buildRequest("REMOVE_CHAT", args: "\(chatID)", userID: "\(userID)")
+        DDLog.logInfo("Removing chatroom \(chatID) for userID \(userID)")
+        
+        sendString("\(request)", descriptor: "Remove Chat Request")
+    }
+    
     func getChats(userID: String) {
         let request = buildRequest("LIST_CHATS", args: "", userID: userID)
         DDLog.logInfo("Requestion chats for userID \(userID)")
@@ -209,10 +216,15 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Chat List Request" {
             let response = dataToPortResponse(data)
-            var chatInfo = Array<String>()
+            var chatInfo = [ChatInfo]()
             
             for chat in response.description["info"] as Array<NSDictionary> {
-                chatInfo.append(chat.objectForKey("name") as String)
+                let id = chat.objectForKey("_id") as String
+                let creator = chat.objectForKey("creator") as String
+                let name = chat.objectForKey("name") as String
+                let members = chat.objectForKey("members") as [String]
+                
+                chatInfo.append(ChatInfo(id: id, name: name, creator: creator, members: members))
             }
             
             delegate?.listChatResponse(chatInfo)
