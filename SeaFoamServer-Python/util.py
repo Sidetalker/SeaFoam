@@ -1,6 +1,7 @@
 
 def makeResponse(action, result, desc, userID):
 	responseDict = { 'action' : action, 'result' : result, 'desc' : desc, 'userID' : userID }
+	print "response made"
 	return responseDict
 
 def readData(data):
@@ -23,4 +24,5 @@ def queryToList(cursorObject):
 
 # Prints a simple string along with address data
 def printInfo(message):
-	print(message + '\n')
+	print message
+	print ""

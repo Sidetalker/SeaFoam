@@ -29,8 +29,8 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
-		#self.host = '127.0.0.1'
+		#self.host = '50.63.60.10' 
+		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 8000 
@@ -50,34 +50,34 @@ class Server:
 		
 	def processData(self, data, connection):
 		print "Processing " + data
-		try:
-			if data:                                                              # Make sure the data was received properly
-				request = util.readData(data)                                     # Initialize a response container
-				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
-					return self.login(request, connection)
-				elif request['action'] == 'CREATE_ACCOUNT':
-					return self.createAccount(request)
-				elif request['action'] == "UPDATE_CHAT":
-					return self.updateChat(request)
-				elif request['action'] == "ADD_CHAT_USER":
-					return self.addUserToChat(request)
-				elif request['action'] == "REMOVE_CHAT_USER":
-					return self.removeUserFromChat(request)
-				elif request['action'] == "LIST_CHATS":
-					return self.listChats(request)
-				elif request['action'] == "LIST_CHAT_CONTENTS":
-					return self.listChatContents(request)
-				elif request['action'] == "ADD_CHAT":
-					return self.makeChat(request)
-				elif request['action'] == "REMOVE_CHAT":
-					return self.removeChat(request)
-				else:                                                             # We didn't recognize this query...
-					clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "ACTION UNDEFINED" }, "")
-					util.printInfo(clientResponse)
-					return clientResponse
-			return util.makeResponse("NO_DATA_RECIEVED", "FAILURE", { "info" : "No data received" }, "")
-		except Exception as e:
-			return util.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
+		#try:
+		if data:                                                              # Make sure the data was received properly
+			request = util.readData(data)                                     # Initialize a response container
+			if request['action'] == 'LOGIN':                                  # If we've found the login tag...
+				return self.login(request, connection)
+			elif request['action'] == 'CREATE_ACCOUNT':
+				return self.createAccount(request)
+			elif request['action'] == "UPDATE_CHAT":
+				return self.updateChat(request)
+			elif request['action'] == "ADD_CHAT_USER":
+				return self.addUserToChat(request)
+			elif request['action'] == "REMOVE_CHAT_USER":
+				return self.removeUserFromChat(request)
+			elif request['action'] == "LIST_CHATS":
+				return self.listChats(request)
+			elif request['action'] == "LIST_CHAT_CONTENTS":
+				return self.listChatContents(request)
+			elif request['action'] == "ADD_CHAT":
+				return self.makeChat(request)
+			elif request['action'] == "REMOVE_CHAT":
+				return self.removeChat(request)
+			else:                                                             # We didn't recognize this query...
+				clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "ACTION UNDEFINED" }, "")
+				util.printInfo(clientResponse)
+				return clientResponse
+		return util.makeResponse("NO_DATA_RECIEVED", "FAILURE", { "info" : "No data received" }, "")
+		#except Exception as e:
+		#	return util.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
 	
 	def updateChat(self, request):
 		chatID, text = request['args'].split('|')
@@ -197,6 +197,7 @@ class Server:
 		else:                                                         # This happens if the cursor object has negative documents - probably impossible
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "UNKNOWN ERROR - STATEMENT UNREACHABLE" }, "")
 			util.printInfo(clientResponse)
+		print "done"
 		return clientResponse
 		
 	
