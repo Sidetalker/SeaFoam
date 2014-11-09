@@ -1,5 +1,6 @@
 <XamlCompilerSaveState>
   <ReferenceAssemblyList>
     <LocalAssembly PathName="c:\users\cameron\documents\temp\app1\app1\obj\debug\intermediatexaml\app1.exe" HashGuid="54f6c40a-98ae-93b4-e1f6-32693fdefb42" />
+    <ReferenceAssembly PathName="c:\users\cameron\documents\github\seafoam\seafoamclient-windows\packages\newtonsoft.json.6.0.6\lib\netcore45\newtonsoft.json.dll" HashGuid="63116148-54c9-33e9-c28b-753c429e654f" />
   </ReferenceAssemblyList>
 </XamlCompilerSaveState>

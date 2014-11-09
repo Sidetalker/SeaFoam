@@ -13,6 +13,16 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
+using Windows.Storage.Streams;
+using Windows.Networking;
+using Windows.Networking.Sockets;
+using System.Text;
+using Windows.UI.Popups;
+
+using Newtonsoft.Json;
+
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace App1
@@ -22,17 +32,29 @@ namespace App1
     /// </summary>
     public sealed partial class BlankPage1 : Page
     {
+        public static StreamSocket mySocket = new StreamSocket();
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            mySocket = e.Parameter as StreamSocket;
+        }
+
         public BlankPage1()
         {
             this.InitializeComponent();
         }
-        private int count;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            count++;
-            MessageDisplay.Text +=  MessageBox.Text + "\r\n";
-            ScrollerDisplay.ScrollToVerticalOffset(ScrollerDisplay.ScrollableHeight);
-            MessageBox.Text = "";
+            try
+            {
+                DataWriter dw = new DataWriter(mySocket.OutputStream);
+                MessageDisplay.Text = "yes";
+            }
+            catch
+            {
+                MessageDisplay.Text = "no";
+            }
 
         }
     }
