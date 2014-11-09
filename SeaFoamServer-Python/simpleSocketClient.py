@@ -4,7 +4,7 @@ import socket
 host = '50.63.60.10' 
 #host = '127.0.0.1'
 port = 534
-size = 4096
+size = 65536
 
 # Create the socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
