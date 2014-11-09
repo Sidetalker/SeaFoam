@@ -29,11 +29,7 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-<<<<<<< HEAD
-		# self.host = '50.63.60.10' 
-=======
 		#self.host = '50.63.60.10' 
->>>>>>> FETCH_HEAD
 		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
