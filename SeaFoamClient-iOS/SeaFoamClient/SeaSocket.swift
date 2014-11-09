@@ -90,8 +90,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         socket.writeData(dataMessage, withTimeout: timeout, tag: curTag)
         
         // Set up the following read operation
-        socket.readDataWithTimeout(timeout, tag: curTag)
-        
+//        socket.readDataWithTimeout(timeout, tag: curTag)
+//        socket.readDataToData(dataDict[curTag], withTimeout: timeout, tag: curTag)
+        socket.readDataToData(GCDAsyncSocket.CRLFData(), withTimeout: timeout, tag: curTag)
         curTag++
         
         return true
@@ -236,15 +237,26 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Called upon a successful partial read to the socket
     func socket(sock: GCDAsyncSocket!, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
-        DDLog.logInfo("We wrote \(partialLength) for \(tag)")
+        DDLog.logInfo("We read \(partialLength) for \(tag)")
+        
+        socket.readDataWithTimeout(timeout, tag: tag)
     }
+    
     
     // Called if our write operation has a timeout
     func socket(sock: GCDAsyncSocket!, shouldTimeoutWriteWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
-        DDLog.logInfo("Oh boy, we hit the timeout of \(elapsed) for \(tag) with only \(length) bytes")
+        DDLog.logInfo("Oh boy, we hit the write timeout of \(elapsed) for \(tag) with only \(length) bytes")
         
         // Timeout interval - can be higher if we wanna wait for more data or something
         return 0
+    }
+    
+    // Called of our read operation has a timeout
+    func socket(sock: GCDAsyncSocket!, shouldTimeoutReadWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
+            DDLog.logInfo("Oh boy, we hit the read timeout of \(elapsed) for \(tag) with only \(length) bytes")
+            
+            // Timeout interval - can be higher if we wanna wait for more data or something
+            return 0
     }
     
     // Called upon a disconnect
