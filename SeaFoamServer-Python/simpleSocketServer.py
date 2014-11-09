@@ -30,7 +30,7 @@ class Server:
 	def __init__(self):
 		# Global Server configuration
 		self.host = '50.63.60.10' 
-		#self.host = '127.0.0.1'
+		# self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 8000 
