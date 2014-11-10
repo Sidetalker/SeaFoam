@@ -2,7 +2,7 @@ import socket
 
 # Client configuration
 host = '50.63.60.10' 
-#host = '127.0.0.1'
+# host = '127.0.0.1'
 port = 534
 size = 65536
 

@@ -21,23 +21,31 @@
                             <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SeaFoamBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="7We-qs-by2">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxP-yj-dMR">
+                                <rect key="frame" x="228" y="251" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="7We-qs-by2" secondAttribute="trailing" constant="-16" id="G3C-s7-EP9"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7We-qs-by2" secondAttribute="bottom" id="TFF-va-y0g"/>
                             <constraint firstItem="7We-qs-by2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="UJH-T4-eYr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gxP-yj-dMR" secondAttribute="trailing" constant="314" id="oZk-7x-mkg"/>
                             <constraint firstItem="7We-qs-by2" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="uvC-HS-wkB"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="7We-qs-by2"/>
+                                <exclude reference="gxP-yj-dMR"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="TFF-va-y0g"/>
                                 <exclude reference="G3C-s7-EP9"/>
                                 <exclude reference="UJH-T4-eYr"/>
                                 <exclude reference="uvC-HS-wkB"/>
+                                <exclude reference="TFF-va-y0g"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -45,10 +53,10 @@
                                 <include reference="7We-qs-by2"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="TFF-va-y0g"/>
                                 <include reference="G3C-s7-EP9"/>
                                 <include reference="UJH-T4-eYr"/>
                                 <include reference="uvC-HS-wkB"/>
+                                <include reference="TFF-va-y0g"/>
                             </mask>
                         </variation>
                     </view>

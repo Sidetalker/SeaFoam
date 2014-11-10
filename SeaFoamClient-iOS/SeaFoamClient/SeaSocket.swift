@@ -90,8 +90,6 @@ class SeaSocket: GCDAsyncSocketDelegate {
         socket.writeData(dataMessage, withTimeout: timeout, tag: curTag)
         
         // Set up the following read operation
-//        socket.readDataWithTimeout(timeout, tag: curTag)
-//        socket.readDataToData(dataDict[curTag], withTimeout: timeout, tag: curTag)
         socket.readDataToData(GCDAsyncSocket.CRLFData(), withTimeout: timeout, tag: curTag)
         curTag++
         
@@ -237,11 +235,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Called upon a successful partial read to the socket
     func socket(sock: GCDAsyncSocket!, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
-        DDLog.logInfo("We read \(partialLength) for \(tag)")
-        
-        socket.readDataWithTimeout(timeout, tag: tag)
+        DDLog.logInfo("We read partial of \(partialLength) bytes for \(tag)")
     }
-    
     
     // Called if our write operation has a timeout
     func socket(sock: GCDAsyncSocket!, shouldTimeoutWriteWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
