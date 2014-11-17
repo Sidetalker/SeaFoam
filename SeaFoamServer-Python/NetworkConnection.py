@@ -2,9 +2,10 @@ from User import *
 import json
 
 class NetworkConnection:
-	def __init__(self, connection):
-		self.connection = connection
-		self.alive      = True
+	def __init__(self, connection, server = None):
+		self.connection   = connection
+		self.alive        = True
+		self.__server     = server
 		self.messageQueue = []
 		
 	def breakConnection(self):
@@ -29,6 +30,12 @@ class NetworkConnection:
 		except Exception as e:
 			print "--- Connection Crash ---"
 			self.breakConnection()
+			index = self.__server.activeConnections.index(self)
+			self.__server.activeConnections.pop(index)
+			self.__server.activeThreads.pop(index)
+			for key in self.__sever.activeUsers.keys():
+				if(not self.__server.activeUsers[key].isAlive()):
+					del self.__server.activeUsers[key]
 			print e
 		
 	def isAlive(self):

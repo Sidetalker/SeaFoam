@@ -7,7 +7,7 @@ def makeResponse(action, result, desc, userID):
 def readData(data):
 	#return json.loads(data)
 	request = {}
-	toEdit = data[:].replace("{", "").replace("}", "").replace(" ", "")
+	toEdit = data[:].replace("{", "").replace("}", "")
 	items = toEdit.split(",")
 	for item in items:
 		data = item.split(":")
