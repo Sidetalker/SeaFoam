@@ -8,12 +8,11 @@
 
 import UIKit
 
-struct chatInfo {
+struct ChatInfo {
     var id: String
     var name: String
     var creator: String
     var members: [String]
-    var messages: [[String : String]]
 }
 
 class MainTableViewController: UITableViewController, SeaSocketDelegate {
@@ -21,23 +20,22 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     var loginParent: LoginViewController?
     var myFoam: SeaSocket?
     var userID: String?
+    var userName: String?
     
     // Chatroom information
-    var chats: [chatInfo]?
-    var chatsTest: Array<String>?
-    
-    // UITableViewCell elements
-    @IBOutlet var starImage: UIImageView!
-    @IBOutlet var cellLabel: UILabel!
-    
+    var myChats = [ChatInfo]()
+    var otherChats = [ChatInfo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.toolbarHidden = false;
 
         myFoam?.delegate = self
         myFoam?.getChats(userID!)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.toolbarHidden = false
+        self.navigationController?.navigationBarHidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,23 +82,83 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if chatsTest != nil {
-            return chatsTest!.count
+        switch section {
+        case 0:
+            return myChats.count
+        case 1:
+            return otherChats.count
+        default: ()
         }
         
         return 0
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Owned Chatrooms"
+        case 1:
+            return "Joined Chatrooms"
+        default: ()
+        }
+        
+        return "You like this shit? I bet you love it you dirty little fiend"
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("chatCell") as UITableViewCell
         
-        cell.textLabel.text = chatsTest![indexPath.row]
-
+        switch indexPath.section {
+        case 0:
+            cell.textLabel.text = myChats[indexPath.row].name
+        case 1:
+            cell.textLabel.text = otherChats[indexPath.row].name
+        default: ()
+        }
+        
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("Did select row at index path \(indexPath)\n")
+        
+        performSegueWithIdentifier("chatDetailSegue", sender: self)
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 {
+            return
+        }
+        
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            myFoam?.removeChat(myChats[indexPath.row].id, userID: userID!)
+            
+            self.tableView.beginUpdates()
+            
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            myChats.removeAtIndex(indexPath.row)
+            
+            self.tableView.endUpdates()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    // MARK: - Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "chatDetailSegue" {
+            let chatDetailVC = segue.destinationViewController as ChatViewController
+            
+            chatDetailVC.senderId = userID
+            chatDetailVC.senderDisplayName = userName
+        }
     }
     
     // MARK: - SeaSocket Delegates
@@ -117,27 +175,43 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
         DDLog.logInfo("Initiatied chat request of type: \(type)")
     }
     
-    func listChatResponse(chats: Array<String>) {
+    func listChatResponse(chats: [ChatInfo]) {
         DDLog.logInfo("Received chat list response: \(chats)")
         
-        var initialChatCount = 0
-        
-        if self.chatsTest != nil {
-            initialChatCount = self.chatsTest!.count
-        }
+        let initialMyChatCount = myChats.count
+        let initialOtherChatCount = otherChats.count
         
         self.tableView.beginUpdates()
-        chatsTest = chats
         
-        if chatsTest?.count == 0 {
+        myChats.removeAll(keepCapacity: false)
+        otherChats.removeAll(keepCapacity: false)
+        
+        for chat in chats {
+            if chat.creator == userID {
+                myChats.append(chat)
+            }
+            else {
+                otherChats.append(chat)
+            }
+        }
+        
+        if (myChats.count + otherChats.count) == 0 {
             self.tableView.endUpdates()
             return
         }
         
-        for index in initialChatCount...chatsTest!.count - 1 {
-            let curIndex = NSIndexPath(forRow: initialChatCount, inSection: 0)
-            self.tableView.insertRowsAtIndexPaths([curIndex], withRowAnimation: UITableViewRowAnimation.Fade)
-            initialChatCount++
+        if myChats.count != 0 {
+            for index in initialMyChatCount...myChats.count - 1 {
+                let curIndex = NSIndexPath(forRow: index, inSection: 0)
+                self.tableView.insertRowsAtIndexPaths([curIndex], withRowAnimation: UITableViewRowAnimation.Fade)
+            }
+        }
+        
+        if otherChats.count != 0 {
+            for index in initialOtherChatCount...otherChats.count - 1 {
+                let curIndex = NSIndexPath(forRow: index, inSection: 1)
+                self.tableView.insertRowsAtIndexPaths([curIndex], withRowAnimation: UITableViewRowAnimation.Fade)
+            }
         }
         
         self.tableView.endUpdates()

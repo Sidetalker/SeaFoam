@@ -47,8 +47,8 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         self.view.addGestureRecognizer(tap)
         
         // Initialize our connection manager (SeaSocket represent)
-        myFoam = SeaSocket(host: "50.63.60.10", port: 534)
-//        myFoam = SeaSocket(host: "127.0.0.1", port: 534)
+//        myFoam = SeaSocket(host: "50.63.60.10", port: 534)
+        myFoam = SeaSocket(host: "127.0.0.1", port: 534)
         myFoam!.delegate = self
         
         // Connect and check for errors
@@ -414,6 +414,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
             
             // Pass the userID and the SeaSocket object down to the chat list controller
             chatVC.userID = userID
+            chatVC.userName = usernameField?.text
             chatVC.myFoam = myFoam
             chatVC.loginParent = self
             
@@ -536,7 +537,7 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
         return
     }
     
-    func listChatResponse(chats: Array<String>) {
+    func listChatResponse(chats: [ChatInfo]) {
         return
     }
     

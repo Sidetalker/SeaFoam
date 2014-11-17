@@ -1,1 +1,1 @@
-C:\Users\Cameron\Documents\temp\App1\App1\App1.csproj;neutral
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\App1.csproj;neutral
