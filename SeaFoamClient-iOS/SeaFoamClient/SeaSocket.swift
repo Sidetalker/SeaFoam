@@ -14,7 +14,7 @@ protocol SeaSocketDelegate {
     func chatSent(type: String)
     func loginResponse(message: portResponse)
     func registerResponse(message: portResponse)
-    func listChatResponse(chats: [ChatInfo])
+    func listChatResponse(chats: Array<String>)
     func addChatResponse(message: portResponse)
     func disconnectError(message: String)
 }
@@ -90,7 +90,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
         socket.writeData(dataMessage, withTimeout: timeout, tag: curTag)
         
         // Set up the following read operation
-        socket.readDataToData(GCDAsyncSocket.CRLFData(), withTimeout: timeout, tag: curTag)
+        socket.readDataWithTimeout(timeout, tag: curTag)
+        
         curTag++
         
         return true
@@ -115,13 +116,6 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logInfo("Creating chatroom \(chatName) for userID \(userID)")
         
         sendString("\(request)", descriptor: "Add Chat Request")
-    }
-    
-    func removeChat(chatID: String, userID: String) {
-        let request = buildRequest("REMOVE_CHAT", args: "\(chatID)", userID: "\(userID)")
-        DDLog.logInfo("Removing chatroom \(chatID) for userID \(userID)")
-        
-        sendString("\(request)", descriptor: "Remove Chat Request")
     }
     
     func getChats(userID: String) {
@@ -215,15 +209,10 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Chat List Request" {
             let response = dataToPortResponse(data)
-            var chatInfo = [ChatInfo]()
+            var chatInfo = Array<String>()
             
             for chat in response.description["info"] as Array<NSDictionary> {
-                let id = chat.objectForKey("_id") as String
-                let creator = chat.objectForKey("creator") as String
-                let name = chat.objectForKey("name") as String
-                let members = chat.objectForKey("members") as [String]
-                
-                chatInfo.append(ChatInfo(id: id, name: name, creator: creator, members: members))
+                chatInfo.append(chat.objectForKey("name") as String)
             }
             
             delegate?.listChatResponse(chatInfo)
@@ -235,23 +224,15 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     // Called upon a successful partial read to the socket
     func socket(sock: GCDAsyncSocket!, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
-        DDLog.logInfo("We read partial of \(partialLength) bytes for \(tag)")
+        DDLog.logInfo("We wrote \(partialLength) for \(tag)")
     }
     
     // Called if our write operation has a timeout
     func socket(sock: GCDAsyncSocket!, shouldTimeoutWriteWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
-        DDLog.logInfo("Oh boy, we hit the write timeout of \(elapsed) for \(tag) with only \(length) bytes")
+        DDLog.logInfo("Oh boy, we hit the timeout of \(elapsed) for \(tag) with only \(length) bytes")
         
         // Timeout interval - can be higher if we wanna wait for more data or something
         return 0
-    }
-    
-    // Called of our read operation has a timeout
-    func socket(sock: GCDAsyncSocket!, shouldTimeoutReadWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval {
-            DDLog.logInfo("Oh boy, we hit the read timeout of \(elapsed) for \(tag) with only \(length) bytes")
-            
-            // Timeout interval - can be higher if we wanna wait for more data or something
-            return 0
     }
     
     // Called upon a disconnect

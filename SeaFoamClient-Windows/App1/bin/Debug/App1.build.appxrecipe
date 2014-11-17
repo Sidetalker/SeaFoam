@@ -7,85 +7,82 @@
     <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
     <PackageArchitecture>neutral</PackageArchitecture>
     <PackageIdentityName>62f5afc9-5189-4364-a4d9-593cc7d92f76</PackageIdentityName>
-    <IntermediateOutputPath>C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Cameron\Documents\temp\App1\App1\obj\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\App1.exe">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App1.exe">
       <PackagePath>App1.exe</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\packages\Newtonsoft.Json.6.0.6\lib\netcore45\Newtonsoft.Json.dll">
-      <PackagePath>Newtonsoft.Json.dll</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-100.png">
       <PackagePath>Assets\Logo.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Logo.scale-140.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-140.png">
       <PackagePath>Assets\Logo.scale-140.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Logo.scale-180.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-180.png">
       <PackagePath>Assets\Logo.scale-180.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Logo.scale-80.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Logo.scale-80.png">
       <PackagePath>Assets\Logo.scale-80.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\SmallLogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SmallLogo.scale-100.png">
       <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\SplashScreen.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-100.png">
       <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\SplashScreen.scale-140.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-140.png">
       <PackagePath>Assets\SplashScreen.scale-140.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\SplashScreen.scale-180.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\SplashScreen.scale-180.png">
       <PackagePath>Assets\SplashScreen.scale-180.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Square150x150Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-100.png">
       <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Square150x150Logo.scale-140.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-140.png">
       <PackagePath>Assets\Square150x150Logo.scale-140.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Square150x150Logo.scale-180.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-180.png">
       <PackagePath>Assets\Square150x150Logo.scale-180.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\Square150x150Logo.scale-80.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\Square150x150Logo.scale-80.png">
       <PackagePath>Assets\Square150x150Logo.scale-80.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\Assets\StoreLogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\Assets\StoreLogo.scale-100.png">
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\App.xbf">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\BlankPage1.xbf">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\BlankPage1.xbf">
       <PackagePath>BlankPage1.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\MainPage.xbf">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\PopUpUserControl.xbf">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\PopUpUserControl.xbf">
       <PackagePath>PopUpUserControl.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\App1.xr.xml">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\App1.xr.xml">
       <PackagePath>App1.xr.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\temp\App1\App1\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
