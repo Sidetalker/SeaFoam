@@ -14,6 +14,7 @@ class NetworkConnection:
 		
 	def send(self, message):
 		self.messageQueue.append(json.dumps(message))
+		self.messageQueue.append("\r\n")
 		
 	def maintain(self, dataHandleCallback):
 		try:

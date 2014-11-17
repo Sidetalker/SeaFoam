@@ -6,3 +6,5 @@
 *.xcuserstate
 
 SeaFoamClient-iOS/SeaFoamClient.xcworkspace/xcuserdata/sideslapd.xcuserdatad/UserInterfaceState.xcuserstate
+SeaFoamServer-Python/NetworkConnection.pyc
+*.pyc

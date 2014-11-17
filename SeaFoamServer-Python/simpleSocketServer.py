@@ -33,7 +33,7 @@ class Server:
 		#self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
-		self.size = 8000 
+		self.size = 65536 
 		
 		self.clients = []
 		self.addresses = []
