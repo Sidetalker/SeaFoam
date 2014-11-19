@@ -34,7 +34,7 @@ class NetworkConnection:
 			index = self.__server.activeConnections.index(self)
 			self.__server.activeConnections.pop(index)
 			self.__server.activeThreads.pop(index)
-			for key in self.__sever.activeUsers.keys():
+			for key in self.__server.activeUsers.keys():
 				if(not self.__server.activeUsers[key].isAlive()):
 					del self.__server.activeUsers[key]
 			print e

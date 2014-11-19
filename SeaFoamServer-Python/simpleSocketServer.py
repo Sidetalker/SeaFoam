@@ -29,8 +29,8 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
-		#self.host = '127.0.0.1'
+		#self.host = '50.63.60.10' 
+		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
 		self.size = 65536 
@@ -53,6 +53,7 @@ class Server:
 		try:
 			if data:                                                              # Make sure the data was received properly
 				request = util.readData(data)                                     # Initialize a response container
+				print request
 				if request['action'] == 'LOGIN':                                  # If we've found the login tag...
 					return self.login(request, connection)
 				elif request['action'] == 'CREATE_ACCOUNT':
@@ -75,7 +76,7 @@ class Server:
 					clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "ACTION UNDEFINED" }, "")
 					util.printInfo(clientResponse)
 					return clientResponse
-			return util.makeResponse("NO_DATA_RECIEVED", "FAILURE", { "info" : "No data received" }, "")
+				return util.makeResponse("NO_DATA_RECIEVED", "FAILURE", { "info" : "No data received" }, "")
 		except Exception as e:
 			return util.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
 	
@@ -230,7 +231,7 @@ class Server:
 			
 			print "New Connection by " + str(accepted[1][0]) + " on port " + str(accepted[1][1]) + " has been accepted"
 			
-			self.activeConnections.append(NetworkConnection(self.clients[-1]))
+			self.activeConnections.append(NetworkConnection(self.clients[-1], self))
 			
 			#Spawn the threads, the threads exit when the connection is closed.
 			self.activeThreads.append(threading.Thread(target=self.activeConnections[-1].maintain, args=(self.processData,)))

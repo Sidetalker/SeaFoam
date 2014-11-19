@@ -11,7 +11,7 @@ def readData(data):
 	items = toEdit.split(",")
 	for item in items:
 		data = item.split(":")
-		request[data[0]] = data[1]
+		request[data[0].replace(" ", "")] = data[1]
 	return request
 	
 # Converts a cursor object (returned from MongoDB request)
