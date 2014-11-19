@@ -81,6 +81,7 @@ class Server:
 			return util.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
 	
 	def updateChat(self, request):
+		#ADD TIMESTAMP
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text, 'timestamp': str(datetime.datetime.now())}}})
@@ -112,6 +113,7 @@ class Server:
 		return clientResponse
 		
 	def removeUserFromChat(self, request):
+		#{action:REMOVE_CHAT_USER, args:chatID, userID:1234}
 		chatID = request['args']
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : userID}})
@@ -159,7 +161,19 @@ class Server:
 		return clientResponse
 		
 	def removeChat(self, request):
-		pass
+		#{action:REMOVE_CHAT, args:chatID, userID:1234}
+		chatID  = request['args']
+		userID = request['userID']
+		#if userID = owner of chat user ID
+		dbResponse = chats.findOne({name : chatID, creator : userID})
+		if dbResponse > 0		#Found a chatroom with that name owned by that guy
+			self.chats.remove({ name: chatID }, 1)
+			clientResponse = util.makeResponse(request['action'], "SUCCESS", {"info" : "Deleted chat " + chatID})
+		else:					#Did not find a chat room owned by that guy with that name, so cals for his removal from the chat
+			removeUserFromChat(request)
+			clientResponse = util.makeResponse(request['action'], "SUCCESS", {"info" : "Removed " + userID + "from chat."})
+		return clientResponse
+		#pass
 		
 	# Attempts to create an account for the user
 	def createAccount(self, request):
