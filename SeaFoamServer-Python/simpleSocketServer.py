@@ -9,9 +9,9 @@ from User import *
 
 '''
 The response framwork is below, this is the format for the responses that the server will be sending
-{action:LOGIN, result:SUCCESS, desc:, userID:1234}
-{action:LOGIN, result:FAILURE, desc:We couldnt do it, userID:}
-{action:MSG,   result:sender|content|chatID, userID:1234}
+{action:LOGIN,       result:SUCCESS, desc:, userID:1234}
+{action:LOGIN,       result:FAILURE, desc:We couldnt do it, userID:}
+{action:UPDATE_CHAT, result:sender|content|chatID, userID:1234}
 
 This is the message framework, this is the format the server will now be recieving messages in
 {action:LOGIN, args:username|password}
@@ -29,7 +29,7 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		#self.host = '50.63.60.10' 
+		self.host = '50.63.60.10' 
 		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
@@ -84,7 +84,6 @@ class Server:
 		chatID, text = request['args'].split('|')
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text, 'timestamp': str(datetime.datetime.now())}}})
-		
 		message = util.makeResponse(request['action'], "SUCCESS", { "sender" : str(userID), "content" : text, "chatID": str(chatID) }, "")
 		
 		chatMembers = util.queryToList(self.chats.find({'_id' : ObjectId(chatID)}, {"members": 1}))#, {'members' : 1}
@@ -159,7 +158,15 @@ class Server:
 		return clientResponse
 		
 	def removeChat(self, request):
-		pass
+		name = request['args']
+		userID = request['userID']
+		dbResponse = util.queryToList(self.chats.find({'name' : name, 'creator' :userID}))
+		if(len(dbResponse) > 0):
+			print self.chats.remove({'name' : name})
+			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The chatroom " + name + " has been removed"}, "")
+			return clientResponse
+		return self.removeUserFromChat(request)
+			
 		
 	# Attempts to create an account for the user
 	def createAccount(self, request):
