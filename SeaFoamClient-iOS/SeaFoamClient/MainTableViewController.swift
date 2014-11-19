@@ -233,7 +233,7 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     }
     
     // MARK: - Unused SeaSocket Delegates
-    // These will be removed if Swift implements option protocol functions natively
+    // These will be removed if Swift implements optional protocol functions
     
     func loginSent() {
         return
