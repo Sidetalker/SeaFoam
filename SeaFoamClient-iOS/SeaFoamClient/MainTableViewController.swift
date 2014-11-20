@@ -25,6 +25,7 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     // Chatroom information
     var myChats = [ChatInfo]()
     var otherChats = [ChatInfo]()
+    var curChat: ChatInfo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,6 +127,13 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("Did select row at index path \(indexPath)\n")
         
+        if indexPath.section == 0 {
+            curChat = myChats[indexPath.row]
+        }
+        else if indexPath.section == 1 {
+            curChat = otherChats[indexPath.row]
+        }
+        
         performSegueWithIdentifier("chatDetailSegue", sender: self)
     }
     
@@ -154,10 +162,12 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "chatDetailSegue" {
-            let chatDetailVC = segue.destinationViewController as ChatViewController
-            
-            chatDetailVC.senderId = userID
-            chatDetailVC.senderDisplayName = userName
+//            let chatDetailVC = segue.destinationViewController as ChatViewController
+//            
+//            chatDetailVC.senderId = userID
+//            chatDetailVC.senderDisplayName = userName
+//            chatDetailVC.chatInfo = curChat!
+//            chatDetailVC.navTitle.title = curChat!.name
         }
     }
     
@@ -176,7 +186,7 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     }
     
     func listChatResponse(chats: [ChatInfo]) {
-        DDLog.logInfo("Received chat list response: \(chats)")
+        DDLog.logInfo("Received chat list response")
         
         let initialMyChatCount = myChats.count
         let initialOtherChatCount = otherChats.count
