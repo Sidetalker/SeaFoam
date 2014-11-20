@@ -29,7 +29,7 @@ This is the message framework, this is the format the server will now be recievi
 class Server:
 	def __init__(self):
 		# Global Server configuration
-		self.host = '50.63.60.10' 
+		#self.host = '50.63.60.10' 
 		self.host = '127.0.0.1'
 		self.port = 534
 		self.backlog = 5 
@@ -96,8 +96,9 @@ class Server:
 				except:
 					pass
 			else:
-				print "Ignoring sender"
-		
+				message = util.makeResponse(request['action'], "SUCCESS", {"chatID": str(chatID) }, "Message sent")
+				self.activeUsers[str(memberID)].send(message)
+				print "Sending message to " + str(memberID)
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
 		util.printInfo(clientResponse)
 		return clientResponse
@@ -120,7 +121,7 @@ class Server:
 		
 	def listChats(self, request):
 		userID = request['userID']
-		chatsList = util.queryToList(self.chats.find({'members': {'$in' : {'userID': userID}}}))
+		chatsList = util.queryToList(self.chats.find({'members': {'$in' : [userID]}}))
 		# We want chatID, name, creator, members and the latest message
 		chatInfo = []
 		for chat in chatsList:

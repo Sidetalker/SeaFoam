@@ -2,6 +2,7 @@
 def makeResponse(action, result, desc, userID):
 	responseDict = { 'action' : action, 'result' : result, 'desc' : desc, 'userID' : userID }
 	print "response made"
+	print responseDict
 	return responseDict
 
 def readData(data):
