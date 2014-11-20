@@ -110,6 +110,13 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Register Request")
     }
     
+    func sendMessage(userID: String, chatID: String, text: String) {
+        let request = buildRequest("UPDATE_CHAT", args:"\(chatID)|\(text)", userID: "\(userID)")
+        DDLog.logInfo("Updating chatroom \(chatID) with text: \(text)")
+        
+        sendString("\(request)", descriptor: "Update Chat Request")
+    }
+    
     func createChat(chatName: String, userID: String) {
         let request = buildRequest("ADD_CHAT", args: "\(chatName)", userID: "\(userID)")
         DDLog.logInfo("Creating chatroom \(chatName) for userID \(userID)")

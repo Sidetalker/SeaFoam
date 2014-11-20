@@ -162,12 +162,13 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "chatDetailSegue" {
-//            let chatDetailVC = segue.destinationViewController as ChatViewController
-//            
-//            chatDetailVC.senderId = userID
-//            chatDetailVC.senderDisplayName = userName
-//            chatDetailVC.chatInfo = curChat!
-//            chatDetailVC.navTitle.title = curChat!.name
+            let chatDetailVC = segue.destinationViewController as ChatViewController
+            
+            chatDetailVC.myFoam = myFoam!
+            chatDetailVC.id = userID
+            chatDetailVC.displayName = userName
+            chatDetailVC.chatInfo = curChat!
+            chatDetailVC.navTitle.title = curChat!.name
         }
     }
     
