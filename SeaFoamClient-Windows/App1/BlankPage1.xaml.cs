@@ -33,28 +33,42 @@ namespace App1
     public sealed partial class BlankPage1 : Page
     {
         public static StreamSocket mySocket = new StreamSocket();
+        public string myUserID;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public BlankPage1(StreamSocket sockt, string userID)
         {
-            mySocket = e.Parameter as StreamSocket;
+            mySocket = sockt;
+            myUserID = userID;
+            this.InitializeComponent();
         }
 
-        public BlankPage1()
+
+        private async void testChatrooms()
         {
-            this.InitializeComponent();
+                // {action:LIST_CHATS, args:, userID:1234}
+                DataWriter dw = new DataWriter(mySocket.OutputStream);
+                // send login info to socket
+                dw.WriteString("{action:LIST_CHATS, args:, userID:"+myUserID+"}"); //Tid|tid
+                await dw.StoreAsync();
+                
+
+                DataReader reader = new DataReader(mySocket.InputStream);
+                reader.InputStreamOptions = InputStreamOptions.Partial;
+                await reader.LoadAsync(1024);
+                string data = string.Empty;
+
+                while (reader.UnconsumedBufferLength > 0)
+                {
+                    data += reader.ReadString(reader.UnconsumedBufferLength);
+                    MessageDisplay.Text += data;
+                }
+                //MessageDisplay.Text = data;
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                DataWriter dw = new DataWriter(mySocket.OutputStream);
-                MessageDisplay.Text = "yes";
-            }
-            catch
-            {
-                MessageDisplay.Text = "no";
-            }
+            testChatrooms();
 
         }
     }

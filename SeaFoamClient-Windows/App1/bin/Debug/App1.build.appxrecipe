@@ -76,6 +76,9 @@
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\BlankPage1.xbf">
       <PackagePath>BlankPage1.xbf</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\ChatRooms.xbf">
+      <PackagePath>ChatRooms.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>

@@ -20,13 +20,13 @@
     <AppXManifest Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-11-05T21:43:48.490</Modified>
+      <Modified>2014-11-09T22:37:20.896</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\App1.exe">
       <PackagePath>App1.exe</PackagePath>
-      <Modified>2014-11-09T21:26:14.877</Modified>
+      <Modified>2014-11-20T01:19:31.836</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\packages\Newtonsoft.Json.6.0.6\lib\netcore45\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
@@ -101,9 +101,13 @@
       <PackagePath>BlankPage1.xbf</PackagePath>
       <Modified>2014-10-29T21:33:48.035</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\ChatRooms.xbf">
+      <PackagePath>ChatRooms.xbf</PackagePath>
+      <Modified>2014-11-09T22:37:20.286</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2014-11-09T20:18:56.556</Modified>
+      <Modified>2014-11-10T03:37:57.114</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\PopUpUserControl.xbf">
       <PackagePath>PopUpUserControl.xbf</PackagePath>
@@ -111,11 +115,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\App1.xr.xml">
       <PackagePath>App1.xr.xml</PackagePath>
-      <Modified>2014-10-29T21:32:42.905</Modified>
+      <Modified>2014-11-10T03:37:57.069</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-11-05T21:43:48.294</Modified>
+      <Modified>2014-11-09T22:37:20.699</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

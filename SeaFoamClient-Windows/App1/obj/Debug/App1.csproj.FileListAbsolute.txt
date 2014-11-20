@@ -128,3 +128,8 @@ C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\N
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\App1.csprojResolveAssemblyReference.cache
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\App1.csproj.GenerateResource.Cache
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\ChatRooms.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.g.i.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.g.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.xaml
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.xbf

@@ -15,11 +15,13 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="usernameDisplayBox" HorizontalAlignment="Left" Margin="121,57,0,0" TextWrapping="Wrap" Text="username" VerticalAlignment="Top" Height="40" Width="109" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
         <TextBlock HorizontalAlignment="Left" Margin="121,102,0,0" TextWrapping="Wrap" Text="password" VerticalAlignment="Top" Height="40" Width="109" FontSize="22" RenderTransformOrigin="0.638,0.565" Grid.Row="1" RequestedTheme="Dark"/>
-        <TextBox x:Name="usernameInput" HorizontalAlignment="Left" Height="40" Margin="235,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
-        <Button x:Name="login" Content="log in" HorizontalAlignment="Left" Height="46" Margin="677,54,0,0" VerticalAlignment="Top" Width="576" FontSize="22" Grid.Row="1" RequestedTheme="Dark" Click="login_Click"/>
-        <PasswordBox x:Name="passwordInput" HorizontalAlignment="Left" Height="40" Margin="235,102,0,0" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
-        <HyperlinkButton x:Name="NewUserButton" Content="Register New User" HorizontalAlignment="Left" Height="47" Margin="676,93,0,0" Grid.Row="1" VerticalAlignment="Top" Width="574" Click="NewUserButton_Click" Foreground="#FF9C72FF"/>
+        <TextBox x:Name="usernameInput" HorizontalAlignment="Left" Height="40" Margin="235,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark" Text="kevin"/>
+        <Button x:Name="login" Content="Log In" HorizontalAlignment="Left" Height="69" Margin="677,54,0,0" VerticalAlignment="Top" Width="576" FontSize="22" Grid.Row="1" RequestedTheme="Dark" Click="login_Click"/>
+        <PasswordBox x:Name="passwordInput" HorizontalAlignment="Left" Height="40" Margin="235,102,0,0" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark" Password="test"/>
+        <Button x:Name="NewUserButton" Content="Register New User" HorizontalAlignment="Left" Height="69" Margin="677,121,0,0" Grid.Row="1" VerticalAlignment="Top" Width="576" RequestedTheme ="Dark" Click="NewUserButton_Click" FontSize="22" />
         <TextBlock x:Name="tempBox" HorizontalAlignment="Left" Margin="235,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="213" Width="1015" FontSize="22"/>
+        <TextBlock x:Name="emailDisplayBox" HorizontalAlignment="Left" Margin="121,147,0,0" TextWrapping="Wrap" Text="email" VerticalAlignment="Top" Height="40" Width="109" FontSize="22" Grid.Row="1" RequestedTheme="Dark" />
+        <TextBox x:Name="emailInput" HorizontalAlignment="Left" Height="40" Margin="235,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="440" FontSize="22" Grid.Row="1" RequestedTheme="Dark"/>
 
 
 

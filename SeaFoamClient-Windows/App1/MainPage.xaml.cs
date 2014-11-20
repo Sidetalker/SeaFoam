@@ -32,10 +32,9 @@ namespace App1
     public class LoginInfo
     {
         string action;
-        string userID; // do i need this?
+        public string userID; // do i need this?
         public string result;
-        string desc;
-        string info;
+        public Dictionary<string, string> desc; // error message
     }
 
     public class RegisterInfo
@@ -43,8 +42,7 @@ namespace App1
         string action;
         string userID; // do i need this?
         public string result;
-        string desc;
-        string info;
+        public Dictionary<string,string> desc; // error message
     }
     public sealed partial class MainPage : Page
     {
@@ -97,10 +95,9 @@ namespace App1
             string output = JsonConvert.SerializeObject(data);
             LoginInfo l = JsonConvert.DeserializeObject<LoginInfo>(data);
             System.Diagnostics.Debug.WriteLine(l.result);
-            if (l.result == "SUCCESS".Trim()) isAuthenticated = true;
 
             /* moved here due to asynconousness*/
-            if (isAuthenticated)
+            if (l.result == "SUCCESS")
             {
                 Windows.UI.Popups.MessageDialog messageDialog =
                     new Windows.UI.Popups.MessageDialog("login succcessful, welcome " + usernameInput.Text);
@@ -108,12 +105,14 @@ namespace App1
 
                 // go to the next page
                 /* probably should fix this up */
-                this.Frame.Navigate(typeof(BlankPage1), mySocket);
+                //this.Frame.Navigate(typeof(BlankPage1), mySocket);
+                System.Diagnostics.Debug.WriteLine(l.userID);
+                Window.Current.Content = new BlankPage1(mySocket, l.userID);
             }
             else
             {
                 Windows.UI.Popups.MessageDialog messageDialog =
-                    new Windows.UI.Popups.MessageDialog("Invalid username/password");
+                    new Windows.UI.Popups.MessageDialog("ERROR: " + l.desc["info"]);
                 await messageDialog.ShowAsync();
                 usernameInput.Text = "";
                 passwordInput.Password = "";
@@ -125,7 +124,7 @@ namespace App1
             DataWriter ddw = new DataWriter(mySocket.OutputStream);
             // send login info to socket
             //{action:CREATE_ACCOUNT, args:username|password}
-            ddw.WriteString("{action:CREATE_ACCOUNT, args:" + usernameInput.Text + "|" + passwordInput.Password+"|temp@temp.com}"); //Tid|tid
+            ddw.WriteString("{action:CREATE_ACCOUNT, args:" + usernameInput.Text + "|" + passwordInput.Password+"|"+emailInput.Text+"}"); //Tid|tid
             await ddw.StoreAsync();
 
             /* check serverside for stuff and read the output*/
@@ -137,13 +136,51 @@ namespace App1
             {
                 data += reader.ReadString(reader.UnconsumedBufferLength);
             }
-
-            //display message
-            Windows.UI.Popups.MessageDialog messageDialog =
-                new Windows.UI.Popups.MessageDialog("User Registered");
-            await messageDialog.ShowAsync();
-            usernameInput.Text = "";
-            passwordInput.Password = "";
+            tempBox.Text = data;
+            /* do some kind of check on user input*/
+            // clean up this smelly code if have the time
+            if (String.IsNullOrEmpty(usernameInput.Text))
+            {
+                Windows.UI.Popups.MessageDialog messageDialog =
+                    new Windows.UI.Popups.MessageDialog("You must enter a username");
+                await messageDialog.ShowAsync();
+            }
+            else if (String.IsNullOrEmpty(passwordInput.Password))
+            {
+                Windows.UI.Popups.MessageDialog messageDialog =
+                    new Windows.UI.Popups.MessageDialog("You must enter a password");
+                await messageDialog.ShowAsync();
+            }
+            else if (String.IsNullOrEmpty(emailInput.Text))
+            {
+                Windows.UI.Popups.MessageDialog messageDialog =
+                    new Windows.UI.Popups.MessageDialog("You must enter an email");
+                await messageDialog.ShowAsync();
+            }
+            else
+            {
+                // read serverside stuff
+                string output = JsonConvert.SerializeObject(data);
+                RegisterInfo r = JsonConvert.DeserializeObject<RegisterInfo>(data);
+                System.Diagnostics.Debug.WriteLine(r.result);
+                //display message
+                if (r.result == "SUCCESS")
+                {
+                    Windows.UI.Popups.MessageDialog messageDialog =
+                        new Windows.UI.Popups.MessageDialog("User Registered");
+                    await messageDialog.ShowAsync();
+                    usernameInput.Text = "";
+                    passwordInput.Password = "";
+                }
+                else
+                {
+                    Windows.UI.Popups.MessageDialog messageDialog =
+                        new Windows.UI.Popups.MessageDialog("ERROR: " + r.desc["info"]);
+                    await messageDialog.ShowAsync();
+                    usernameInput.Text = "";
+                    passwordInput.Password = "";
+                }
+            }
         }
 
         private async void check_login()

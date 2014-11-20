@@ -124,19 +124,31 @@ namespace App1.App1_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[5];
+            _typeNameTable = new string[11];
             _typeNameTable[0] = "App1.BlankPage1";
             _typeNameTable[1] = "Windows.UI.Xaml.Controls.Page";
             _typeNameTable[2] = "Windows.UI.Xaml.Controls.UserControl";
-            _typeNameTable[3] = "App1.MainPage";
-            _typeNameTable[4] = "App1.PopUpUserControl";
+            _typeNameTable[3] = "App1.ChatRooms";
+            _typeNameTable[4] = "App1.Common.ObservableDictionary";
+            _typeNameTable[5] = "Object";
+            _typeNameTable[6] = "String";
+            _typeNameTable[7] = "App1.Common.NavigationHelper";
+            _typeNameTable[8] = "Windows.UI.Xaml.DependencyObject";
+            _typeNameTable[9] = "App1.MainPage";
+            _typeNameTable[10] = "App1.PopUpUserControl";
 
-            _typeTable = new global::System.Type[5];
+            _typeTable = new global::System.Type[11];
             _typeTable[0] = typeof(global::App1.BlankPage1);
             _typeTable[1] = typeof(global::Windows.UI.Xaml.Controls.Page);
             _typeTable[2] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
-            _typeTable[3] = typeof(global::App1.MainPage);
-            _typeTable[4] = typeof(global::App1.PopUpUserControl);
+            _typeTable[3] = typeof(global::App1.ChatRooms);
+            _typeTable[4] = typeof(global::App1.Common.ObservableDictionary);
+            _typeTable[5] = typeof(global::System.Object);
+            _typeTable[6] = typeof(global::System.String);
+            _typeTable[7] = typeof(global::App1.Common.NavigationHelper);
+            _typeTable[8] = typeof(global::Windows.UI.Xaml.DependencyObject);
+            _typeTable[9] = typeof(global::App1.MainPage);
+            _typeTable[10] = typeof(global::App1.PopUpUserControl);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -171,9 +183,17 @@ namespace App1.App1_XamlTypeInfo
             return -1;
         }
 
-        private object Activate_0_BlankPage1() { return new global::App1.BlankPage1(); }
-        private object Activate_3_MainPage() { return new global::App1.MainPage(); }
-        private object Activate_4_PopUpUserControl() { return new global::App1.PopUpUserControl(); }
+        private object Activate_3_ChatRooms() { return new global::App1.ChatRooms(); }
+        private object Activate_4_ObservableDictionary() { return new global::App1.Common.ObservableDictionary(); }
+        private object Activate_9_MainPage() { return new global::App1.MainPage(); }
+        private object Activate_10_PopUpUserControl() { return new global::App1.PopUpUserControl(); }
+        private void MapAdd_4_ObservableDictionary(object instance, object key, object item)
+        {
+            var collection = (global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>)instance;
+            var newKey = (global::System.String)key;
+            var newItem = (global::System.Object)item;
+            collection.Add(newKey, newItem);
+        }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
         {
@@ -187,7 +207,6 @@ namespace App1.App1_XamlTypeInfo
 
             case 0:   //  App1.BlankPage1
                 userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_0_BlankPage1;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -200,16 +219,52 @@ namespace App1.App1_XamlTypeInfo
                 xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 3:   //  App1.MainPage
+            case 3:   //  App1.ChatRooms
                 userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_3_MainPage;
+                userType.Activator = Activate_3_ChatRooms;
+                userType.AddMemberName("DefaultViewModel");
+                userType.AddMemberName("NavigationHelper");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 4:   //  App1.PopUpUserControl
+            case 4:   //  App1.Common.ObservableDictionary
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.DictionaryAdd = MapAdd_4_ObservableDictionary;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 5:   //  Object
+                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 6:   //  String
+                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 7:   //  App1.Common.NavigationHelper
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.DependencyObject"));
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 8:   //  Windows.UI.Xaml.DependencyObject
+                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 9:   //  App1.MainPage
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_9_MainPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 10:   //  App1.PopUpUserControl
                 userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
-                userType.Activator = Activate_4_PopUpUserControl;
+                userType.Activator = Activate_10_PopUpUserControl;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -218,11 +273,37 @@ namespace App1.App1_XamlTypeInfo
         }
 
 
+        private object get_0_ChatRooms_DefaultViewModel(object instance)
+        {
+            var that = (global::App1.ChatRooms)instance;
+            return that.DefaultViewModel;
+        }
+        private object get_1_ChatRooms_NavigationHelper(object instance)
+        {
+            var that = (global::App1.ChatRooms)instance;
+            return that.NavigationHelper;
+        }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
             global::App1.App1_XamlTypeInfo.XamlMember xamlMember = null;
-            // No Local Properties
+            global::App1.App1_XamlTypeInfo.XamlUserType userType;
+
+            switch (longMemberName)
+            {
+            case "App1.ChatRooms.DefaultViewModel":
+                userType = (global::App1.App1_XamlTypeInfo.XamlUserType)GetXamlTypeByName("App1.ChatRooms");
+                xamlMember = new global::App1.App1_XamlTypeInfo.XamlMember(this, "DefaultViewModel", "App1.Common.ObservableDictionary");
+                xamlMember.Getter = get_0_ChatRooms_DefaultViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "App1.ChatRooms.NavigationHelper":
+                userType = (global::App1.App1_XamlTypeInfo.XamlUserType)GetXamlTypeByName("App1.ChatRooms");
+                xamlMember = new global::App1.App1_XamlTypeInfo.XamlMember(this, "NavigationHelper", "App1.Common.NavigationHelper");
+                xamlMember.Getter = get_1_ChatRooms_NavigationHelper;
+                xamlMember.SetIsReadOnly();
+                break;
+            }
             return xamlMember;
         }
     }
