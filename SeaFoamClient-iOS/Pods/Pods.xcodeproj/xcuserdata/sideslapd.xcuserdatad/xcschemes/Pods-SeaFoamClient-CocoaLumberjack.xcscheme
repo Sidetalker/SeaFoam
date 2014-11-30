@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F41BBE8CBBEC6FBF35867AE2"
+               BlueprintIdentifier = "63B99641E673D13A48904128"
                BuildableName = "libPods-SeaFoamClient-CocoaLumberjack.a"
                BlueprintName = "Pods-SeaFoamClient-CocoaLumberjack"
                ReferencedContainer = "container:Pods.xcodeproj">
