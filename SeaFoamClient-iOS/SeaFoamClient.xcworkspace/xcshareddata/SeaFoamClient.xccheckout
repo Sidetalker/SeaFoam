@@ -6,15 +6,19 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A4082145-6474-4C9F-9BD2-8433769E208B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SeaFoamClient</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>9F99647DBE4211218623E63A60D5192984DE0FB2</key>
 		<string>https://github.com/Sidetalker/SeaFoam.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SeaFoamClient-iOS/SeaFoamClient.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>9F99647DBE4211218623E63A60D5192984DE0FB2</key>
-		<string>SeaFoamGit/</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Sidetalker/SeaFoam.git</string>

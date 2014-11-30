@@ -133,35 +133,20 @@
 
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
 {
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
     [self.delegate collectionView:self
             didTapAvatarImageView:cell.avatarImageView
-                      atIndexPath:indexPath];
+                      atIndexPath:[self indexPathForCell:cell]];
 }
 
 - (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell
 {
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
-    [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
+    [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:[self indexPathForCell:cell]];
 }
 
 - (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position
 {
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
     [self.delegate collectionView:self
-            didTapCellAtIndexPath:indexPath
+            didTapCellAtIndexPath:[self indexPathForCell:cell]
                     touchLocation:position];
 }
 

@@ -1,14 +1,14 @@
 PODS:
   - CocoaAsyncSocket (7.3.5)
-  - CocoaLumberjack (2.0.0-beta4):
+  - CocoaLumberjack (2.0.0-beta3):
     - CocoaLumberjack/Default
     - CocoaLumberjack/Extensions
-  - CocoaLumberjack/Core (2.0.0-beta4)
-  - CocoaLumberjack/Default (2.0.0-beta4):
+  - CocoaLumberjack/Core (2.0.0-beta3)
+  - CocoaLumberjack/Default (2.0.0-beta3):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.0-beta4):
+  - CocoaLumberjack/Extensions (2.0.0-beta3):
     - CocoaLumberjack/Default
-  - JSQMessagesViewController (6.1.0):
+  - JSQMessagesViewController (6.0-beta6):
     - JSQSystemSoundPlayer (~> 2.0.0)
   - JSQSystemSoundPlayer (2.0.0)
 
@@ -20,8 +20,8 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
-  CocoaLumberjack: 24153b24b17d853d7182b22b128971fb98e8cb18
-  JSQMessagesViewController: 8998c086bf6db5d6190376041903d5be2961f03f
+  CocoaLumberjack: 55c22a2b8bde7a29c568ab4015b5874216524d70
+  JSQMessagesViewController: 6e78b14e804a0ac4353765ef40e9d20c157a0ebf
   JSQSystemSoundPlayer: c98443b1cbb3b45db09d0d3d6c2355cf78294981
 
 COCOAPODS: 0.34.4

@@ -40,6 +40,8 @@
 
 //  Model
 #import "JSQMessage.h"
+#import "JSQTextMessage.h"
+#import "JSQMediaMessage.h"
 
 #import "JSQMediaItem.h"
 #import "JSQPhotoMediaItem.h"

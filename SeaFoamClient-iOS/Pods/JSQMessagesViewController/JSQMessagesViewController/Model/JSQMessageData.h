@@ -75,11 +75,6 @@
  */
 - (BOOL)isMediaMessage;
 
-/**
- *  @return An integer that can be used as a table address in a hash table structure.
- */
-- (NSUInteger)hash;
-
 @optional
 
 /**

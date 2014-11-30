@@ -55,10 +55,6 @@
 
 - (void)setTextInsets:(UIEdgeInsets)textInsets
 {
-    if (UIEdgeInsetsEqualToEdgeInsets(_textInsets, textInsets)) {
-        return;
-    }
-    
     _textInsets = textInsets;
     [self setNeedsDisplay];
 }

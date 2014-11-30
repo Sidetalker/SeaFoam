@@ -19,7 +19,6 @@
 #import <UIKit/UIKit.h>
 
 #import "JSQMessagesLabel.h"
-#import "JSQMessagesCellTextView.h"
 
 @class JSQMessagesCollectionViewCell;
 
@@ -103,7 +102,7 @@
  *
  *  @warning If mediaView returns a non-nil view, then this value will be `nil`.
  */
-@property (weak, nonatomic, readonly) JSQMessagesCellTextView *textView;
+@property (weak, nonatomic, readonly) UITextView *textView;
 
 /**
  *  Returns the bubble image view of the cell that is responsible for displaying message bubble images. 
