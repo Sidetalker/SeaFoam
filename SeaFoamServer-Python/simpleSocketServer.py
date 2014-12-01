@@ -105,13 +105,16 @@ class Server:
 		#userID = request['userID'].replace(" ", "")
 		username = request['userID'].replace(" ", "")
 		users = util.queryToList(self.users.find({ 'username' : username }))
-		userID = users[-1]['_id']
-		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
-		userID = str(userID.valueOf())
-		print userID
-		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
-		return clientResponse
-		
+		try:
+			userID = users[-1]['_id']
+			self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
+			userID = str(userID.valueOf())
+			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
+			return clientResponse
+		except:
+			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "The user " + userName + " does not exist" }, "")
+			return clientResponse
+			
 	def removeUserFromChat(self, request):
 		chatID = request['args']
 		userID = request['userID']
