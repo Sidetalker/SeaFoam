@@ -29,14 +29,17 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        myFoam?.delegate = self
-        myFoam?.getChats(userID!)
     }
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.toolbarHidden = false
         self.navigationController?.navigationBarHidden = false
+        
+//        myFoam = SeaSocket(host: "127.0.0.1", port: 535)
+        myChats.removeAll(keepCapacity: false)
+        otherChats.removeAll(keepCapacity: false)
+        myFoam?.delegate = self
+        myFoam?.getChats(userID!)
     }
 
     override func didReceiveMemoryWarning() {

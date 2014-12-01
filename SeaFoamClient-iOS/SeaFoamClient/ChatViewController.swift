@@ -51,15 +51,22 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
         return self.id!
     }
     
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        print("We're prepping to leave ChatViewControllerA\n")
+    }
+    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("collectionViewA\n")
         return messageData.messages.count
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
+        print("collectionViewB: \(messageData.messages[indexPath.item])\n")
         return messageData.messages[indexPath.item]
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
+        print("collectionViewC\n")
         let curMessage = messageData.messages[indexPath.item]
         
         if curMessage.senderId == senderId() {
@@ -71,14 +78,17 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
+        print("collectionViewD\n")
         return nil
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+        print("collectionViewE\n")
         return nil
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+        print("collectionViewF\n")
         return nil
     }
 }
