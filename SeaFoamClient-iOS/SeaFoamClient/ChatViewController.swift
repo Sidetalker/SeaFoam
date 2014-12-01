@@ -39,6 +39,7 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     override func viewDidAppear(animated: Bool) {
         myFoam?.delegate = self
         myFoam?.getChatContents(id!, chatID: chatInfo!.id)
+        myFoam?.listenForChat()
     }
     
     @IBAction func btnCommand(sender: AnyObject) {
@@ -99,6 +100,7 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     
     func updatedChat(message: portResponse) {
         myFoam?.getChatContents(id!, chatID: chatInfo!.id)
+        myFoam?.listenForChat()
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {

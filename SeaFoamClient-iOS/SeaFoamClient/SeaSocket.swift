@@ -107,6 +107,14 @@ class SeaSocket: GCDAsyncSocketDelegate {
         return true
     }
     
+    func listenForChat() {
+        tagDict[curTag] = "New Message"
+        dataDict[curTag] = NSData()
+        
+        socket.readDataToData(GCDAsyncSocket.CRLFData(), withTimeout: -1, tag: curTag)
+        curTag++
+    }
+    
     func sendLogin(username: String, password: String) {
         let request = buildRequest("LOGIN", args: "\(username)|\(password)", userID: "")
         DDLog.logInfo("Logging in with: \(request)")
@@ -272,7 +280,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
         else if tagDict[tag] == "Chat Contents Request" {
             delegate?.chatContentResponse(dataToPortResponse(data))
         }
-        else if tagDict[tag] == "Update Chat Request" {
+        else if tagDict[tag] == "New Message" {
             delegate?.updatedChat(dataToPortResponse(data))
         }
     }
