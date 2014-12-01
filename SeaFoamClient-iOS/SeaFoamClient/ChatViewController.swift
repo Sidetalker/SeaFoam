@@ -80,7 +80,7 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         let message = JSQTextMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
         messageData.sendMessage(message)
-        myFoam!.sendMessage(senderId, chatID: chatInfo!.id, text: text)
+        myFoam!.sendMessage(senderId, chatID: chatInfo!.id, text: text, username: displayName!)
         
         finishSendingMessage()
     }

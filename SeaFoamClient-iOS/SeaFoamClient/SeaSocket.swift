@@ -17,6 +17,7 @@ protocol SeaSocketDelegate {
     func listChatResponse(chats: [ChatInfo])
     func addChatResponse(message: portResponse)
     func disconnectError(message: String)
+//    func chatContentResponse(message: String)
 }
 
 class SeaSocket: GCDAsyncSocketDelegate {
@@ -119,8 +120,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
         sendString("\(request)", descriptor: "Register Request")
     }
     
-    func sendMessage(userID: String, chatID: String, text: String) {
-        let request = buildRequest("UPDATE_CHAT", args:"\(chatID)|\(text)", userID: "\(userID)")
+    func sendMessage(userID: String, chatID: String, text: String, username: String) {
+        let request = buildRequest("UPDATE_CHAT", args:"\(chatID)|\(text)|\(username)", userID: "\(userID)")
         DDLog.logInfo("Updating chatroom \(chatID) with text: \(text)")
         
         sendString("\(request)", descriptor: "Update Chat Request")
@@ -152,6 +153,13 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logInfo("Requesting chats for userID \(userID)")
         
         sendString("\(request)", descriptor: "Chat List Request")
+    }
+
+    func getChatContents(userID: String, chatID: String) {
+        let request = buildRequest("LIST_CHAT_CONTENTS", args: "\(chatID)", userID: "\(userID)")
+        DDLog.logInfo("Requesting contents of chatroom with id \(chatID)")
+        
+        sendString("\(request)", descriptor: "Chat Contents Request")
     }
     
     // MARK: - Helper Functions
@@ -259,6 +267,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "alert" {
             print("Holy shit it looks like it actually fucking worked jesus this was way easier than I thought it would be!")
+        }
+        else if tagDict[tag] == "Chat Contents Request" {
+            delegate?.chatContentResponse(dataToPortResponse(data))
         }
     }
     

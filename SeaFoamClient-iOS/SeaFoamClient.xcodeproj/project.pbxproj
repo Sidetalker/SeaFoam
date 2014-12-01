@@ -118,9 +118,9 @@
 				5114FADD19EC03B800003E4A /* AppDelegate.swift */,
 				5114FADF19EC03B800003E4A /* LoginViewController.swift */,
 				51B8C39C1A01C025007777ED /* MainTableViewController.swift */,
+				5114FB0419EC053600003E4A /* SeaSocket.swift */,
 				5164A1B71A02E56A003BAB76 /* UI Elements */,
 				518FCEA219EED1E600AE1CC9 /* Images */,
-				5114FB0419EC053600003E4A /* SeaSocket.swift */,
 				51A2C00F19F070E9001AA365 /* Images.xcassets */,
 				5114FADB19EC03B800003E4A /* Supporting Files */,
 			);
