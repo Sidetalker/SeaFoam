@@ -275,4 +275,8 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
     func chatContentResponse(message: portResponse) {
         return
     }
+    
+    func updatedChat(message: portResponse) {
+        return
+    }
 }

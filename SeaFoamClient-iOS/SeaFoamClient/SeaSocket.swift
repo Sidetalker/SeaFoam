@@ -18,6 +18,7 @@ protocol SeaSocketDelegate {
     func addChatResponse(message: portResponse)
     func disconnectError(message: String)
     func chatContentResponse(message: portResponse)
+    func updatedChat(message: portResponse)
 }
 
 class SeaSocket: GCDAsyncSocketDelegate {
@@ -270,6 +271,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Chat Contents Request" {
             delegate?.chatContentResponse(dataToPortResponse(data))
+        }
+        else if tagDict[tag] == "Update Chat Request" {
+            delegate?.updatedChat(dataToPortResponse(data))
         }
     }
     

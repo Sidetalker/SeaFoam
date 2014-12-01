@@ -96,6 +96,10 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
         
         finishReceivingMessage()
     }
+    
+    func updatedChat(message: portResponse) {
+        myFoam?.getChatContents(id!, chatID: chatInfo!.id)
+    }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         let message = JSQTextMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
