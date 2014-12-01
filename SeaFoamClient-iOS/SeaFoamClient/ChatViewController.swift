@@ -52,7 +52,13 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
                 (alert: UIAlertAction!) in
                 if messageTextField.text != "" {
                     self.myFoam!.addChatUser(self.chatInfo!.id, userID: messageTextField.text)
-                    self.myFoam?.createChat(messageTextField.text, userID: self.id!)
+                    
+                    let messageDisplay = UIAlertController(title: "Success!", message: "Added \(messageTextField.text) to the chatroom", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    messageDisplay.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
+                        (alert: UIAlertAction!) in
+                    }))
+                    self.presentViewController(messageDisplay, animated: true, completion: nil)
                 }
                 else {
                     messageDisplay.message = "You must enter a name"
