@@ -95,11 +95,9 @@ class Server:
 				except:
 					pass
 			else:
-				message = util.makeResponse(request['action'], "SUCCESS", {"chatID": str(chatID) }, "Message sent")
-				self.activeUsers[str(memberID)].send(message)
+				clientResponse = util.makeResponse(request['action'], "SUCCESS", {"chatID": str(chatID) }, "Message sent")
+				#self.activeUsers[str(memberID)].send(message)
 				print "Sending message to " + str(memberID)
-		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
-		
 		return clientResponse
 		
 	def addUserToChat(self, request):
