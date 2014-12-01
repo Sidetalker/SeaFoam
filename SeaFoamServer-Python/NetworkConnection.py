@@ -22,7 +22,9 @@ class NetworkConnection:
 				data = ""
 				tmp = ""
 				while len(self.messageQueue) > 0:
-					self.connection.send(self.messageQueue.pop(0))
+					message = self.messageQueue.pop(0)
+					print "Message has been sent"
+					self.connection.send(message)
 				while not tmp:
 					tmp = self.connection.recv(1024)
 					data += tmp

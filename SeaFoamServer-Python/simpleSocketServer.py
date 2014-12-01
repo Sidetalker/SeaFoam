@@ -16,9 +16,8 @@ The response framwork is below, this is the format for the responses that the se
 This is the message framework, this is the format the server will now be recieving messages in
 {action:LOGIN, args:username|password}
 {action:CREATE_ACCOUNT, args:username|password}
-{action:MSG, args:dest|content, userID:1234}
 {action:UPDATE_CHAT, args:chatID|text, userID:1234}
-{action:ADD_CHAT_USER, args:chatID, userID:1234}
+{action:ADD_CHAT_USER, args:chatID, userName:asdf}
 {action:REMOVE_CHAT_USER, args:chatID, userID:1234}
 {action:ADD_CHAT, args:name, userID:1234}
 {action:REMOVE_CHAT, args:chatID, userID:1234}
@@ -100,15 +99,19 @@ class Server:
 				self.activeUsers[str(memberID)].send(message)
 				print "Sending message to " + str(memberID)
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Chat " + chatID + " has been updated" }, "")
-		util.printInfo(clientResponse)
+		
 		return clientResponse
 		
 	def addUserToChat(self, request):
 		chatID = request['args']
-		userID = request['userID']
+		#userID = request['userID'].replace(" ", "")
+		username = request['userName'].replace(" ", "")
+		users = util.queryToList(self.users.find({ 'username' : username }))
+		userID = users[-1]['_id']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
+		userID = str(userID)
+		print userID
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
-		util.printInfo(clientResponse)
 		return clientResponse
 		
 	def removeUserFromChat(self, request):
@@ -116,7 +119,7 @@ class Server:
 		userID = request['userID']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$pull': {'members' : userID}})
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been removed from chat " + chatID }, "")
-		util.printInfo(clientResponse)
+		
 		return clientResponse
 		
 	def listChats(self, request):
@@ -136,14 +139,14 @@ class Server:
 			curChatInfo['creator'] = chat['creator']
 			chatInfo.append(curChatInfo)
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : chatInfo }, "")
-		util.printInfo(clientResponse)
+		
 		return clientResponse
 		
 	def listChatContents(self, request):
 		chatID = request['args']
 		chatContents = util.queryToList(self.chats.find({'_id': ObjectId(chatID)}))
 		clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : chatContents[0]['messages'] }, "")
-		util.printInfo(clientResponse)
+		
 		return clientResponse
 		
 	def makeChat(self, request):
@@ -152,7 +155,7 @@ class Server:
 		dbResponse = util.queryToList(self.chats.find({ 'name' : name }))
 		if len(dbResponse) >= 1:
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "A chatroom with the name " + name + " already exists", "name" : name }, "")
-			self.printInfo(clientResponse)
+			util.printInfo(clientResponse)
 		else:
 			self.chats.insert({'creator' : userID, 'name' : name, 'members' : [userID], 'messages' : []})
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "Created a chatroom named " + name}, "")
@@ -177,11 +180,10 @@ class Server:
 		dbResponse = util.queryToList(self.users.find({ 'username' : username }))  # Query the database for the provide username/password combo
 		if len(dbResponse) >= 1:                                       # We received multiple responses - this should be possible
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "We received one or more results for the username" + username + ", username is already taken" }, "")
-			util.printInfo(clientResponse)
+			
 		else:
 			self.users.insert({ 'username' : username, 'password' : password, 'email' : email })
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The username " + username + " has been registered with the entered password" }, "")
-			util.printInfo(clientResponse)
 		return clientResponse
 
 	# Attempts to log a user in
@@ -192,20 +194,19 @@ class Server:
 		dbResponse = util.queryToList(self.users.find({ 'username' : username, 'password' : password }))  # Query the database for the provide username/password combo
 		if len(dbResponse) > 1:                                       # We received multiple responses - this should be possible
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "We received multiple results for the username" + username }, "")
-			util.printInfo(clientResponse)
 		elif len(dbResponse) == 0:                                    # We didn't receive any responses...
 			if self.users.find_one({ 'username': username }) == None:      # Check the database for that username (forgotten password)
 				clientResponse = util.makeResponse(request['action'], "FAILURE-UN", { "info" : "No user found for username " + username }, "")
 			else:
 				clientResponse = util.makeResponse(request['action'], "FAILURE-PW", { "info" : "Incorrect password for username " + username }, "")
-			util.printInfo(clientResponse)
+			
 		elif len(dbResponse) == 1:                                    # This is the result we expect - it indicates a successful login
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "You just logged THE FUCK ON" }, str(dbResponse[0]['_id']))
-			util.printInfo(clientResponse)
+			
 			self.activeUsers[str(dbResponse[0]['_id'])] = connection
 		else:                                                         # This happens if the cursor object has negative documents - probably impossible
 			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "UNKNOWN ERROR - STATEMENT UNREACHABLE" }, "")
-			util.printInfo(clientResponse)
+			
 		print "done"
 		return clientResponse
 		
