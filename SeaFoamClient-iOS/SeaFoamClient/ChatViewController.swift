@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDataSource {
+class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDataSource, SeaSocketDelegate {
     var displayName: String?
     var id: String?
     var chatInfo: ChatInfo?
@@ -34,6 +34,10 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        myFoam?.getChatContents(id!, chatID: chatInfo!.id)
     }
     
     @IBAction func btnCommand(sender: AnyObject) {
@@ -75,6 +79,10 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
         else {
             print("This is a mighty weird bigish smally problem!\n")
         }
+    }
+    
+    func chatContentResponse(message: portResponse) {
+        print("chatContentResponse: \(message)")
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
@@ -131,6 +139,34 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
         print("collectionViewF\n")
         return nil
+    }
+    
+    func connectedToSocket(message: String) {
+        return
+    }
+    func loginSent() {
+        return
+    }
+    func registerSent() {
+        return
+    }
+    func chatSent(type: String) {
+        return
+    }
+    func loginResponse(message: portResponse) {
+        return
+    }
+    func registerResponse(message: portResponse) {
+        return
+    }
+    func listChatResponse(chats: [ChatInfo]) {
+        return
+    }
+    func addChatResponse(message: portResponse) {
+        return
+    }
+    func disconnectError(message: String) {
+        return
     }
 }
 

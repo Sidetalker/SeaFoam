@@ -17,7 +17,7 @@ protocol SeaSocketDelegate {
     func listChatResponse(chats: [ChatInfo])
     func addChatResponse(message: portResponse)
     func disconnectError(message: String)
-//    func chatContentResponse(message: String)
+    func chatContentResponse(message: portResponse)
 }
 
 class SeaSocket: GCDAsyncSocketDelegate {
@@ -299,5 +299,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         DDLog.logError("Disconnected from \(host!):\(port!) with Error: \(err.localizedDescription)")
         
         delegate?.disconnectError("\(err.localizedDescription)")
+    }
+    
+    func chatContentResponse(message: portResponse) {
+        return
     }
 }

@@ -544,5 +544,9 @@ class LoginViewController: UIViewController, SeaSocketDelegate, UITextFieldDeleg
     func addChatResponse(message: portResponse) {
         return
     }
+    
+    func chatContentResponse(message: portResponse) {
+        return
+    }
 }
 

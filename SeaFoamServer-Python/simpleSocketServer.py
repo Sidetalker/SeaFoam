@@ -80,9 +80,9 @@ class Server:
 			return util.makeResponse("CRASH", "FAILURE", { "info" : str(e) }, "")
 	
 	def updateChat(self, request):
-		chatID, text = request['args'].split('|')
+		chatID, text, username = request['args'].split('|')
 		userID = request['userID']
-		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text, 'timestamp': str(datetime.datetime.now())}}})
+		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'messages' : {'userID' : userID, 'text' : text, 'timestamp': str(datetime.datetime.now()), 'username': username}}})
 		message = util.makeResponse(request['action'], "SUCCESS", { "sender" : str(userID), "content" : text, "chatID": str(chatID) }, "")
 		
 		chatMembers = util.queryToList(self.chats.find({'_id' : ObjectId(chatID)}, {"members": 1}))#, {'members' : 1}
