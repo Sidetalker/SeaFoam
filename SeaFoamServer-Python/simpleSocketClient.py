@@ -78,8 +78,8 @@ def main():
 				print 'Failed'
 		elif selection == 7:
 			chatID = raw_input('ChatID: ')
-			userID = raw_input('userID: ')
-			if verboseSend('{action:ADD_CHAT_USER, args:' + chatID + ', userID: ' + userID + '}') == None:
+			userName = raw_input('userName: ')
+			if verboseSend('{action:ADD_CHAT_USER, args:' + chatID + ', userName: ' + userName + '}') == None:
 				print 'Failed'
 		elif selection == 8:
 			chatID = raw_input('ChatID: ')

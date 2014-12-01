@@ -42,6 +42,12 @@ class SeaSocket: GCDAsyncSocketDelegate {
         // Initalize our asynchronous socket
         socket = GCDAsyncSocket(delegate: self, delegateQueue: dispatch_get_main_queue())
         DDLog.logInfo("GCDAsyncSocket created with delegate: \(self)")
+        
+//        tagDict[0] = "alert"
+//        dataDict[0] = NSData()
+//        socket.readDataToData(GCDAsyncSocket.CRLFData(), withTimeout: -1, tag: curTag)
+//        curTag++
+//        print("Alert tag read is ready\n")
     }
     
     // MARK: - Utility Functions
@@ -67,6 +73,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
 
     // Send a message to the server
     func sendString(message: String, descriptor: String) -> Bool {
+        print("Sending string with descriptor \(descriptor)\n")
+        print("And the message: \(message)")
+        
         // If the socket isn't connected we can't do jack
         if socket.isDisconnected() {
             return false
@@ -133,7 +142,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
     
     func getChats(userID: String) {
         let request = buildRequest("LIST_CHATS", args: "", userID: userID)
-        DDLog.logInfo("Requestion chats for userID \(userID)")
+        DDLog.logInfo("Requesting chats for userID \(userID)")
         
         sendString("\(request)", descriptor: "Chat List Request")
     }
@@ -237,6 +246,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Add Chat Request" {
             delegate?.addChatResponse(dataToPortResponse(data))
+        }
+        else if tagDict[tag] == "alert" {
+            print("Holy shit it looks like it actually fucking worked jesus this was way easier than I thought it would be!")
         }
     }
     
