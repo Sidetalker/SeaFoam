@@ -74,7 +74,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
     // Send a message to the server
     func sendString(message: String, descriptor: String) -> Bool {
         print("Sending string with descriptor \(descriptor)\n")
-        print("And the message: \(message)")
+        print("And the message: \(message)\n")
         
         // If the socket isn't connected we can't do jack
         if socket.isDisconnected() {

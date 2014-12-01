@@ -61,7 +61,6 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        print("collectionViewB: \(messageData.messages[indexPath.item])\n")
         return messageData.messages[indexPath.item]
     }
     
