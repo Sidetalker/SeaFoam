@@ -106,7 +106,7 @@ class Server:
 		username = request['userID'].replace(" ", "")
 		users = util.queryToList(self.users.find({ 'username' : username }))
 		if(len(users) > 0):
-			userID = str(users[-1]['_id'].valueOf())
+			userID = str(users[-1]['_id'])
 			self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
 			return clientResponse

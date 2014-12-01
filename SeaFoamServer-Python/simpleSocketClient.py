@@ -10,7 +10,7 @@ size = 65536
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 
 # Connect to the new socket
-s.connect((host,port)) 
+#.connect((host,port)) 
 
 def verboseRecieve():
 	# Receive the response
