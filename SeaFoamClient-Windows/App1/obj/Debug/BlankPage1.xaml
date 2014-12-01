@@ -8,12 +8,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBox x:Name="MessageBox" HorizontalAlignment="Left" Height="139" Margin="47,604,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1059" FontSize="22"/>
-        <Button x:ConnectionId='1' Content="Send" HorizontalAlignment="Right" Height="145" Margin="0,601,135,0" VerticalAlignment="Top" Width="128" FontSize="22"                     />
-        <ScrollViewer x:Name="ScrollerDisplay" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="143,125,153,0" Height="369" VerticalAlignment="Top">
-            <TextBlock x:Name="MessageDisplay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="100" Width="851"
-            TextWrapping="Wrap" Height="394" FontSize="22" TextAlignment="Right" />
-        </ScrollViewer>
+        <TextBox x:Name="MessageBox" HorizontalAlignment="Left" Height="43" Margin="253,700,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="853" FontSize="22"/>
+        <Button x:ConnectionId='1' Content="Add" HorizontalAlignment="Right" Height="49" Margin="0,697,135,0" VerticalAlignment="Top" Width="128" FontSize="22"                     />
+        <TextBlock HorizontalAlignment="Left" Margin="422,146,0,0" TextWrapping="Wrap" Text="Chat Rooms" VerticalAlignment="Top" FontSize="69"/>
+        <TextBlock x:Name="ChatRooms" HorizontalAlignment="Left" Height="439" Margin="253,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="975" FontSize="22" />
+        <Button x:ConnectionId='2' Content="Update" HorizontalAlignment="Right" Height="49" Margin="0,697,13,0" VerticalAlignment="Top" Width="128" FontSize="22"                       />
+
     </Grid>
 </Page>
 

@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 
 namespace App1
 {
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -42,12 +43,33 @@ namespace App1
             this.InitializeComponent();
         }
 
+        public async void addChatroom()
+        {
+            //{action:ADD_CHAT, args:name, userID:1234}
+            // {action:LIST_CHATS, args:, userID:1234}
+            DataWriter dw = new DataWriter(mySocket.OutputStream);
+            // send info to socket
+            dw.WriteString("{action:ADD_CHAT, args:" + MessageBox.Text + ", userID:"+ myUserID   + "}"); //Tid|tid
+            await dw.StoreAsync();
 
-        private async void testChatrooms()
+
+            DataReader reader = new DataReader(mySocket.InputStream);
+            reader.InputStreamOptions = InputStreamOptions.Partial;
+            await reader.LoadAsync(1024);
+            string data = string.Empty;
+            while (reader.UnconsumedBufferLength > 0)
+            {
+                data += reader.ReadString(reader.UnconsumedBufferLength);
+                ChatRooms.Text += "\n\n" + data;
+            }
+            ChatRooms.Text += "DEBUG: " + data + " :DEBUG";
+        }
+
+        private async void updateChatrooms()
         {
                 // {action:LIST_CHATS, args:, userID:1234}
                 DataWriter dw = new DataWriter(mySocket.OutputStream);
-                // send login info to socket
+                // send info to socket
                 dw.WriteString("{action:LIST_CHATS, args:, userID:"+myUserID+"}"); //Tid|tid
                 await dw.StoreAsync();
                 
@@ -56,20 +78,30 @@ namespace App1
                 reader.InputStreamOptions = InputStreamOptions.Partial;
                 await reader.LoadAsync(1024);
                 string data = string.Empty;
-
                 while (reader.UnconsumedBufferLength > 0)
                 {
                     data += reader.ReadString(reader.UnconsumedBufferLength);
-                    MessageDisplay.Text += data;
+                    //string output = JsonConvert.SerializeObject(data);
+                    //ChatRoomInfo l = JsonConvert.DeserializeObject<ChatRoomInfo>(data);
+                    ChatRooms.Text += "\n\n" + data;
                 }
-                //MessageDisplay.Text = data;
+                ChatRooms.Text += "DEBUG: " + data + " :DEBUG";
 
         }
 
+        /*
+         *   not being executed in the right order..
+         *      ie: buffer for text doesn't follow thru til next go around
+         */
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            testChatrooms();
-
+            addChatroom();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            updateChatrooms();
+        }
+
     }
 }

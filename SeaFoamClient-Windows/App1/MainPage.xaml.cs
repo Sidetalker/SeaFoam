@@ -60,7 +60,7 @@ namespace App1
         {
             try 
             {
-                await mySocket.ConnectAsync(new HostName("50.63.60.10"), "534", SocketProtectionLevel.PlainSocket);
+                await mySocket.ConnectAsync(new HostName("localhost"), "534", SocketProtectionLevel.PlainSocket);//"50.63.60.10"), "534", SocketProtectionLevel.PlainSocket);
             }
             catch 
             {
@@ -77,9 +77,10 @@ namespace App1
         private async void authenticateUser()
         {
 
-            DataWriter dw = new DataWriter(mySocket.OutputStream);
+            DataWriter dw = new DataWriter(mySocket.OutputStream);  
             // send login info to socket
             dw.WriteString("{action:LOGIN, args:"+usernameInput.Text+"|"+passwordInput.Password+"}"); //Tid|tid
+            
             await dw.StoreAsync();
 
             DataReader reader = new DataReader(mySocket.InputStream);
@@ -94,7 +95,7 @@ namespace App1
             // parse the string
             string output = JsonConvert.SerializeObject(data);
             LoginInfo l = JsonConvert.DeserializeObject<LoginInfo>(data);
-            System.Diagnostics.Debug.WriteLine(l.result);
+                System.Diagnostics.Debug.WriteLine(l.result);
 
             /* moved here due to asynconousness*/
             if (l.result == "SUCCESS")
@@ -107,7 +108,8 @@ namespace App1
                 /* probably should fix this up */
                 //this.Frame.Navigate(typeof(BlankPage1), mySocket);
                 System.Diagnostics.Debug.WriteLine(l.userID);
-                Window.Current.Content = new BlankPage1(mySocket, l.userID);
+                //Window.Current.Content = new BlankPage1(mySocket, l.userID);
+                Window.Current.Content = new demoPage(mySocket, l.userID);
             }
             else
             {
@@ -136,7 +138,7 @@ namespace App1
             {
                 data += reader.ReadString(reader.UnconsumedBufferLength);
             }
-            tempBox.Text = data;
+            
             /* do some kind of check on user input*/
             // clean up this smelly code if have the time
             if (String.IsNullOrEmpty(usernameInput.Text))
@@ -162,7 +164,6 @@ namespace App1
                 // read serverside stuff
                 string output = JsonConvert.SerializeObject(data);
                 RegisterInfo r = JsonConvert.DeserializeObject<RegisterInfo>(data);
-                System.Diagnostics.Debug.WriteLine(r.result);
                 //display message
                 if (r.result == "SUCCESS")
                 {
@@ -171,6 +172,8 @@ namespace App1
                     await messageDialog.ShowAsync();
                     usernameInput.Text = "";
                     passwordInput.Password = "";
+                    emailInput.Text = "";
+                    return;
                 }
                 else
                 {

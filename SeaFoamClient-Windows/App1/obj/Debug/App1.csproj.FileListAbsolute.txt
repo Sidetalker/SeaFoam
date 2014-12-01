@@ -133,3 +133,16 @@ C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\C
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.g.cs
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.xaml
 C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\ChatRooms.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoPage.g.i.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoPage.g.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoPage.xaml
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoPage.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\demoPage.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\demoChatroom.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoChatroom.g.i.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoChatroom.g.cs
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoChatroom.xaml
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\demoChatroom.xbf
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\WinRTXamlToolkit.dll
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\bin\Debug\WinRTXamlToolkit.pri
+C:\Users\Cameron\Documents\GitHub\SeaFoam\SeaFoamClient-Windows\App1\obj\Debug\WinRTXamlToolkit.pri.xml
