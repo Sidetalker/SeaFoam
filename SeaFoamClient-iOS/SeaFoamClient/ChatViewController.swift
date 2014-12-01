@@ -37,12 +37,14 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     }
     
     override func viewDidAppear(animated: Bool) {
+        myFoam?.delegate = self
         myFoam?.getChatContents(id!, chatID: chatInfo!.id)
     }
     
     @IBAction func btnCommand(sender: AnyObject) {
         if btnAddUser.title == "Leave Chat" {
             myFoam!.removeChat(chatInfo!.id, userID: id!)
+            self.navigationController?.popViewControllerAnimated(true)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
         else if btnAddUser.title == "Add User" {
@@ -82,7 +84,17 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     }
     
     func chatContentResponse(message: portResponse) {
-        print("chatContentResponse: \(message)")
+        for mes in message.description["info"] as Array<NSDictionary> {
+            let senderId = mes["userID"] as String
+            let senderDisplayName = mes["username"] as String
+            let date = NSDate()
+            let text = mes["text"] as String
+            
+            let message = JSQTextMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+            messageData.sendMessage(message)
+        }
+        
+        finishReceivingMessage()
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
@@ -126,9 +138,12 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
         }
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
-        print("collectionViewD\n")
-        return nil
+    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource {
+        let initials = Array(messageData.messages[indexPath.item].senderDisplayName)[0]
+        
+        let avatar = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(String(initials), backgroundColor: UIColor.lightGrayColor(), textColor: UIColor.darkTextColor(), font: UIFont.systemFontOfSize(9), diameter: 15)
+        
+        return avatar
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {

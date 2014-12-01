@@ -224,8 +224,8 @@ class SeaSocket: GCDAsyncSocketDelegate {
         else if tagDict[tag] == "Chat List Request" {
             delegate?.chatSent("Chat List Request")
         }
-        else if tagDict[tag] == "Add Chat Request" {
-            delegate?.chatSent("Add Chat Request")
+        else if tagDict[tag] == "Add Chatroom Request" {
+            delegate?.chatSent("Add Chatroom Request")
         }
     }
     
@@ -259,7 +259,7 @@ class SeaSocket: GCDAsyncSocketDelegate {
             
             delegate?.listChatResponse(chatInfo)
         }
-        else if tagDict[tag] == "Add Chat Request" {
+        else if tagDict[tag] == "Add Chatroom Request" {
             delegate?.addChatResponse(dataToPortResponse(data))
         }
         else if tagDict[tag] == "Remove Chat Request" {

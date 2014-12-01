@@ -30,7 +30,7 @@ class Server:
 		# Global Server configuration
 		#self.host = '50.63.60.10' 
 		self.host = '127.0.0.1'
-		self.port = 534
+		self.port = 535
 		self.backlog = 5 
 		self.size = 65536 
 		
@@ -107,13 +107,14 @@ class Server:
 		users = util.queryToList(self.users.find({ 'username' : username }))
 		try:
 			userID = users[-1]['_id']
-			self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
 			userID = str(userID.valueOf())
+			self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})
 			clientResponse = util.makeResponse(request['action'], "SUCCESS", { "info" : "The user " + userID + " has been added to chat " + chatID }, "")
 			return clientResponse
 		except:
-			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "The user " + userName + " does not exist" }, "")
+			clientResponse = util.makeResponse(request['action'], "FAILURE", { "info" : "The user " + username + " does not exist" }, "")
 			return clientResponse
+
 			
 	def removeUserFromChat(self, request):
 		chatID = request['args']
