@@ -106,7 +106,7 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
         case 0:
             return "Owned Chatrooms"
         case 1:
-            return "Joined Chatrooms"
+            return "Other Chatrooms"
         default: ()
         }
         
@@ -172,6 +172,13 @@ class MainTableViewController: UITableViewController, SeaSocketDelegate {
             chatDetailVC.displayName = userName
             chatDetailVC.chatInfo = curChat!
             chatDetailVC.navTitle.title = curChat!.name
+            
+            if curChat!.creator != userID {
+                chatDetailVC.btnAddUser.title = "Leave Chat"
+            }
+            else {
+                chatDetailVC.btnAddUser.title = "Add User"
+            }
         }
     }
     

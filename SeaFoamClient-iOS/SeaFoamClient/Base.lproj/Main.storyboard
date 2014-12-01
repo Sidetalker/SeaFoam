@@ -130,19 +130,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Test" id="2t1-yL-pIT">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="9tV-bO-NFf">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wvO-u4-QXm">
-                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Add User">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" title="Add User" id="gpf-eu-mOk">
+                            <connections>
+                                <action selector="btnCommand:" destination="wRl-MT-YD9" id="FmW-BS-HYh"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="btnAddUser" destination="gpf-eu-mOk" id="e2T-04-6ED"/>
                         <outlet property="navTitle" destination="2t1-yL-pIT" id="2pD-5o-ybm"/>
                     </connections>
                 </viewController>

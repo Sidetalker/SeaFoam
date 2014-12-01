@@ -15,6 +15,7 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     var myFoam: SeaSocket?
     var messageData = ChatData()
     
+    @IBOutlet var btnAddUser: UIBarButtonItem!
     @IBOutlet var navTitle: UINavigationItem!
     
     override func viewDidLoad() {
@@ -33,6 +34,41 @@ class ChatViewController: JSQMessagesViewController, JSQMessagesCollectionViewDa
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    @IBAction func btnCommand(sender: AnyObject) {
+        if btnAddUser.title == "Leave Chat" {
+            myFoam!.removeChat(chatInfo!.id, userID: id!)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        else if btnAddUser.title == "Add User" {
+            let messageDisplay = UIAlertController(title: "Add User", message: "Enter the new user's name", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            messageDisplay.addTextFieldWithConfigurationHandler { textField in }
+            let messageTextField = messageDisplay.textFields![0] as UITextField
+            messageTextField.placeholder = "User's Name"
+            
+            messageDisplay.addAction(UIAlertAction(title: "Add", style: UIAlertActionStyle.Default, handler: {
+                (alert: UIAlertAction!) in
+                if messageTextField.text != "" {
+                    self.myFoam!.addChatUser(self.chatInfo!.id, userID: messageTextField.text)
+                    self.myFoam?.createChat(messageTextField.text, userID: self.id!)
+                }
+                else {
+                    messageDisplay.message = "You must enter a name"
+                    self.presentViewController(messageDisplay, animated: true, completion: nil)
+                }
+            }))
+            
+            messageDisplay.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {
+                (alert: UIAlertAction!) in
+            }))
+            
+            self.presentViewController(messageDisplay, animated: true, completion: nil)
+        }
+        else {
+            print("This is a mighty weird bigish smally problem!\n")
+        }
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {

@@ -17,7 +17,7 @@ This is the message framework, this is the format the server will now be recievi
 {action:LOGIN, args:username|password}
 {action:CREATE_ACCOUNT, args:username|password}
 {action:UPDATE_CHAT, args:chatID|text, userID:1234}
-{action:ADD_CHAT_USER, args:chatID, userName:asdf}
+{action:ADD_CHAT_USER, args:chatID, userID:asdf}
 {action:REMOVE_CHAT_USER, args:chatID, userID:1234}
 {action:ADD_CHAT, args:name, userID:1234}
 {action:REMOVE_CHAT, args:chatID, userID:1234}
@@ -103,7 +103,7 @@ class Server:
 	def addUserToChat(self, request):
 		chatID = request['args']
 		#userID = request['userID'].replace(" ", "")
-		username = request['userName'].replace(" ", "")
+		username = request['userID'].replace(" ", "")
 		users = util.queryToList(self.users.find({ 'username' : username }))
 		userID = users[-1]['_id']
 		self.chats.update({'_id' : ObjectId(chatID)}, {'$push': {'members' : userID}})

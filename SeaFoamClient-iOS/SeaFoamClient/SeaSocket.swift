@@ -130,7 +130,14 @@ class SeaSocket: GCDAsyncSocketDelegate {
         let request = buildRequest("ADD_CHAT", args: "\(chatName)", userID: "\(userID)")
         DDLog.logInfo("Creating chatroom \(chatName) for userID \(userID)")
         
-        sendString("\(request)", descriptor: "Add Chat Request")
+        sendString("\(request)", descriptor: "Add Chatroom Request")
+    }
+    
+    func addChatUser(chatName: String, userID: String) {
+        let request = buildRequest("ADD_CHAT_USER", args: "\(chatName)", userID: "\(userID)")
+        DDLog.logInfo("Adding \(userID) to chatroom \(chatName)")
+        
+        sendString("\(request)", descriptor: "Add Chat User Request")
     }
     
     func removeChat(chatID: String, userID: String) {
@@ -246,6 +253,9 @@ class SeaSocket: GCDAsyncSocketDelegate {
         }
         else if tagDict[tag] == "Add Chat Request" {
             delegate?.addChatResponse(dataToPortResponse(data))
+        }
+        else if tagDict[tag] == "Remove Chat Request" {
+//            delegate?.removeChatResponse(dataToPortResponse(data))
         }
         else if tagDict[tag] == "alert" {
             print("Holy shit it looks like it actually fucking worked jesus this was way easier than I thought it would be!")
