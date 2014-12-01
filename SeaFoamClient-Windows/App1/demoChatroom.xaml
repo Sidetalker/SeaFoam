@@ -9,12 +9,12 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="title" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Demo Chatroom" VerticalAlignment="Top" FontSize="69" Width="1346"/>
-        <TextBox x:Name="InputText" HorizontalAlignment="Left" Height="55" Margin="81,658,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1093"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="55" Margin="1194,658,0,0" VerticalAlignment="Top" Width="121" Click="Button_Click"/>
+        <TextBox x:Name="InputText" HorizontalAlignment="Left" Height="55" Margin="81,658,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1175"/>
+        <Button Content="Send" HorizontalAlignment="Left" Height="55" Margin="1258,655,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
 
 
-        <ScrollViewer HorizontalAlignment="Left" Height="409" Margin="61,215,0,0" VerticalAlignment="Top" Width="1251">
-            <TextBlock x:Name="outputText" HorizontalAlignment="Left" Height="409" Margin="61,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1251"/>
+        <ScrollViewer HorizontalAlignment="Left" Height="409" Margin="61,215,0,0" VerticalAlignment="Top" Width="1295">
+            <TextBlock x:Name="outputText" HorizontalAlignment="Left" Height="409" TextWrapping="Wrap" VerticalAlignment="Top" Width="1251" FontSize="22" TextAlignment="Right"/>
         </ScrollViewer>
 
     </Grid>
